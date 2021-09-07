@@ -78,6 +78,7 @@
             <ul class="list-unstyled text-small">
                 <li><a href="mailto:contact@consoherozh.fr" class="link-secondary">contact@consoherozh.fr</a></li>
                 <li><a href="https://www.facebook.com/groups/422285815424568" class="link-secondary">Groupe Facebook</a></li>
+                <li><g:link controller="public" action="faq" class="link-secondary">Foire aux Questions</g:link></li>
                 <li><g:link controller="public" action="legal" class="link-secondary">Mentions Légales</g:link></li>
                 <li><g:link controller="public" action="privacy" class="link-secondary">Données personnelles</g:link></li>
             </ul>

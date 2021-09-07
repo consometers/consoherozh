@@ -8,4 +8,6 @@ class PublicController {
     def legal() { }
 
     def privacy() { }
+
+    def faq() { }
 }

@@ -11,6 +11,7 @@
 		<tr>
 			<td>
 			    <h6 class="h6"><a href="https://www.facebook.com/groups/422285815424568">Groupe Facebook</a></h6>
+				<h6 class="h6"><g:link controller="public" action="faq" class="link-secondary">Foire aux Questions</g:link></h6>
 				<h6 class="h6"><g:link controller="public" action="legal">Mentions Légales</g:link></h6>
 				<h6 class="h6"><g:link controller="public" action="privacy">Données personnelles</g:link></h6>
 		</td>
