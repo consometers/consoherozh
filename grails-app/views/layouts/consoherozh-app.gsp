@@ -76,7 +76,7 @@
         <div class="col-6 col-md">
             <h5>Contact</h5>
             <ul class="list-unstyled text-small">
-                <li><a href="mailto:datachallenge@consometers.org" class="link-secondary">datachallenge@consometers.org</a></li>
+                <li><a href="mailto:contact@consoherozh.fr" class="link-secondary">contact@consoherozh.fr</a></li>
                 <li><a href="https://www.facebook.com/groups/422285815424568" class="link-secondary">Groupe Facebook</a></li>
                 <li><g:link controller="public" action="legal" class="link-secondary">Mentions Légales</g:link></li>
                 <li><g:link controller="public" action="privacy" class="link-secondary">Données personnelles</g:link></li>

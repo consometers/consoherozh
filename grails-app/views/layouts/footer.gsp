@@ -2,7 +2,7 @@
 	<table class="footer-body" style="text-align: center; width: 100%;">
         <thead>
 		    <tr>
-			    <th><h6 class="h6">Contact : <a href="mailto:datachallenge@consometers.org">datachallenge@consometers.org</a></h6></th>
+			    <th><h6 class="h6">Contact : <a href="mailto:contact@consoherozh.fr">contact@consoherozh.fr</a></h6></th>
 			    <th><h6 class="h6">Proposé par</h6></th>
 			    <th><h6 class="h6">Avec le soutien de</h6></th>
 		    </tr>
