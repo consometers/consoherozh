@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const pckry = new Packery(grid, {
             itemSelector: gridItemSelector,
             horizontalOrder: true,
-            gutter: gridGutter
+            gutter: gridGutter,
+            columnWidth: 288
         });
 
         const draggables = grid.querySelectorAll(gridItemSelector);
