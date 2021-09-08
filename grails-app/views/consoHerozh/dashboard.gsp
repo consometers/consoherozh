@@ -5,7 +5,7 @@
 <body>
 <h1 class="mb-4 mt-4">Tableau de bord</h1>
 
-<div class="dashboard" style="position: relative; width: 1000px">
+<div class="dashboard" style="position: relative; max-width: 1000px">
 
 <counter-connected
   class="draggable"
