@@ -6,8 +6,8 @@
 <body>
 <g:applyLayout name="applicationContent">
 
-    <g:set var="site" value="dc.breizh-sen2.eu"/>
-    <g:set var="mail" value="contact@aloen.fr"/>
+    <g:set var="site" value="consoherozh.fr"/>
+    <g:set var="mail" value="contact@consoherozh.fr"/>
 
     <h1>Mentions légales</h1>
     <p>
@@ -17,12 +17,12 @@
     <h2>Éditeur</h2>
 
     <p>
-    Le site ${site} est édité par l’agence locale de l’énergie et du climat de Bretagne Sud (ALOEN).
+    Le site ${site} est édité par Breizh ALEC, le réseau breton des agences locales énergie climat.
     </p>
 
-    <p><strong>SIRET :</strong> 484 384 318 000 24</p>
-    <p><strong>Adresse :</strong> 6 rue de l'Aquilon, 56100 LORIENT</p>
-    <p><strong>Responsable de publication :</strong> Jean-Paul Aucher</p>
+    <p><strong>SIRET :</strong> 843 943 010 00010</p>
+    <p><strong>Adresse :</strong> 104 boulevard Georges Clemenceau, 35200 Rennes</p>
+    <p><strong>Responsable de publication :</strong> Olivier Dehaese</p>
 
     <h2>Hébergeur</h2>
 
@@ -35,8 +35,7 @@
 
     <h2>Nous contacter</h2>
 
-    <p><strong>Courrier :</strong>  6 rue de l'Aquilon, 56100 LORIENT</p>
-    <p><strong>Téléphone :</strong>  02 97 21 29 38</p>
+    <p><strong>Courrier :</strong>  104 boulevard Georges Clemenceau, 35200 Rennes</p>
     <p><strong>Email :</strong>  <a href="mailto:${mail}">${mail}</a></p>
 
 </g:applyLayout>

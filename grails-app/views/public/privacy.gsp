@@ -12,13 +12,13 @@
 
     <h2>Responsable de traitement</h2>
 
-    <p>ALOEN, l’agence locale de l’énergie et du climat de Bretagne Sud.</p>
+    <p>Breizh ALEC, le réseau breton des agences locales énergie climat.</p>
 
-    <p><strong>SIRET :</strong> 484 384 318 000 24</p>
-    <p><strong>Adresse :</strong> 6 rue de l'Aquilon, 56100 LORIENT</p>
-    <p><strong>DPO :</strong> Marie-Laure Lamy</p>
+    <p><strong>SIRET :</strong> 843 943 010 00010</p>
+    <p><strong>Adresse :</strong> 104 boulevard Georges Clemenceau, 35200 Rennes</p>
+    <p><strong>DPO :</strong> Marie Tarsiguel</p>
 
-    <p>Vous pouvez exercer vos droits à l'adresse mail : <a href="mailto:contact@aloen.fr">contact@aloen.fr</a></p>
+    <p>Vous pouvez exercer vos droits à l'adresse mail : <a href="mailto:marie.tarsiguel@breizh-alec.bzh">marie.tarsiguel@breizh-alec.bzh</a></p>
 
     <h2>Finalité</h2>
 
@@ -48,20 +48,20 @@
     <h2>Destinataire</h2>
 
     <p>
-        Les données collectées sont utilisées uniquement par ALOEN, uniquement dans le cadre du site <g:meta name="app.code"/>.
+        Les données collectées sont utilisées uniquement par Breizh ALEC, uniquement dans le cadre du site <g:meta name="app.code"/>.
     </p>
 
     <p>
         En utilisant le bouton pour partager vos données de consommation sur un groupe Facebook, vous autorisez l'entreprise Facebook, Inc à traiter les données que vous partagez selon leurs <a href="https://www.facebook.com/policies?ref=pf">CGU</a>.
         Cela inclut notamment le droit à les transférer dans la juridiction des Etats-Unis d'Amérique.
-        Le RGPD s'applique bien sur ces données, et à ce titre l'association ALOEN et Facebook, Inc sont co-responsables de ce traitement. Vous pouvez donc exercer vos droits auprès de l'un ou l'autre.
+        Le RGPD s'applique bien sur ces données, et à ce titre l'association Breizh ALEC et Facebook, Inc sont co-responsables de ce traitement. Vous pouvez donc exercer vos droits auprès de l'un ou l'autre.
     </p>
 
 
     <h2>Droit des personnes</h2>
 
     <p>
-        ALOEN conservera dans ses systèmes informatiques et dans des conditions raisonnables de sécurité ces données tant que votre compte <g:meta name="app.code"/> existe.
+        Breizh ALEC conservera dans ses systèmes informatiques et dans des conditions raisonnables de sécurité ces données tant que votre compte <g:meta name="app.code"/> existe.
     </p>
     <p>
         Vous disposez des droits d’accès, de rectification, d’effacement et à la limitation du traitement de vos données, ainsi que le droit au retrait du consentement à tout moment.

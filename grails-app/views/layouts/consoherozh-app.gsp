@@ -86,13 +86,13 @@
         <div class="col-6 col-md">
             <h5>Proposé par</h5>
             <div class="logo-block">
-                <a href="https://www.aloen.fr/">
-                    <asset:image src="aloen-logo.png" width="80"/>
+                <a href="https://breizh-alec.bzh/">
+                    <asset:image src="breizh-alec-logo.png" alt="Breizh ALEC" width="80"/>
                 </a>
             </div>
             <div class="logo-block">
                 <a href="https://www.consometers.org/">
-                    <asset:image src="consometers-logo.png" width="140"/>
+                    <asset:image src="consometers-logo.png" alt="Consometers" width="140"/>
                 </a>
             </div>
         </div>
@@ -100,7 +100,7 @@
             <h5>Avec le soutien de</h5>
             <div class="logo-block">
                 <a href="https://www.bretagne.bzh/">
-                    <asset:image src="bretagne-logo.svg" alt="Empower" width="70"/>
+                    <asset:image src="bretagne-logo.svg" alt="Région Bretagne" width="70"/>
                 </a>
             </div>
             <div class="logo-block">
