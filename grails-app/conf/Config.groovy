@@ -177,3 +177,32 @@ environments {
 	}
 }
 
+// HACK, dunno where smtp.port has to be configured ...
+environments {
+	development {
+		    smtp {
+		    	 port = 465
+			 hostname = "localhost"
+			 from = "dev@smarthome.dev"
+			 username = "dev@smarthome.dev"
+			 password =" whatever"
+		}
+	}
+}
+
+// HACK pour rabbitmq
+
+// ---------------------------------------------------------------------
+// 	USER CONFIGURATION (override by grails.config.locations if not empty)
+// ---------------------------------------------------------------------
+
+
+rabbitmq {
+	connectionfactory {
+		username = 'guest'
+		password = 'guest'
+		hostname = 'localhost'
+	}
+	
+	messageDirectory = '/tmp/RabbitMQ'
+}

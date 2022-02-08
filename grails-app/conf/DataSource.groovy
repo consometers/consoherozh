@@ -29,3 +29,17 @@ environments {
 	}
 	production { dataSource { jndiName = "java:comp/env/smartHomeDataSource" } }
 }
+
+
+//HACK activity
+environments {
+   development {
+   	     // grails.logging.jul.usebridge = true
+	      activiti {
+	     	     //processEngineName = "activiti-engine-dev"
+	     	     databaseSchemaUpdate = "true"
+	     }
+
+	     // grails.serverURL = "http://localhost:8080/MaterialManagement/dashboard/main"
+   }
+}
