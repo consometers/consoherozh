@@ -54,12 +54,12 @@ class RegisterController extends AbstractController {
 		checkErrors(this, account)
 		registerService.createAccount(account)
 
-		// Auto login user and redirect to Data Connect button
+		// Auto login user and redirect to dashboard
 
 		springSecurityService.reauthenticate(account.username, account.newPassword)
 		if (springSecurityService.isLoggedIn()) {
 			// TODO(cyril) change with app root
-			return redirect(controller: 'dataChallenge', action: 'personalData')
+			return redirect(controller: 'consoHerozh', action: 'dashboard')
 		}
 
 		// This is not expected to happen, kept it just in case
