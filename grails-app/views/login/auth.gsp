@@ -36,8 +36,9 @@
 				<div class="buttons-container">
 					<div class="buttons">
 						<input class="aui-button aui-button-primary" type="submit" value="Me connecter" id="connexion">
-						<br/>
-						<!--<g:link class="cancel" controller="register" action="forgotPassword">J'ai oublié mon mot de passe</g:link>-->
+					</div>
+					<div class="buttons" style="margin-top: 5px;">
+						<g:link class="cancel" controller="register" action="forgotPassword">J'ai oublié mon mot de passe</g:link>
 					</div>
 				</div>
 			</form>

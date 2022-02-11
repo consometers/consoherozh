@@ -11,7 +11,7 @@ execution.setVariable("friend", friend)</script>
     <sequenceFlow id="flow10" sourceRef="startevent1" targetRef="scripttask1"></sequenceFlow>
     <scriptTask id="scripttask2" name="Envoi mail invitation ami" scriptFormat="groovy" activiti:autoStoreVariables="false">
       <script>Map email = [title: 'Invitation', subject: 'Invitation', to: friend.username,
-	bcc: 'gregory.elleouet@gmail.com']
+	bcc: 'contact@consoherozh.fr']
 def appCode = grailsApplication.metadata['app.code']
 	
 email.message = """
