@@ -19,7 +19,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class Planning extends JsonDataDomain implements Serializable {
 	User user
 	String label

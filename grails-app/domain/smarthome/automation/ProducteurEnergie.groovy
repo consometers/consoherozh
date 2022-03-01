@@ -10,7 +10,7 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class ProducteurEnergie implements Serializable {
 	String libelle
 	Double surface

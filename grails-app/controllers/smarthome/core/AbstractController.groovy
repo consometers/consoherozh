@@ -11,6 +11,7 @@ import smarthome.core.ExceptionNavigationHandler
 import smarthome.core.SmartHomeCoreConstantes
 import smarthome.core.SmartHomeException
 
+import grails.core.GrailsApplication
 
 /**
  * Classe de base pour tous les controller
@@ -26,7 +27,7 @@ import smarthome.core.SmartHomeException
 abstract class AbstractController {
 
 	// injecté automatiquement
-	def grailsApplication
+	GrailsApplication grailsApplication
 
 
 	/**

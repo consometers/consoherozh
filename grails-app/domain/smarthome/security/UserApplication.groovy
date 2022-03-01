@@ -16,7 +16,7 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class UserApplication implements Serializable {
 
 	static belongsTo = [user: User]

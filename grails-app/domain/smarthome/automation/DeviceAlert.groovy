@@ -12,7 +12,7 @@ import grails.validation.Validateable;
  *
  */
 
-@Validateable
+//@Validateable
 class DeviceAlert implements Serializable {
 	static belongsTo = [device: Device]
 	

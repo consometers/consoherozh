@@ -12,7 +12,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class Chart {
 	static belongsTo = [user: User]
 	static hasMany = [devices: ChartDevice]

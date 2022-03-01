@@ -13,7 +13,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class DeviceTypeProvider implements Serializable {
 	String libelle
 	DeviceType deviceType

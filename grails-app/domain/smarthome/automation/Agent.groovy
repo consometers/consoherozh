@@ -12,7 +12,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class Agent implements Serializable {
 	static belongsTo = [user: User]
 	static hasMany = [devices: Device, tokens: AgentToken, configs: AgentConfig]

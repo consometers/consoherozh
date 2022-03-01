@@ -12,7 +12,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class Mode implements Serializable {
 	static belongsTo = [user: User]
 	

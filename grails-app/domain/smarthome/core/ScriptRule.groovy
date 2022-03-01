@@ -11,7 +11,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class ScriptRule {
 	String ruleName
 	String description

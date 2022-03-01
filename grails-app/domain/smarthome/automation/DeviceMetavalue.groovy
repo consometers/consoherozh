@@ -12,7 +12,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class DeviceMetavalue implements Serializable {
 	static belongsTo = [device: Device]
 	

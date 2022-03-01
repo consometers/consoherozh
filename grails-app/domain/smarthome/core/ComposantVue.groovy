@@ -8,7 +8,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class ComposantVue {
 	String name
 	String page

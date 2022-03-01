@@ -17,7 +17,7 @@ import groovy.time.TimeCategory;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class AgentConfig extends JsonDataDomain implements Serializable {
 	Agent agent
 	Date lastSync

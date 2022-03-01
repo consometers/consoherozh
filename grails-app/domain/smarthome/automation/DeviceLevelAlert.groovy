@@ -14,7 +14,7 @@ import groovy.time.TimeDuration;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class DeviceLevelAlert implements Serializable {
 	static belongsTo = [device: Device]
 	

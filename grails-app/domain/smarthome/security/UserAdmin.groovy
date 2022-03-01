@@ -13,7 +13,7 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class UserAdmin implements Serializable {
 
 	User user

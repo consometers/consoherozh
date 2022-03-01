@@ -11,7 +11,7 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class ProducteurEnergieAction implements Serializable {
 	User user
 	ProducteurEnergie producteur

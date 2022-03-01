@@ -15,7 +15,7 @@ import groovy.time.TimeCategory;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class DeviceValue implements Serializable {
 	Device device
 	Double value

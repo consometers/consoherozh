@@ -13,7 +13,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class DeviceTypeConfig extends JsonDataDomain implements Serializable {
 	DeviceType deviceType
 	String data

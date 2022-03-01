@@ -9,7 +9,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class EventDevice implements Serializable  {
 	static belongsTo = [event: Event, device: Device]
 	

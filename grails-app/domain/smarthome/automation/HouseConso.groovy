@@ -15,7 +15,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class HouseConso implements Serializable {
 	static belongsTo = [house: House]
 	

@@ -9,7 +9,7 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class Widget {
 
 	String libelle

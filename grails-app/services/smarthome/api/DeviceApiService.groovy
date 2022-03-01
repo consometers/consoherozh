@@ -1,6 +1,6 @@
 package smarthome.api
 
-import org.codehaus.groovy.grails.commons.GrailsApplication
+import grails.core.GrailsApplication
 import org.hibernate.FetchMode
 import org.springframework.transaction.annotation.Transactional
 

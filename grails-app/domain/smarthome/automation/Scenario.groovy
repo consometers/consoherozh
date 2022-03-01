@@ -15,7 +15,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class Scenario implements Serializable, EventTriggerPreparable {
 	static belongsTo = [user: User]
 	

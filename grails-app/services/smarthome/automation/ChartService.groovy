@@ -8,7 +8,7 @@ import grails.plugin.cache.CachePut;
 import grails.plugin.cache.Cacheable;
 
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator;
+import grails.web.mapping.LinkGenerator;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;

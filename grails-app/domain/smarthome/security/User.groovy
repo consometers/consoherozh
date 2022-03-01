@@ -12,7 +12,7 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class User implements Serializable {
 
 	transient springSecurityService

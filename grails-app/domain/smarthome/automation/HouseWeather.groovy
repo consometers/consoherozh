@@ -11,7 +11,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class HouseWeather implements Serializable {
 	House house
 	Date dateWeather

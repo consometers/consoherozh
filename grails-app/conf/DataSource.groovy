@@ -14,7 +14,7 @@ environments {
 	development {
 		dataSource {
 			driverClassName = "org.postgresql.Driver"
-			dbCreate = ""
+			dbCreate = "update"
 			//dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
 			url = "jdbc:postgresql://localhost:5432/smarthome"
 			username = "postgres"

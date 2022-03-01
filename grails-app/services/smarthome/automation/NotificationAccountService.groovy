@@ -4,7 +4,7 @@ import java.io.Serializable
 import java.util.List
 import java.util.Map
 import grails.converters.JSON
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import grails.web.mapping.LinkGenerator
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.annotation.Propagation

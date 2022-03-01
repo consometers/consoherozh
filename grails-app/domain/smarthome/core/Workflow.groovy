@@ -9,7 +9,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class Workflow {
 	String libelle
 	String description

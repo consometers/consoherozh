@@ -13,7 +13,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class EventTrigger implements Serializable, Comparable<EventTrigger> {
 	static final String HERITED_ACTION_NAME = "[herited]"
 	
@@ -47,7 +47,7 @@ class EventTrigger implements Serializable, Comparable<EventTrigger> {
 		event index: "EventTrigger_Event_Idx"
 		parameters type: 'text'
 		version false
-	}
+	}
 
 	@Override
 	int compareTo(EventTrigger o) {

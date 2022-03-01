@@ -15,7 +15,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class Event implements Serializable, EventTriggerPreparable {
 	public static final String FORMAT_HEURE_DECALAGE = "HH:mm"
 	

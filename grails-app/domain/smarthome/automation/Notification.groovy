@@ -15,7 +15,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class Notification implements Serializable, EventTriggerPreparable {
 	static belongsTo = [user: User]
 	User user

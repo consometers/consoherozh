@@ -2,8 +2,8 @@ package smarthome.api
 
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW
 
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.web.json.JSONElement
+import grails.core.GrailsApplication
+import org.grails.web.json.JSONElement
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 

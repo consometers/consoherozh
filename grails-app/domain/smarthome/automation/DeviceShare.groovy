@@ -12,7 +12,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class DeviceShare implements Serializable {
 	Device device
 	User sharedUser

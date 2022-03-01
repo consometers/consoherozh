@@ -18,7 +18,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class House implements Serializable {
 	User user
 	Set modes = []

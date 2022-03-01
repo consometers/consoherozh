@@ -11,7 +11,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class DeviceTypeProviderPrix implements Serializable {
 	DeviceTypeProvider deviceTypeProvider
 	int annee

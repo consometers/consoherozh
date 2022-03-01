@@ -10,7 +10,7 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class WidgetUser extends JsonDataDomain {
 	User user
 	Widget widget

@@ -13,7 +13,7 @@ import groovy.time.TimeCategory;
  * @author gregory
  *
  */
-@Validateable
+//@Validateable
 class AgentToken implements Serializable {
 	static belongsTo = [agent: Agent]
 	static transients = ['websocketUrl']

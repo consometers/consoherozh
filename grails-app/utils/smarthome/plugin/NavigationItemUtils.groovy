@@ -3,8 +3,8 @@ package smarthome.plugin
 import java.lang.reflect.Method
 
 import org.apache.commons.logging.LogFactory
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.commons.GrailsClass
+import grails.core.GrailsApplication
+import grails.core.GrailsClass
 
 import smarthome.plugin.NavigableAction;
 import smarthome.plugin.NavigableActions;
