@@ -47,6 +47,6 @@ class CacheRouteBuilder extends RouteBuilder {
 		from("rabbitmq://$rabbitHostname/$EXCHANGE?queue=$queueName&username=$rabbitUsername&password=$rabbitPassword&declare=true&autoDelete=false&automaticRecoveryEnabled=true&exchangeType=fanout")
 		.unmarshal().json(JsonLibrary.Gson, Map.class)
 		.setProperty("cacheName").groovy('in.body.arg0')
-		.to("bean:cacheService?method=clearApp(property.cacheName)")
+		.to("bean:cacheService?method=clearApp(exchangeProperty.cacheName)")
 	}
 }

@@ -60,7 +60,7 @@ class TeleinfoMessageRouteBuilder extends RouteBuilder {
 		.unmarshal().json(JsonLibrary.Gson, Map.class)
 		.setProperty("datas").groovy('body.arg0.data')
 		.setProperty("agentId").groovy('body.result.id')
-		.setProperty("agent").method("agentService", "findById(property.agentId)")
-		.to("bean:agentService?method=teleinfoMessage(property.agent, property.datas)")
+		.setProperty("agent").method("agentService", "findById(exchangeProperty.agentId)")
+		.to("bean:agentService?method=teleinfoMessage(exchangeProperty.agent, exchangeProperty.datas)")
 	}
 }

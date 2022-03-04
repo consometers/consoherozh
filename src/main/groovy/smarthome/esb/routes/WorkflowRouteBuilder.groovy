@@ -48,12 +48,12 @@ class WorkflowRouteBuilder extends RouteBuilder {
 		.unmarshal().json(JsonLibrary.Gson, Map.class)
 		// détermine le workflow à exécuter
 		.setProperty("workflowLibelle").groovy("'Activiti_' + body.workflowName")
-		.setProperty("workflow").method("workflowService", "findByLibelle(property.workflowLibelle)")
+		.setProperty("workflow").method("workflowService", "findByLibelle(exchangeProperty.workflowLibelle)")
 		// filtre les messages sans worklow connu
-		.filter().simple('${property.workflow} != null')
+		.filter().simple('${exchangeProperty.workflow} != null')
 		// recupère l'objet datas
 		.setProperty("context").groovy('body')
 		// envoi les datas au service workflow
-		.to("bean:workflowService?method=execute(property.workflow, property.context)")
+		.to("bean:workflowService?method=execute(echangeProperty.workflow, exchangeProperty.context)")
 	}
 }

@@ -60,7 +60,7 @@ class ShellMessageRouteBuilder extends RouteBuilder {
 		.unmarshal().json(JsonLibrary.Gson, Map.class)
 		.setProperty("datas").groovy('body.arg0.data')
 		.setProperty("agentId").groovy('body.result.id')
-		.setProperty("agent").method("agentService", "findById(property.agentId)")
-		.to("bean:agentService?method=shellMessage(property.agent, property.datas)")
+		.setProperty("agent").method("agentService", "findById(exchangeProperty.agentId)")
+		.to("bean:agentService?method=shellMessage(exchangeProperty.agent, exchangeProperty.datas)")
 	}
 }

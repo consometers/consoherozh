@@ -63,6 +63,6 @@ class AgentSendMessageRouteBuilder extends RouteBuilder {
 		// extrait les options et les datas
 		.setProperty("token").groovy('body.token')
 		.setProperty("websocketKey").groovy('body.websocketKey')
-		.to("bean:agentService?method=sendMessageToWebsocket(property.token, property.websocketKey, property.message)")
+		.to("bean:agentService?method=sendMessageToWebsocket(exchangeProperty.token, exchangeProperty.websocketKey, exchangeProperty.message)")
 	}
 }
