@@ -1,22 +1,17 @@
-# BeMyHomeSmart
+# ConsoHerozh
 
 ## 1. Présentation
 
-BeMyHomeSmart est une application libre et gratuite pour surveiller et contrôler
-votre maison connectée. Les fonctionnalités développées répondent aux besoins classiques
-de la domotisation d'une maison (pilotage volets roulants, prises, portails, etc)
-et d'analyses des consommations. Les fonctions automatiques sont aussi implémentées
-avec les scénarios ou déclenchements d'événements.  
+Consoherozh aide le particulier à suivre et à analyser ses consommations d'électricité de gaz et d'eau.
 
-Vous pouvez rapidement vous [créer un compte](https://www.jdevops.com/smarthome/register/account)
-depuis l'application web, ou même de part son caractère opensource et sa licence EUPL,
-l'installer sur votre propre serveur avec cette [procédure](https://github.com/gelleouet/smarthome-application/wiki/Installation-serveur). L'application Web n'est qu'un composant de
-la solution, car pour connecter les différents objets connectés, il faudra installer
-un ou plusieurs "agents". BeMyHomeSmart s'appuie sur des [Raspberry](https://www.raspberrypi.org/)
-sur lesquels il faut installer un [programme spécial](https://github.com/gelleouet/smarthome-raspberry).
-Celui-ci est aussi diffusé en opensource sous licence EUPL. Afin de faciliter son
-installation, des [images sous Raspbian](https://github.com/gelleouet/smarthome-raspberry/wiki/Installation-simple-depuis-image-pr%C3%A9-configur%C3%A9e)
-pré-configurée sont été créées.
+ConsoHerozh est une application libre et gratuite sous licence EUPL proposée par [Consometers](https://www.consometers.org/) et [le réseau breton des agences locales énergie climat](https://breizh-alec.bzh/) pour fournir les services du site https://www.consoherozh.fr/, elle estConsoHerozh est une application libre et gratuite proposée par [Consometers](https://www.consometers.org/) et [le réseau breton des agences locales énergie climat](https://breizh-alec.bzh/) pour fournir les services du site https://www.consoherozh.fr/, elle est dérivée du projet [BeMyHomeSarmt](https://github.com/gelleouet/smarthome-application).
+
+Consoherozh supporte la réception des données depuis engie pour Linky.
+
+Vous pouvez rapidement vous [créer un compte](https://www.consoherozh.fr/register/account)
+depuis l'application web.
+
+Vous trouverez une documentation utilisateur au format markdown (wiki) sous le répertoire documentation de ce projet.
 
 ## 2. Architecture
 
@@ -226,5 +221,4 @@ messages info, error, warning dans les request, retour par défaut des response
 de message asynchrones AMQP, et méthodes de base sur les domain
 - _smarthome.core.AbstractRuleService_ : service de base pour les règles métier
 
-### 3.3 Objets connectés et implémentations
 
