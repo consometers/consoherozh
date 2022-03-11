@@ -13,11 +13,12 @@ Il est nécessaire de fournir une adresse mail.
 
 ## Nom / Pseudo
 
-le nom que vous utiliserez pour vous connecter à votre compte ConsoHerozh.
+Choix du nom affiché
 
 ## Adresse Mail
 
-l'adresse mail est l'adresse électornique associée à votre compte ConsoHerozh.
+l'adresse mail est l'adresse électronique associée à votre compte ConsoHerozh.
+C'est cette adresse vous utiliserez pour vous connecter à votre compte ConsoHerozh.
 
 ### Adresse Mail validée
 
