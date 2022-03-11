@@ -11,7 +11,10 @@ Consoherozh supporte la réception des données depuis engie pour Linky.
 Vous pouvez rapidement vous [créer un compte](https://www.consoherozh.fr/register/account)
 depuis l'application web.
 
-Vous trouverez une documentation utilisateur au format markdown (wiki) sous le répertoire documentation de ce projet.
+### 1.1 Documentation utilisateur
+
+une foire au question couvre en partie la documentation utilisateur [consoherozh faq](https://www.consoherozh.fr/public/faq).
+Vous trouverez une documentation utilisateur au format markdown (wiki) sous le répertoire documentation de ce projet avec des captures d'écran.
 
 ## 2. Architecture
 
