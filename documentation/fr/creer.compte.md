@@ -1,5 +1,5 @@
 
-#Créer un compte
+# Créer un compte
 
 Pour utiliser l'application il faut au préalable se créer un compte.
 
@@ -17,7 +17,13 @@ le nom que vous utiliserez pour vous conencter à votre compte ConsoHerozh.
 
 ## Adresse Mail
 
-l'adresse mail associée à votre compte ConsoHerozh.
+l'adresse mail est l'adresse électornique associée à votre compte ConsoHerozh.
+
+### Adresse Mail validée
+
+Le format valide doit comporter un nom d'utilisateur texte suivi de @ et un nom de domaine comportant au moins un point (.)  .
+
+_code_  utils/smarthome/security/SmartHomeSecurityUtils.groovy
 
 ## Mot de passe
 
