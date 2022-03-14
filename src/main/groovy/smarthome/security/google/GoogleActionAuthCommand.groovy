@@ -24,8 +24,8 @@ implements Validateable {
 	String redirect_uri
 	String state
 	String response_type
-	String j_username
-	String j_password
+	String username
+	String password
 	String error
 	String scope
 	

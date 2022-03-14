@@ -22,10 +22,10 @@
 			<form action="${postUrl}" method="post" id="d" class="aui login ${ mobileAgent ? 'top-label' : '' }" autocomplete='off'>
 				<fieldset>
 					<div class="field-group">
-						<input class="text" type="email" id="username" name="j_username" placeholder="Adresse mail" autofocus="true">
+						<input class="text" type="email" id="username" name="username" placeholder="Adresse mail" autofocus="true">
 					</div>
 					<div class="field-group">
-						<input class="password" type="password" id="password" name="j_password" placeholder="Mot de passe" >
+						<input class="password" type="password" id="password" name="password" placeholder="Mot de passe" >
 					</div>
 				 </fieldset>
 				 <fieldset class="group">

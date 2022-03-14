@@ -108,7 +108,7 @@ class UserController extends AbstractController {
 	def switchUser(User user) {
 		// nettoie la session
 		// TODO 
-		redirect(uri: "/j_spring_security_switch_user", params: [j_username: user.username])
+		redirect(uri: "/login/impersonate", params: [username: user.username])
 	}
 	
 	
@@ -121,7 +121,7 @@ class UserController extends AbstractController {
 	def exitSwitchUser() {
 		// nettoie la session
 		// TODO 
-		redirect(uri: "/j_spring_security_exit_user")
+		redirect(uri: "/logout/impersonate")
 	}
 	
 }

@@ -55,7 +55,7 @@ class GoogleActionController extends AbstractController {
 		
 		try {
 			Authentication authenticate = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(command.j_username, command.j_password))
+				new UsernamePasswordAuthenticationToken(command.username, command.password))
 			
 			if (authenticate.isAuthenticated()) {
 				UserApplication userApp = googleActionService.auth(command, User.read(authenticate.principal.id))
