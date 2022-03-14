@@ -32,5 +32,27 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
         }
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
+
+    logger('smarthome', DEBUG)
+    logger('org.hibernate.SQL', DEBUG)
+    logger('org.apache.camel.component',DEBUG)
+
+    logger('org.springframework.security.web.authentication.rememberme',TRACE)
+    logger('org.springframework.security.web.authentication',TRACE)
+
+    logger('org.hibernate',INFO)
+    logger('net.sf.ehcache.hibernate',INFO)
+    logger('grails.app.services',INFO)
+    logger('grails.app.controllers',INFO)
+       
+
+    // Getting more logs
+    root(INFO,  ['STDOUT'])
 }
-root(ERROR, ['STDOUT'])
+else
+{
+	root(ERROR, ['STDOUT'])
+	logger('smarthome', INFO)
+	logger('grails.app', INFO)
+	logger('org.apache.camel.component', INFO)
+}

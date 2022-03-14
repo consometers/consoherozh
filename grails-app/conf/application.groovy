@@ -2,7 +2,11 @@
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
 
-grails.config.locations = [SmartHomeSecurityDefaultConfig]
+// not used in grails 3, embedded at the end.
+// grails.config.locations = [SmartHomeSecurityDefaultConfig]
+
+// need a Map else '<<' (leftShift) fails later.
+grails.config.locations = []
 
 if (System.env["smarthome.config.location"]) {
 	grails.config.locations << "file:" + System.env["smarthome.config.location"]
@@ -87,6 +91,9 @@ grails.hibernate.pass.readonly = false
 // configure passing read-only to OSIV session by default, requires "singleSession = false" OSIV mode
 grails.hibernate.osiv.readonly = false
 
+region.factory_class = org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+
+
 // conflict in dev
 // grails.serverURL = "https://www.consoherozh.fr"
 
@@ -96,40 +103,12 @@ environments {
 		grails.logging.jul.usebridge = true
 		grails.plugin.springsecurity.debug.useFilter = true
 
-		log4j.main = {
-			appenders {
-				console name:'stdout', layout:pattern(conversionPattern: "[${appVersion}][%p %d %c{1}] %m%n")
-			}
-
-			debug 'smarthome',
-					'org.hibernate.SQL',
-					'org.apache.camel.component'
-
-			trace 'org.springframework.security.web.authentication.rememberme',
-					'org.springframework.security.web.authentication'
-
-			info 'org.hibernate',
-					'net.sf.ehcache.hibernate',
-					'grails.app.services',
-					'grails.app.controllers'
-			// Getting more logs
-//			root {
-//				info()
-//			}
-		}
 	}
 
 
 	production {
 		grails.logging.jul.usebridge = false
 
-		log4j.main = {
-			appenders {
-				console name:'stdout', layout:pattern(conversionPattern: "[${appVersion}][%p %d %c{1}] %m%n")
-			}
-
-			info 'smarthome', 'grails.app', 'org.apache.camel.component'
-		}
 	}
 }
 
@@ -232,6 +211,7 @@ environments {
 	development {
 		dataSource {
 			driverClassName = "org.postgresql.Driver"
+			dialect = org.hibernate.dialect.PostgreSQL82Dialect
 			dbCreate = "update"
 			//dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
 			url = "jdbc:postgresql://localhost:5432/smarthome"
@@ -261,3 +241,50 @@ environments {
 	     // grails.serverURL = "http://localhost:8080/MaterialManagement/dashboard/main"
    }
 }
+
+
+// Since grails 3 use spring boot , grails.config.location are not in use by defaut
+// in particular previous SmartHomeSecurityDefautConfig.groovy won't be parsed.
+// embed [SmartHomeSecurityDefautConfig] them directly in application as a first dev step
+
+// Adapted from those added by the Spring Security Core plugin in grails 3.
+
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'smarthome.security.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'smarthome.security.UserRole'
+grails.plugin.springsecurity.authority.className = 'smarthome.security.Role'
+grails.plugin.springsecurity.useRoleGroups = false
+
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+		[pattern: '/',               access: ['permitAll']],
+		[pattern: '/error',          access: ['permitAll']],
+		[pattern: '/index',          access: ['permitAll']],
+		[pattern: '/index.gsp',      access: ['permitAll']],
+		[pattern: '/shutdown',       access: ['permitAll']],
+		[pattern: '/assets/**',      access: ['permitAll']],
+		[pattern: '/**/js/**',       access: ['permitAll']],
+		[pattern: '/**/css/**',      access: ['permitAll']],
+		[pattern: '/**/images/**',   access: ['permitAll']],
+		[pattern: '/**/favicon.ico', access: ['permitAll']],
+]
+
+grails.plugin.springsecurity.filterChain.chainMap = [
+		[pattern: '/assets/**',      filters: 'none'],
+		[pattern: '/**/js/**',       filters: 'none'],
+		[pattern: '/**/css/**',      filters: 'none'],
+		[pattern: '/**/images/**',   filters: 'none'],
+		[pattern: '/**/favicon.ico', filters: 'none'],
+		[pattern: '/**',             filters: 'JOINED_FILTERS']
+]
+
+// Configuration supplémentaire de Spring Security
+grails.plugin.springsecurity.rejectIfNoRule = true // bloque par défaut toutes les URLS sauf celle mappées par annotation ou dans la map "staticRules"
+grails.plugin.springsecurity.password.algorithm = 'bcrypt' /// encryption des mots de passe
+grails.plugin.springsecurity.useSessionFixationPrevention = true // Session Fixation Prevention
+grails.plugin.springsecurity.logout.postOnly = false // permet de faire des GET pour logout
+grails.plugin.springsecurity.useSwitchUserFilter  = true // permet de basculer sur un autre utilisateur
+
+
+// Spring ACL
+grails.plugin.springsecurity.acl.permissionClass = smarthome.security.SmartHomePermission
+
+

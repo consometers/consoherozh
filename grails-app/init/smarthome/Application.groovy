@@ -1,4 +1,4 @@
-package consoherozh
+package smarthome
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
