@@ -287,4 +287,5 @@ grails.plugin.springsecurity.useSwitchUserFilter  = true // permet de basculer s
 // Spring ACL
 grails.plugin.springsecurity.acl.permissionClass = smarthome.security.SmartHomePermission
 
-
+// temporarily while chasing org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration$SpelView errors
+server.error.whitelabel.enabled=false

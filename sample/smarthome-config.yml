@@ -1,0 +1,63 @@
+# ---------------------------------------------------------------------
+#                 SMARTHOME CONFIGURATION
+# ---------------------------------------------------------------------
+
+# to be set by -Dsmarthome.config.location=<full_path_here>
+# when starting grails application.
+
+grails:
+  serverURL: "http://localhost:8080/smarthome-application"
+
+rabbitmq:
+  connectionfactory:
+    username: 'guest'
+    password: 'guest'
+    hostname: 'localhost'
+
+smtp:
+    hostname: 'mail.mail.org'
+    port: 587
+    password: "fjdqslkfj"
+    username: "somebody@somwhere.org"
+    from: 'servernotifier@somwhere.org'
+
+aws:
+    sns:
+        accessKeyId: "AAAAAAAAAAAAAAAAAAAA"
+        secretKey: "AZAZAZAZAZAZAZAZAZAZ123456789AZAZAZAazaz"    
+    alexa:
+        clientId: "AZaz09AZzazazazzazazazaZ"
+        appName: "Amazon Alexa"
+        applicationId: "amzn1.ask.skill.aaaabbbb-cccc-cded-cccc-0abcf4564aaa"
+        redirectUri: [
+            "https://alexa.amazon.co.jp/spa/skill/account-linking-status.html?vendorId=XYZKAAKFDSQK"
+        ]
+        jsonConfigKey: "amazonAlexa"
+
+google:
+    action:
+        clientId: "aaaaaaaaaaaaaaaaaaaaaaaa"
+        appName: "Google Assistant"
+        applicationId: "bemyhomesmart-e4650"
+        redirectUri: "https://oauth-redirect.googleusercontent.com/r/"
+        jsonConfigKey: "googleAssistant"
+        homeGraphAPIKey: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        homeGraphUrl: "https://homegraph.googleapis.com/v1/devices"
+
+weather:
+    providers: [
+        [impl: 'smarthome.automation.weather.darksky.DarkSkyWeatherProvider', maxQuery: 1000, 
+            params: [url: 'https://api.darksky.net/forecast', apikey: 'aabbccddee11223344556677'],
+            parser: 'smarthome.automation.weather.darksky.DarkSkyWeatherParser']
+    ]
+ 
+
+enedis:
+    appName: "Enedis DataConnect"
+    compteurLabel: "Compteur électrique (Linky)"
+    env: "dev"
+    client_id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+    client_secret: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+    redirect_uri: "https://oneserver.to.rule.them.all.com/dataconnect-proxy/redirect"
+    state: "bmhs"
+

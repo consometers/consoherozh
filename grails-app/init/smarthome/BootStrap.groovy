@@ -1,3 +1,5 @@
+package smarthome
+
 import grails.util.Environment
 import smarthome.core.EndPointUtils
 

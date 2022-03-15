@@ -14,17 +14,13 @@ class UrlMappings {
 		/**
 		 * Les accès à l'API Smarthome
 		 */
-		/*
 		group "/api", {
 			"/device/push" (controller: "deviceApi", action: "push", method: "POST")
 			"/device/fetch" (controller: "deviceApi", action: "fetch", method: "POST")
 		}
-		*/
-
 		/**
 		 * API DataConnect d'Enedis
 		 */
-        /*
 		group "/dataconnect", {
 			"/redirect" (controller: "dataConnect", action: "redirect")
 			"/authorize" (controller: "dataConnect", action: "authorize")
@@ -34,6 +30,5 @@ class UrlMappings {
 			"/daily_consumption" (controller: "dataConnect", action: "daily_consumption")
 			"/consumption_max_power" (controller: "dataConnect", action: "consumption_max_power")
 		}
-				*/
 	}
 }

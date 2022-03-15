@@ -41,6 +41,8 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-web-boot"
+    // until <g:remoteLink> gets fully replaced
+    compile "org.grails.plugins:ajax-tags:1.0.0.RC1"
     compile "org.grails:grails-logging"
     compile "org.grails:grails-plugin-rest"
     compile "org.grails:grails-plugin-databinding"

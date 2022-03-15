@@ -24,8 +24,9 @@ class HouseController extends AbstractController {
 	 * @return
 	 */
 	def templateEditByUser() {
-		def user = params.user
-		def house = houseService.findDefaultByUser(user)
+		//User user = params.user
+		User user = User.findById Long.parseLong(params.userId)
+		House house = houseService.findDefaultByUser(user)
 		def compteurs = deviceService.listByUser(new DeviceSearchCommand([userId: user.id,
 			deviceTypeClass: TeleInformation.name]))
 		def compteursGaz = deviceService.listByUser(new DeviceSearchCommand([userId: user.id,

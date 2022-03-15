@@ -5,12 +5,10 @@ import java.text.SimpleDateFormat
 import grails.core.GrailsApplication
 import org.grails.web.json.JSONElement
 
-import groovy.time.TimeCategory
 import smarthome.core.DateUtils
 import smarthome.core.SmartHomeException
 import smarthome.core.http.Http
 import smarthome.core.http.transformer.JsonResponseTransformer
-import smarthome.security.User
 
 import java.util.regex.Pattern
 
@@ -44,6 +42,19 @@ class DataConnectApi {
 
 	GrailsApplication grailsApplication
 
+	private String getEnedisUrl( String purpose, String apiUrl )
+	{
+		String enedisEnv = grailsApplication.config.getProperty('enedis.env')
+		if ( enedisEnv ) {
+			def url = URLS[enedisEnv].get(purpose)
+			return "$url$apiUrl"
+		}
+		else
+		{
+			throw new SmartHomeException("Missing enedis.env property")
+		}
+
+	}
 
 	/**
 	 * Appel de la page de consentement
@@ -58,11 +69,11 @@ class DataConnectApi {
 	 * @return
 	 */
 	String authorize_uri() {
-		String url = "${URLS[(grailsApplication.config.enedis.env)].authorize}/dataconnect/v1/oauth2/authorize"
-		url += "?client_id=${grailsApplication.config.enedis.client_id}"
+		String url = getEnedisUrl("authorize","/dataconnect/v1/oauth2/authorize")
+		url += "?client_id=${grailsApplication.config.getProperty('enedis.client_id')}"
 		url += "&duration=P6M"
 		url += "&response_type=code"
-		url += "&state=${grailsApplication.config.enedis.state}"
+		url += "&state=${grailsApplication.config.getProperty('enedis.state')}"
 		return url
 	}
 
@@ -82,15 +93,14 @@ class DataConnectApi {
 	 * @throws SmartHomeException
 	 */
 	JSONElement authorization_code(String code) throws SmartHomeException {
-		String url = "${URLS[(grailsApplication.config.enedis.env)].token}/v1/oauth2/token"
+		String url = getEnedisUrl("token","/v1/oauth2/token")
 
 		Http httpRequest = Http.Post(url)
-				.queryParam("redirect_uri", grailsApplication.config.enedis.redirect_uri)
-				.formField("client_id", grailsApplication.config.enedis.client_id)
-				.formField("client_secret", grailsApplication.config.enedis.client_secret)
+				.queryParam("redirect_uri", grailsApplication.config.getProperty('enedis.redirect_uri'))
+				.formField("client_id", grailsApplication.config.getProperty('enedis.client_id'))
+				.formField("client_secret", grailsApplication.config.getProperty('enedis.client_secret'))
 				.formField("grant_type", GrantTypeEnum.authorization_code.toString())
 				.formField("code", code)
-
 
 		JSONElement result = httpRequest.execute(new JsonResponseTransformer("error_description"))?.content
 
@@ -117,12 +127,12 @@ class DataConnectApi {
 	 * @throws SmartHomeException
 	 */
 	JSONElement refresh_token(String refreshToken) throws SmartHomeException {
-		String url = "${URLS[(grailsApplication.config.enedis.env)].token}/v1/oauth2/token"
+		String url = getEnedisUrl("token","/v1/oauth2/token");
 
 		Http httpRequest = Http.Post(url)
-				.queryParam("redirect_uri", grailsApplication.config.enedis.redirect_uri)
-				.formField("client_id", grailsApplication.config.enedis.client_id)
-				.formField("client_secret", grailsApplication.config.enedis.client_secret)
+				.queryParam("redirect_uri", grailsApplication.config.getProperty('enedis.redirect_uri'))
+				.formField("client_id", grailsApplication.config.getProperty('enedis.client_id'))
+				.formField("client_secret", grailsApplication.config.getProperty('enedis.client_secret'))
 				.formField("grant_type", GrantTypeEnum.refresh_token.toString())
 				.formField("refresh_token", refreshToken)
 
@@ -171,7 +181,7 @@ class DataConnectApi {
 	 * @throws SmartHomeException
 	 */
 	List<JSONElement> consumption_load_curve(Date start, Date end, String usagePointId, String token) throws SmartHomeException {
-		String url = "${URLS[(grailsApplication.config.enedis.env)].metric}/v4/metering_data/consumption_load_curve"
+		String url = getEnedisUrl("metric","/v4/metering_data/consumption_load_curve");
 
 		JSONElement response = Http.Get(url)
 				.queryParam("start", DateUtils.formatDateIso(start))
@@ -227,7 +237,7 @@ class DataConnectApi {
 	 * @throws SmartHomeException
 	 */
 	List<JSONElement> daily_consumption(Date start, Date end, String usagePointId, String token) throws SmartHomeException {
-		String url = "${URLS[(grailsApplication.config.enedis.env)].metric}/v4/metering_data/daily_consumption"
+		String url = getEnedisUrl("metric","/v4/metering_data/daily_consumption")
 
 		JSONElement response = Http.Get(url)
 				.queryParam("start", DateUtils.formatDateIso(start))
@@ -276,7 +286,7 @@ class DataConnectApi {
 	 * @throws SmartHomeException
 	 */
 	List<JSONElement> consumption_max_power(Date start, Date end, String usagePointId, String token) throws SmartHomeException {
-		String url = "${URLS[(grailsApplication.config.enedis.env)].metric}/v4/metering_data/daily_consumption_max_power"
+		String url = getEnedisUrl("metric","/v4/metering_data/daily_consumption_max_power")
 
 		JSONElement response = Http.Get(url)
 				.queryParam("start", DateUtils.formatDateIso(start))
