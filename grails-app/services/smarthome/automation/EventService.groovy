@@ -6,7 +6,7 @@ import org.quartz.CronExpression;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 
 import smarthome.automation.scheduler.EventSimpleJob;
 import smarthome.automation.scheduler.SmarthomeScheduler;

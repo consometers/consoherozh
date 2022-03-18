@@ -40,9 +40,6 @@ grails.mime.types = [ // the first one is the default format
 // URL Mapping Cache Max Size, defaults to 5000
 //grails.urlmapping.cache.maxsize = 1000
 
-// Legacy setting for codec used to encode data with ${}
-grails.views.default.codec = "html"
-
 // The default scope for controllers. May be prototype, session or singleton.
 // If unspecified, controllers are prototype scoped.
 grails.controllers.defaultScope = 'singleton'
@@ -85,15 +82,6 @@ grails.exceptionresolver.params.exclude = ['password', 'newPassword', 'confirmPa
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
 
-// configure passing transaction's read-only attribute to Hibernate session, queries and criterias
-// set "singleSession = false" OSIV mode in hibernate configuration after enabling
-grails.hibernate.pass.readonly = false
-// configure passing read-only to OSIV session by default, requires "singleSession = false" OSIV mode
-grails.hibernate.osiv.readonly = false
-
-region.factory_class = org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
-
-
 // conflict in dev
 // grails.serverURL = "https://www.consoherozh.fr"
 
@@ -113,7 +101,10 @@ environments {
 }
 
 
-grails.cache.enabled = true
+
+// grails.cache.enabled = true
+// temporarily disable cache
+grails.cache.enabled = false
 
 
 // ---------------------------------------------------------------------
@@ -198,10 +189,7 @@ hibernate {
 	generate_statistics = false
 	cache.use_second_level_cache = true
 	cache.use_query_cache = false
-	// not anymore Hibernate > 4.0
-	// cache.provider_class = 'org.hibernate.cache.EhCacheProvider'
-	// cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory' // Hibernate 3
-	cache.region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory' // Hibernate 4
+	cache.region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
 	singleSession = true // configure OSIV singleSession mode
 	flush.mode = 'manual' // OSIV session flush mode outside of transactional context
 }
@@ -234,7 +222,7 @@ environments {
    development {
    	     // grails.logging.jul.usebridge = true
 	      activiti {
-	     	     //processEngineName = "activiti-engine-dev"
+	     	     processEngineName = "activiti-engine-dev"
 	     	     databaseSchemaUpdate = "true"
 	     }
 
@@ -289,3 +277,12 @@ grails.plugin.springsecurity.acl.permissionClass = smarthome.security.SmartHomeP
 
 // temporarily while chasing org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration$SpelView errors
 server.error.whitelabel.enabled=false
+
+// Whether to translate GORM events into Reactor events
+// Disabled by default for performance reasons
+gorm.reactor.events=false
+
+// https://gorm.grails.org/6.1.x/hibernate/manual/#upgradeNotes
+// TODO don't use this : should annotate @Transactional for correct methods and commit session at right place
+hibernate.flush.mode=AUTO
+

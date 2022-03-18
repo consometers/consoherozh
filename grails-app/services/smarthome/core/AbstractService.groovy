@@ -9,7 +9,7 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 import grails.converters.JSON;
 import grails.plugin.springsecurity.SpringSecurityService;
 

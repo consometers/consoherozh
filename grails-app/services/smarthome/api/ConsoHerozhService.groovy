@@ -1,18 +1,13 @@
 package smarthome.api
 
-import org.springframework.transaction.annotation.Transactional
+import grails.gorm.transactions.Transactional
 import smarthome.automation.Device
 import smarthome.automation.DeviceType
 import smarthome.automation.DeviceValueDay
-import smarthome.automation.NotificationAccount
-import smarthome.automation.deviceType.Linky
 import smarthome.automation.deviceType.ManualCounter
 import smarthome.core.AbstractService
 import smarthome.core.DateUtils
-import smarthome.core.SmartHomeException
 import smarthome.security.User
-
-import java.text.SimpleDateFormat
 
 class ConsoHerozhService extends AbstractService {
 

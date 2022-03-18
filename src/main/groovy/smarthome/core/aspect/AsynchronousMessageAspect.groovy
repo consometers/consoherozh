@@ -22,7 +22,7 @@ import grails.transaction.GrailsTransactionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 import org.springframework.transaction.interceptor.TransactionAttributeSource;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;

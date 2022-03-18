@@ -91,7 +91,7 @@ dependencies {
     compile "com.amazonaws:aws-java-sdk-sns:1.11.140"
     compile "org.grails.plugins:rabbitmq:2.0.0"
     compile "org.codehaus.gpars:gpars:1.2.1"
-    compile 'org.grails.plugins:spring-security-core:3.2.3'
+    compile 'org.grails.plugins:spring-security-core:3.3.1'
     console "org.grails:grails-console"    
     profile "org.grails.profiles:web"
     runtime 'org.postgresql:postgresql:9.4.1212'

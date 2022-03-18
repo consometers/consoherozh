@@ -40,11 +40,14 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     logger('org.springframework.security.web.authentication.rememberme',TRACE)
     logger('org.springframework.security.web.authentication',TRACE)
 
-    logger('org.hibernate',INFO)
+    logger('org.hibernate',DEBUG)
+
     logger('net.sf.ehcache.hibernate',INFO)
     logger('grails.app.services',INFO)
     logger('grails.app.controllers',INFO)
        
+    logger('org.springframework.jdbc.datasource.DriverManagerDataSource',DEBUG)
+    logger('org.grails.orm.hibernate.GrailsHibernateTemplate',DEBUG)
 
     // Getting more logs
     root(INFO,  ['STDOUT'])

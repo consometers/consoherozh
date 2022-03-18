@@ -7,7 +7,7 @@ import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import grails.core.GrailsApplication;
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 
 
 

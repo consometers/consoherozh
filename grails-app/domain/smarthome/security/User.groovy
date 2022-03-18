@@ -1,10 +1,6 @@
 package smarthome.security
 
-import java.util.Set;
-
 import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable
-
 
 /**
  * @see resources.groovy pour la personnalisation des renderer json et xml
@@ -57,12 +53,9 @@ class User implements Serializable {
 		sort 'nom'
 	}
 	
-	
+
 	static {
 		grails.converters.JSON.registerObjectMarshaller(User) {
-//			it.properties.findAll {k,v -> 
-//				!(k in ['password', 'friends'])
-//			}
 			[id: it.id, username: it.username, nom: it.nom, prenom: it.prenom]
 		}
 	}

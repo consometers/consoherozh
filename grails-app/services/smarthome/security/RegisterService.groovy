@@ -2,7 +2,7 @@ package smarthome.security
 
 import grails.core.GrailsApplication;
 import grails.web.mapping.LinkGenerator;
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 
 import smarthome.core.AbstractService;
 import smarthome.core.AsynchronousWorkflow;

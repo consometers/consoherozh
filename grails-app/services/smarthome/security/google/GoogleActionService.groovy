@@ -9,7 +9,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import grails.core.GrailsApplication;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 
 import smarthome.automation.Device;
 import smarthome.automation.DeviceService;

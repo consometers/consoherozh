@@ -1,6 +1,6 @@
 package smarthome.rule
 
-import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 
 class HouseEstimationConsoRuleService extends GroovyScriptRuleService {
   

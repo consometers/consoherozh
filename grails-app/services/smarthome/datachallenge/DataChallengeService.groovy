@@ -1,6 +1,6 @@
 package smarthome.datachallenge
 
-import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 import smarthome.automation.Device
 import smarthome.automation.DeviceType
 import smarthome.automation.DeviceValueDay

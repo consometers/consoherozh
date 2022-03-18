@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import grails.core.GrailsApplication;
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 
 import smarthome.automation.weather.WeatherDayForecast;
 import smarthome.automation.weather.WeatherHourForecast;

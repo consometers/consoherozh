@@ -1,6 +1,6 @@
 package smarthome.security
 
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 import smarthome.core.AbstractService
 import smarthome.core.SmartHomeException
 

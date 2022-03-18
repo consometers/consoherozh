@@ -2,7 +2,7 @@ package smarthome.api
 
 import grails.core.GrailsApplication
 import org.hibernate.FetchMode
-import org.springframework.transaction.annotation.Transactional
+import grails.gorm.transactions.Transactional
 
 import smarthome.automation.Device
 import smarthome.automation.DeviceMetavalue
@@ -20,7 +20,7 @@ import smarthome.security.UserApplicationService
 
 
 /**
- * Définition des URLS API : @see UrlMappings
+ * Définition des URLS API : @see smarthome.UrlMappings
  * @author gregory
  *
  */

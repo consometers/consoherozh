@@ -8,7 +8,7 @@ import grails.web.mapping.LinkGenerator
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
+import grails.gorm.transactions.Transactional
 import smarthome.automation.notification.EmailNotificationSender
 import smarthome.automation.notification.NotificationSender
 import smarthome.core.AbstractService

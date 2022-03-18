@@ -1,6 +1,6 @@
 package smarthome.security
 
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 
 import smarthome.automation.DeviceShareService;
 import smarthome.automation.HouseService;
