@@ -283,6 +283,6 @@ server.error.whitelabel.enabled=false
 gorm.reactor.events=false
 
 // https://gorm.grails.org/6.1.x/hibernate/manual/#upgradeNotes
-// TODO don't use this : should annotate @Transactional for correct methods and commit session at right place
-hibernate.flush.mode=AUTO
+// HACK default mode should be MANUAL where gorm activates COMMIT internally but not working, then forcing COMMIT
+hibernate.flush.mode=COMMIT
 
