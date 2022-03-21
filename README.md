@@ -20,7 +20,7 @@ Vous trouverez une documentation utilisateur au format markdown (wiki) sous le r
 
 ### 2.1 Objectifs
 
-L'application Web est développée pour être scalable le plus simplement et le plus
+L'application Web est développée pour supporter une montée en charge le plus simplement et le plus
 efficacement. Plusieurs instances peuvent être déployées pour augmenter les capacités de traitement
 des requêtes. Les performances sont aussi un point très important sur les choix de
 développement. Un traitement particulier est appliqué dès lors qu'une tâche peut 
@@ -101,7 +101,7 @@ sont modélisés en processus métier. Ces process peuvent en plus être modifi�
 redéployés à "chaud". Ils sont créés dans des éditeurs _wysiwyg_ et peuvent être
 modélisés par des profils non développeurs.
 
-En terme de développement, c'est un excellement moyen de garder du code simple et
+En terme de développement, c'est un excellent moyen de garder du code simple et
 de ne pas être obligé d'écrire des "usines à gaz" pour répondre aux problématiques
 utilisateur.
 
@@ -169,7 +169,7 @@ exécuter la commande :
 Pour exécuter le projet, il faudra installer dans votre environnement :  
 
 - Service PostgreSQL. Le schéma peut être créé avec le script SQL fourni dans le projet
-[ddl.sql](https://github.com/gelleouet/smarthome-application/blob/master/grails-app/migrations/ddl.sql)
+[ddl.sql](https://github.com/consometers/consoherozh/blob/master/grails-app/migrations/ddl.sql)
 - Service RabbitMQ. Les exchanges et queues sont créés dynamiquement
 
 Démarrer le projet dans l'environnement de développement :  
@@ -180,7 +180,7 @@ Variables d'environnement :
 
 - _smarthome.cluster.serverId_ : nom unique d'une instance dans un cluster.
 Permet d'envoyer des messages entre instances  
-- _smarthome.datasource.password_ : mot de passe du PostgreSQL  
+- _smarthome.datasource.password_ : mot de passe du PostgreSQL pour l'utilisateur postgres
 - _smarthome.config.location_ : le fichier de config avec les credentials et
 paramètres de l'application
 
@@ -223,5 +223,18 @@ messages info, error, warning dans les request, retour par défaut des response
 - _smarthome.core.AbstractService_ : gestion par défaut des transactions, des envois
 de message asynchrones AMQP, et méthodes de base sur les domain
 - _smarthome.core.AbstractRuleService_ : service de base pour les règles métier
+
+
+## 4. Implémentation
+
+### 4.1 Linky enedis DataConnect
+
+Les données des compteurs linky sont récupérées auprès d'enedis, l'application
+consoherozh ayant obtenu une autorisation de délégation.
+
+Ces données sont stockées dans la base consoherozh et consultées depuis cette
+source.
+
+[[documentation/fr/implemenation/smarthome.automation.deviceType.Linky]]
 
 
