@@ -1,16 +1,9 @@
 package smarthome.automation
 
-import java.io.Serializable;
-
-import smarthome.automation.deviceType.AbstractDeviceType;
-import smarthome.automation.deviceType.Compteur;
-import smarthome.automation.deviceType.Humidite;
-import smarthome.automation.deviceType.TeleInformation;
-import smarthome.automation.deviceType.Temperature;
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.core.chart.GoogleChart;
-import smarthome.security.User;
-import grails.validation.Validateable;
+import smarthome.automation.deviceType.*
+import smarthome.core.SmartHomeCoreConstantes
+import smarthome.core.chart.GoogleChart
+import smarthome.security.User
 
 /**
  * Description des maisons d'un user
@@ -18,7 +11,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-//@Validateable
 class House implements Serializable {
 	User user
 	Set modes = []

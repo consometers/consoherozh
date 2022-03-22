@@ -1,13 +1,7 @@
 package smarthome.security
 
-import java.io.Serializable;
-import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable
-
+import org.apache.commons.lang.StringUtils
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Les applications third-party de l'utilisateur (facebook, twitter, google, etc...)
@@ -16,7 +10,6 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-//@Validateable
 class UserApplication implements Serializable {
 
 	static belongsTo = [user: User]

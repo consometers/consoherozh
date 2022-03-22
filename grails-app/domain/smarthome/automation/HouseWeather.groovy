@@ -1,9 +1,6 @@
 package smarthome.automation
 
-import java.io.Serializable;
-import smarthome.core.JsonDataDomain;
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Infos météos d'une maison
@@ -11,7 +8,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-//@Validateable
 class HouseWeather implements Serializable {
 	House house
 	Date dateWeather

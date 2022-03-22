@@ -1,7 +1,6 @@
 package smarthome.automation
 
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Modes activés sur un event
@@ -9,7 +8,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-//@Validateable
 class EventMode implements Serializable  {
 	static belongsTo = [event: Event]
 	

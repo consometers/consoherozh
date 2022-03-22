@@ -1,10 +1,7 @@
 package smarthome.automation
 
-import java.io.Serializable;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
+import smarthome.security.User
 
 /**
  * Description des maisons d'un user
@@ -12,7 +9,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-//@Validateable
 class Mode implements Serializable {
 	static belongsTo = [user: User]
 	

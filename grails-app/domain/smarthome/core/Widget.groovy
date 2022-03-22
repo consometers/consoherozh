@@ -1,7 +1,4 @@
 package smarthome.core
-
-import grails.validation.Validateable
-
 /**
  * Gestion des widgets sur tableau de bord
  * 
@@ -9,7 +6,6 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-//@Validateable
 class Widget {
 
 	String libelle

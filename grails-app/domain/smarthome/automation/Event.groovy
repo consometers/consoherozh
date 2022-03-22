@@ -1,13 +1,9 @@
 package smarthome.automation
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import grails.converters.JSON;
-import smarthome.core.DateUtils;
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
+import grails.converters.JSON
+import smarthome.core.DateUtils
+import smarthome.core.SmartHomeCoreConstantes
+import smarthome.security.User
 
 /**
  * Evénements
@@ -15,7 +11,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-//@Validateable
 class Event implements Serializable, EventTriggerPreparable {
 	public static final String FORMAT_HEURE_DECALAGE = "HH:mm"
 	

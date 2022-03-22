@@ -1,18 +1,11 @@
 package smarthome.automation
 
-import org.apache.commons.lang.StringUtils
-
-import java.io.Serializable
-import java.util.List
-import java.util.Map
-
+import grails.converters.JSON
 import smarthome.automation.deviceType.AbstractDeviceType
 import smarthome.core.DateUtils
 import smarthome.core.ScriptUtils
 import smarthome.core.SmartHomeCoreConstantes
 import smarthome.security.User
-import grails.converters.JSON
-import grails.validation.Validateable
 
 /**
  * Les périphériques à contrôler
@@ -20,7 +13,6 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-//@Validateable
 class Device implements Serializable, EventTriggerPreparable {
 	static belongsTo = [agent: Agent, user: User]
 	static hasMany = [values: DeviceValue, metadatas: DeviceMetadata, metavalues: DeviceMetavalue,

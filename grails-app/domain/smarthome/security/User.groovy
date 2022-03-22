@@ -68,7 +68,6 @@ class User implements Serializable {
 		}
 		
 		return roles.collect { it.role }
-		//UserRole.findAllByPersonne(this).collect { it.role }
 	}
 	
 	

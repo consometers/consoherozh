@@ -1,13 +1,6 @@
 package smarthome.automation
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
-import groovy.time.TimeCategory;
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Les valeurs aggrégées sur un mois
@@ -15,7 +8,6 @@ import groovy.time.TimeCategory;
  * @author gregory
  *
  */
-//@Validateable
 class DeviceValueMonth implements Serializable {
 	Device device
 	Double value

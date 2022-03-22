@@ -32,10 +32,10 @@ class CacheRouteBuilder extends RouteBuilder {
 		String rabbitUsername = grailsApplication.config.rabbitmq.connectionfactory.username
 		String rabbitPassword = grailsApplication.config.rabbitmq.connectionfactory.password
 
-		def serverId = grailsApplication.config.smarthome.cluster.serverId
+		def serverId = grailsApplication.config.getProperty("smarthome.cluster.serverId")
 		
 		if (!serverId) {
-			throw new Exception("lims.cluster.serverId property must be set !")
+			throw new Exception("smarthome.cluster.serverId property must be set !")
 		}
 		
 		// personnalisation de la queue en fonction du serveur

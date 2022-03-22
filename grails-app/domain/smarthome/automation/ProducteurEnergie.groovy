@@ -1,8 +1,6 @@
 package smarthome.automation
 
-import java.io.Serializable
 import smarthome.core.SmartHomeCoreConstantes
-import grails.validation.Validateable
 
 /**
  * Producteurs d'énergie
@@ -10,7 +8,6 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-//@Validateable
 class ProducteurEnergie implements Serializable {
 	String libelle
 	Double surface

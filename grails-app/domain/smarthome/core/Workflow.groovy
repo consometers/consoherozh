@@ -1,7 +1,5 @@
 package smarthome.core
 
-import grails.validation.Validateable;
-
 /**
  * Gestion des workflows métier
  * 
@@ -9,7 +7,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-//@Validateable
 class Workflow {
 	String libelle
 	String description

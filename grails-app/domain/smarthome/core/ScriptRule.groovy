@@ -1,17 +1,10 @@
 package smarthome.core
-
-import java.util.Date;
-
-import grails.validation.Validateable;
-
-
 /**
  * Une règle métier enregistrée en base dans un script Groovy
  * 
  * @author gregory
  *
  */
-//@Validateable
 class ScriptRule {
 	String ruleName
 	String description

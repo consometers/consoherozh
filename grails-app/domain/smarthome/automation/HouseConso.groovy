@@ -1,13 +1,8 @@
 package smarthome.automation
 
-import java.io.Serializable;
-import java.util.Map;
-
-import smarthome.automation.deviceType.AbstractDeviceType;
-import smarthome.core.DateUtils;
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
+import smarthome.automation.deviceType.AbstractDeviceType
+import smarthome.core.DateUtils
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Stats conso maison par année
@@ -15,7 +10,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-//@Validateable
 class HouseConso implements Serializable {
 	static belongsTo = [house: House]
 	

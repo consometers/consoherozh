@@ -1,9 +1,7 @@
 package smarthome.security
 
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
 
-//@Validateable
 class Role {
 
 	static final String ROLE_PREFIX = "ROLE_"
