@@ -1,12 +1,13 @@
+import org.activiti.engine.impl.history.HistoryLevel
+import org.activiti.spring.ProcessEngineFactoryBean
+import org.activiti.spring.SpringProcessEngineConfiguration
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
-import org.activiti.spring.SpringProcessEngineConfiguration
-import org.activiti.spring.ProcessEngineFactoryBean
-import org.activiti.engine.impl.history.HistoryLevel
+import smarthome.api.DataConnectApi
 import smarthome.automation.scheduler.SmarthomeScheduler
-import smarthome.plugin.NavigationItemUtils
+import smarthome.core.ApplicationUtils
 import smarthome.security.SmartHomeUserDetailsService
-
+import smarthome.security.UserPasswordEncoderListener
 
 // Place your Spring DSL code here
 beans = {
@@ -91,14 +92,16 @@ beans = {
 	}
 
 	// juste utilisé pour injecter le context dans variable static accessible depuis n'importe où
-	applicationUtils(smarthome.core.ApplicationUtils)
+	applicationUtils(ApplicationUtils)
 
 
-	dataConnectApi(smarthome.api.DataConnectApi) {
+	dataConnectApi(DataConnectApi) {
 		grailsApplication = ref('grailsApplication')
 	}
 
 	localeResolver(SessionLocaleResolver) {
-		defaultLocale= new java.util.Locale('fr');
+		defaultLocale= new java.util.Locale('fr')
 	}
+
+	userPasswordEncoderListener(UserPasswordEncoderListener)
 }
