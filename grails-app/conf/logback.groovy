@@ -49,6 +49,8 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     logger('org.springframework.jdbc.datasource.DriverManagerDataSource',DEBUG)
     logger('org.grails.orm.hibernate.GrailsHibernateTemplate',DEBUG)
 
+    logger('org.apache.camel',DEBUG)
+
     // Getting more logs
     root(INFO,  ['STDOUT'])
 }

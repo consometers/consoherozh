@@ -8,6 +8,7 @@ buildscript {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.15.1"
+        classpath 'org.grails.plugins:database-migration:3.1.0'
     }
 }
 
@@ -25,13 +26,21 @@ apply plugin:"org.grails.grails-gsp"
 ext {
     camelVersion = "3.7.7"
     // 7.1.0.M6
-    activitiVersion = "5.18.0"
+    activitiVersion = "5.23.0"
 }
 
 repositories {
 	mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
 	mavenCentral()
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'grails-app/migrations'
+        }
+    }
 }
 
 dependencies {
@@ -59,6 +68,8 @@ dependencies {
     runtime "org.hibernate:hibernate-ehcache"
     runtime "net.sf.ehcache:ehcache:2.10.9.2"
     compile "org.grails.plugins:gsp"
+    compile 'org.grails.plugins:database-migration:3.1.0'
+    compile 'org.liquibase:liquibase-core:3.10.1'
     compile "com.bertramlabs.plugins:asset-pipeline-grails:2.15.1"
     compile "org.aspectj:aspectjrt"
     compile "org.aspectj:aspectjweaver"
@@ -94,6 +105,7 @@ dependencies {
     compile 'org.grails.plugins:spring-security-core:3.3.1'
     console "org.grails:grails-console"    
     profile "org.grails.profiles:web"
+    runtime "org.codehaus.groovy:groovy-all:2.4.21"
     runtime 'org.postgresql:postgresql:9.4.1212'
     testCompile "org.grails:grails-gorm-testing-support"
     testCompile "org.grails.plugins:geb"
@@ -110,6 +122,7 @@ bootRun {
     addResources = true
     String springProfilesActive = 'spring.profiles.active'
     systemProperty springProfilesActive, System.getProperty(springProfilesActive)
+    systemProperty "smarthome.datasource.url", System.getProperty("smarthome.datasource.url")
     systemProperty "smarthome.datasource.password", System.getProperty("smarthome.datasource.password")
     systemProperty "smarthome.config.location", System.getProperty("smarthome.config.location")
     systemProperty "smarthome.cluster.serverId", System.getProperty("smarthome.cluster.serverId")
@@ -147,3 +160,4 @@ grails {
 springBoot {
     mainClass = 'smarthome.Application'
 }
+

@@ -1,6 +1,7 @@
 import org.activiti.engine.impl.history.HistoryLevel
 import org.activiti.spring.ProcessEngineFactoryBean
 import org.activiti.spring.SpringProcessEngineConfiguration
+import org.activiti.engine.ProcessEngineConfiguration
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import smarthome.api.DataConnectApi
@@ -72,6 +73,7 @@ beans = {
 
 		//databaseTablePrefix = application.config.activiti.schemaName
 		//tablePrefixIsSchema = true
+		databaseSchemaUpdate = true
 	}
 
 	processEngine(ProcessEngineFactoryBean) {
@@ -104,4 +106,5 @@ beans = {
 	}
 
 	userPasswordEncoderListener(UserPasswordEncoderListener)
+
 }

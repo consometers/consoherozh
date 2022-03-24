@@ -47,7 +47,7 @@ abstract class AbstractService {
 	 * autoDelete : false
 	 * Cela évite de déclarer dans la config de l'application toutes les queues possibles
 	 * 
-	 * Les messages sont envoyés par défaut sur le défault exchange en utitlisant le nom de la
+	 * Les messages sont envoyés par défaut sur le défault exchange en utilisant le nom de la
 	 * queue comme routing key
 	 * 
 	 * Tous les messages sont sérialisés en JSON pour éviter des problèmes de conversion depuis objet Java
@@ -87,7 +87,7 @@ abstract class AbstractService {
 	
 	/**
 	 * Méthode à utiliser pour envoyer des messages manuellement depuis un service
-	 * En mode transaction, le message ne sera envoyé qu'arpès le commit
+	 * En mode transaction, le message ne sera envoyé qu'après le commit
 	 * En lecture seule, le message est envoyé immédiatement
 	 * 
 	 * @param exchangeName

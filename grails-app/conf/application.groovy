@@ -16,36 +16,38 @@ if (System.env["smarthome.config.location"]) {
 	println "Use external configuration from system.properties : " + System.properties["smarthome.config.location"]
 }
 
-grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
-
-// The ACCEPT header will not be used for content negotiation for user agents containing the following strings (defaults to the 4 major rendering engines)
-grails.mime.disable.accept.header.userAgents = ['Gecko', 'WebKit', 'Presto', 'Trident']
-grails.mime.types = [ // the first one is the default format
-
-	all:           '*/*', // 'all' maps to '*' or the first available format in withFormat
-	atom:          'application/atom+xml',
-	css:           'text/css',
-	csv:           'text/csv',
-	form:          'application/x-www-form-urlencoded',
-	html:          ['text/html', 'application/xhtml+xml'],
-	js:            'text/javascript',
-	json:          ['application/json', 'text/json'],
-	multipartForm: 'multipart/form-data',
-	rss:           'application/rss+xml',
-	text:          'text/plain',
-	hal:           ['application/hal+json', 'application/hal+xml'],
-	xml:           ['text/xml', 'application/xml']]
-
-
-// URL Mapping Cache Max Size, defaults to 5000
-//grails.urlmapping.cache.maxsize = 1000
-
-// The default scope for controllers. May be prototype, session or singleton.
-// If unspecified, controllers are prototype scoped.
-grails.controllers.defaultScope = 'singleton'
-
-// GSP settings
 grails {
+	project.groupId = appName // change this to alter the default package name and Maven publishing destination
+
+	mime {
+		// The ACCEPT header will not be used for content negotiation for user agents containing the following strings
+		// defaults to the 4 major rendering engines
+		disable.accept.header.userAgents = ['Gecko', 'WebKit', 'Presto', 'Trident']
+		types = [ // the first one is the default format
+
+				  all:           '*/*', // 'all' maps to '*' or the first available format in withFormat
+				  atom:          'application/atom+xml',
+				  css:           'text/css',
+				  csv:           'text/csv',
+				  form:          'application/x-www-form-urlencoded',
+				  html:          ['text/html', 'application/xhtml+xml'],
+				  js:            'text/javascript',
+				  json:          ['application/json', 'text/json'],
+				  multipartForm: 'multipart/form-data',
+				  rss:           'application/rss+xml',
+				  text:          'text/plain',
+				  hal:           ['application/hal+json', 'application/hal+xml'],
+				  xml:           ['text/xml', 'application/xml']]
+	}
+
+	// URL Mapping Cache Max Size, defaults to 5000
+	//urlmapping.cache.maxsize = 1000
+
+	// The default scope for controllers. May be prototype, session or singleton.
+	// If unspecified, controllers are prototype scoped.
+	controllers.defaultScope = 'singleton'
+
+	// GSP settings
 	views {
 		gsp {
 			encoding = 'UTF-8'
@@ -60,27 +62,24 @@ grails {
 		// escapes all not-encoded output at final stage of outputting
 		// filteringCodecForContentType.'text/html' = 'html'
 	}
+
+	converters.encoding = "UTF-8"
+	scaffolding.templates.domainSuffix = 'Instance'
+	json.legacy.builder = false
+	enable.native2ascii = true
+	// packages to include in Spring bean scanning
+	spring.bean.packages = []
+	// whether to disable processing of multi part requests
+	web.disable.multipart = false
+
+	// request parameters to mask when logging exceptions
+	exceptionresolver.params.exclude = ['password', 'newPassword', 'confirmPassword', 'newPassword']
+
+	// configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
+	hibernate.cache.queries = false
+
+	cache.enabled = true
 }
-
-
-grails.converters.encoding = "UTF-8"
-// scaffolding templates configuration
-grails.scaffolding.templates.domainSuffix = 'Instance'
-
-// Set to false to use the new Grails 1.2 JSONBuilder in the render method
-grails.json.legacy.builder = false
-// enabled native2ascii conversion of i18n properties files
-grails.enable.native2ascii = true
-// packages to include in Spring bean scanning
-grails.spring.bean.packages = []
-// whether to disable processing of multi part requests
-grails.web.disable.multipart=false
-
-// request parameters to mask when logging exceptions
-grails.exceptionresolver.params.exclude = ['password', 'newPassword', 'confirmPassword', 'newPassword']
-
-// configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
-grails.hibernate.cache.queries = false
 
 // conflict in dev
 // grails.serverURL = "https://www.consoherozh.fr"
@@ -88,11 +87,11 @@ grails.hibernate.cache.queries = false
 environments {
 
 	development {
-		grails.logging.jul.usebridge = true
-		grails.plugin.springsecurity.debug.useFilter = true
-
+		grails {
+			logging.jul.usebridge = true
+			plugin.springsecurity.debug.useFilter = true
+		}
 	}
-
 
 	production {
 		grails.logging.jul.usebridge = false
@@ -100,49 +99,50 @@ environments {
 	}
 }
 
-
-
-// grails.cache.enabled = true
-// temporarily disable cache
-grails.cache.enabled = false
-
-
 // ---------------------------------------------------------------------
 // 	USER CONFIGURATION (override by grails.config.locations if not empty)
 // ---------------------------------------------------------------------
-
 smarthome {
 	cluster.serverId = System.properties["smarthome.cluster.serverId"]
-
 	pagination {
 		defaultMax = 25
 		maxBackend = 500
 	}
 }
 
-
 grails.databinding.dateFormats = ['yyyy-MM-dd', 'dd/MM/yyyy', 'yyyy-MM-dd HH:mm:ss.S', "yyyy-MM-dd'T'hh:mm:ss'Z'"]
 
 
-quartz.scheduler.instanceName = "SmarthomeQuartzScheduler"
-quartz.scheduler.instanceId = "AUTO"
-quartz.threadPool.class = "org.quartz.simpl.SimpleThreadPool"
-quartz.threadPool.threadCount = 5
-
-quartz.jobStore.isClustered = true
-quartz.jobStore.tablePrefix = "quartz.QRTZ_"
-quartz.jobStore.class = "org.quartz.impl.jdbcjobstore.JobStoreTX"
-quartz.jobStore.driverDelegateClass = "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
-quartz.jobStore.dataSource = "smarthomeDataSource"
-quartz.jobStore.clusterCheckinInterval = 20000
+quartz {
+	scheduler {
+		instanceName = "SmarthomeQuartzScheduler"
+		instanceId = "AUTO"
+	}
+	threadPool.class = "org.quartz.simpl.SimpleThreadPool"
+	threadPool.threadCount = 5
+	jobStore.class = "org.quartz.impl.jdbcjobstore.JobStoreTX"
+	jobStore {
+		isClustered = true
+		tablePrefix = "quartz.QRTZ_"
+		driverDelegateClass = "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
+		dataSource = "smarthomeDataSource"
+		clusterCheckinInterval = 20000
+	}
+}
 
 environments {
 	development {
-		quartz.dataSource.smarthomeDataSource.driver = "org.postgresql.Driver"
-		quartz.dataSource.smarthomeDataSource.URL = "jdbc:postgresql://localhost:5432/smarthome"
-		quartz.dataSource.smarthomeDataSource.user = "postgres"
-		quartz.dataSource.smarthomeDataSource.password = "${System.properties['smarthome.datasource.password']}"
-		quartz.dataSource.smarthomeDataSource.maxConnections = 2
+		quartz {
+			dataSource {
+				smarthomeDataSource.URL = "${System.properties['smarthome.datasource.url']}"
+				smarthomeDataSource {
+					driver = "org.postgresql.Driver"
+					user = "postgres"
+					password = "${System.properties['smarthome.datasource.password']}"
+					maxConnections = 2
+				}
+			}
+		}
 	}
 	production {
 		quartz.dataSource.smarthomeDataSource.jndiURL = "java:comp/env/smartHomeDataSource"
@@ -154,12 +154,12 @@ environments {
 environments {
 	development {
 		    smtp {
-		    	 port = 465
-			 hostname = "localhost"
-			 from = "dev@smarthome.dev"
-			 username = "dev@smarthome.dev"
-			 password =" whatever"
-		}
+				port = 465
+			 	hostname = "localhost"
+			 	from = "dev@smarthome.dev"
+			 	username = "dev@smarthome.dev"
+			 	password =" whatever"
+			}
 	}
 }
 
@@ -169,14 +169,12 @@ environments {
 // 	USER CONFIGURATION (override by grails.config.locations if not empty)
 // ---------------------------------------------------------------------
 
-
 rabbitmq {
 	connectionfactory {
 		username = 'guest'
 		password = 'guest'
 		hostname = 'localhost'
 	}
-	
 	messageDirectory = '/tmp/RabbitMQ'
 }
 
@@ -187,11 +185,15 @@ rabbitmq {
 
 hibernate {
 	generate_statistics = false
-	cache.use_second_level_cache = true
-	cache.use_query_cache = false
-	cache.region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
+	cache {
+		use_second_level_cache = true
+		use_query_cache = false
+		region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
+	}
 	singleSession = true // configure OSIV singleSession mode
-	flush.mode = 'manual' // OSIV session flush mode outside of transactional context
+	// https://gorm.grails.org/6.1.x/hibernate/manual/#upgradeNotes
+	// HACK default mode should be MANUAL where gorm activates COMMIT internally but not working, then forcing COMMIT
+	flush.mode = COMMIT
 }
 
 // environment specific settings
@@ -200,9 +202,12 @@ environments {
 		dataSource {
 			driverClassName = "org.postgresql.Driver"
 			dialect = org.hibernate.dialect.PostgreSQL82Dialect
-			dbCreate = "update"
+			// for migration plugin
+			dbCreate = none
+			//dbCreate = "update"
 			//dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-			url = "jdbc:postgresql://localhost:5432/smarthome"
+			// ex : jdbc:postgresql://localhost:5432/smarthome
+			url = "${System.properties['smarthome.datasource.url']}"
 			username = "postgres"
 			password = "${System.properties['smarthome.datasource.password']}"
 			properties {
@@ -213,6 +218,7 @@ environments {
 			}
 		}
 	}
+	// smartHomeDataSource will be defined in context.xml bean properties
 	production { dataSource { jndiName = "java:comp/env/smartHomeDataSource" } }
 }
 
@@ -237,43 +243,58 @@ environments {
 
 // Adapted from those added by the Spring Security Core plugin in grails 3.
 
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'smarthome.security.User'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'smarthome.security.UserRole'
-grails.plugin.springsecurity.authority.className = 'smarthome.security.Role'
-grails.plugin.springsecurity.useRoleGroups = false
+grails {
+	plugin {
+		springsecurity {
+			userLookup {
+				userDomainClassName = 'smarthome.security.User'
+				authorityJoinClassName = 'smarthome.security.UserRole'
+			}
+			authority {
+				className = 'smarthome.security.Role'
+			}
+			useRoleGroups = false
+			controllerAnnotations.staticRules = [
+						[pattern: '/',               access: ['permitAll']],
+						[pattern: '/error',          access: ['permitAll']],
+						[pattern: '/index',          access: ['permitAll']],
+						[pattern: '/index.gsp',      access: ['permitAll']],
+						[pattern: '/shutdown',       access: ['permitAll']],
+						[pattern: '/assets/**',      access: ['permitAll']],
+						[pattern: '/**/js/**',       access: ['permitAll']],
+						[pattern: '/**/css/**',      access: ['permitAll']],
+						[pattern: '/**/images/**',   access: ['permitAll']],
+						[pattern: '/**/favicon.ico', access: ['permitAll']],
+				]
+			filterChain {
+				chainMap = [
+						[pattern: '/assets/**',      filters: 'none'],
+						[pattern: '/**/js/**',       filters: 'none'],
+						[pattern: '/**/css/**',      filters: 'none'],
+						[pattern: '/**/images/**',   filters: 'none'],
+						[pattern: '/**/favicon.ico', filters: 'none'],
+						[pattern: '/**',             filters: 'JOINED_FILTERS']
+				]
+			}
+			// Configuration supplémentaire de Spring Security
+			rejectIfNoRule = true // bloque par défaut toutes les URLS sauf celle mappées par annotation ou dans la map "staticRules"
+			password {
+				algorithm = 'bcrypt'
+			}
+			useSessionFixationPrevention = true // Session Fixation Prevention
+			logout {
+				postOnly = false
+			} // permet de faire des GET pour logout
+			useSwitchUserFilter  = true // permet de basculer sur un autre utilisateur
 
-grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-		[pattern: '/',               access: ['permitAll']],
-		[pattern: '/error',          access: ['permitAll']],
-		[pattern: '/index',          access: ['permitAll']],
-		[pattern: '/index.gsp',      access: ['permitAll']],
-		[pattern: '/shutdown',       access: ['permitAll']],
-		[pattern: '/assets/**',      access: ['permitAll']],
-		[pattern: '/**/js/**',       access: ['permitAll']],
-		[pattern: '/**/css/**',      access: ['permitAll']],
-		[pattern: '/**/images/**',   access: ['permitAll']],
-		[pattern: '/**/favicon.ico', access: ['permitAll']],
-]
+			// Spring ACL
+			acl {
+				permissionClass = smarthome.security.SmartHomePermission
+			}
+		}
+	}
+}
 
-grails.plugin.springsecurity.filterChain.chainMap = [
-		[pattern: '/assets/**',      filters: 'none'],
-		[pattern: '/**/js/**',       filters: 'none'],
-		[pattern: '/**/css/**',      filters: 'none'],
-		[pattern: '/**/images/**',   filters: 'none'],
-		[pattern: '/**/favicon.ico', filters: 'none'],
-		[pattern: '/**',             filters: 'JOINED_FILTERS']
-]
-
-// Configuration supplémentaire de Spring Security
-grails.plugin.springsecurity.rejectIfNoRule = true // bloque par défaut toutes les URLS sauf celle mappées par annotation ou dans la map "staticRules"
-grails.plugin.springsecurity.password.algorithm = 'bcrypt' /// encryption des mots de passe
-grails.plugin.springsecurity.useSessionFixationPrevention = true // Session Fixation Prevention
-grails.plugin.springsecurity.logout.postOnly = false // permet de faire des GET pour logout
-grails.plugin.springsecurity.useSwitchUserFilter  = true // permet de basculer sur un autre utilisateur
-
-
-// Spring ACL
-grails.plugin.springsecurity.acl.permissionClass = smarthome.security.SmartHomePermission
 
 // temporarily while chasing org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration$SpelView errors
 server.error.whitelabel.enabled=false
@@ -281,8 +302,3 @@ server.error.whitelabel.enabled=false
 // Whether to translate GORM events into Reactor events
 // Disabled by default for performance reasons
 gorm.reactor.events=false
-
-// https://gorm.grails.org/6.1.x/hibernate/manual/#upgradeNotes
-// HACK default mode should be MANUAL where gorm activates COMMIT internally but not working, then forcing COMMIT
-hibernate.flush.mode=COMMIT
-

@@ -20,7 +20,7 @@ Si le compte n'existe pas pour cette adresse mail ou bien le mot de passe ne cor
 
 #### Création de compte
 
-Si votre compte n'existe pas vous pouvez utliser le bouton vert Créer un compte en bas de l'écran
+Si votre compte n'existe pas vous pouvez utiliser le bouton vert Créer un compte en bas de l'écran
 
 [créer un compte](creer.compte.md).
 

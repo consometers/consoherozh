@@ -15,7 +15,7 @@ import smarthome.core.SmartHomeCoreConstantes;
 /**
  * Déclenchement des workflows LIMS
  * 
- * Se branche sur la queue "lims.core.workflow" 
+ * Se branche sur la queue "smarthome.core.workflow"
  * bindée sur l'exchange "lims.core.serviceMethodExecutionAspect.workflow"  
  * 
  * @author gregory
@@ -31,9 +31,9 @@ class WorkflowRouteBuilder extends RouteBuilder {
 	
 	@Override
 	void configure() throws Exception {
-		String rabbitHostname = grailsApplication.config.rabbitmq.connectionfactory.hostname
-		String rabbitUsername = grailsApplication.config.rabbitmq.connectionfactory.username
-		String rabbitPassword = grailsApplication.config.rabbitmq.connectionfactory.password
+		String rabbitHostname = grailsApplication.config.getProperty("rabbitmq.connectionfactory.hostname")
+		String rabbitUsername = grailsApplication.config.getProperty("rabbitmq.connectionfactory.username")
+		String rabbitPassword = grailsApplication.config.getProperty("rabbitmq.connectionfactory.password")
 
 		def queueName = SmartHomeCoreConstantes.WORKFLOW_QUEUE
 		
@@ -48,12 +48,12 @@ class WorkflowRouteBuilder extends RouteBuilder {
 		.unmarshal().json(JsonLibrary.Gson, Map.class)
 		// détermine le workflow à exécuter
 		.setProperty("workflowLibelle").groovy("'Activiti_' + body.workflowName")
-		.setProperty("workflow").method("workflowService", "findByLibelle(exchangeProperty.workflowLibelle)")
+		.setProperty("workflow").method("workflowService", 'findByLibelle(${exchangeProperty.workflowLibelle})')
 		// filtre les messages sans worklow connu
 		.filter().simple('${exchangeProperty.workflow} != null')
 		// recupère l'objet datas
 		.setProperty("context").groovy('body')
 		// envoi les datas au service workflow
-		.to("bean:workflowService?method=execute(echangeProperty.workflow, exchangeProperty.context)")
+		.to('bean:workflowService?method=execute(${exchangeProperty.workflow}, ${exchangeProperty.context})')
 	}
 }

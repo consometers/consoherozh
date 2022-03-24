@@ -20,7 +20,7 @@ classe groovy d'implémentation **smarthome.automation.deviceType.Linky**
 
 ### authorization_code
 
-Nécessaire à la première connection pour renregister l'autorisaiton du compte de délégation client via
+Nécessaire à la première connection pour enregister l'autorisaiton du compte de délégation client via
 cette application auprès d'enedis . 
 
 ### consumptionLoadCurve

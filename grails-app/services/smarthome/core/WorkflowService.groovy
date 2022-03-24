@@ -220,6 +220,7 @@ class WorkflowService extends AbstractService {
 	 * @param libelle
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	Workflow findByLibelle(String libelle) {
 		return Workflow.findByLibelle(libelle)
 	}

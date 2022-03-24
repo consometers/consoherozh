@@ -12,7 +12,7 @@ En cliquant dessus, vous serez alors redirigé vers une page vous demandant un n
 
 sur la page du site :
 
-Un email pour réinitialiser votre mot de passe vous a été envoyé à l'adresse suivante : pl@artisanlogiciel.net
+Un email pour réinitialiser votre mot de passe vous a été envoyé à l'adresse suivante : <adresse mail>
 
 reception d'un mail :
 
