@@ -104,6 +104,10 @@ class UserService extends AbstractService {
 			user.lastActivation = new Date()
 			user.passwordExpired = true
 			user.password = UUID.randomUUID() // création d'un password fictif en attente du déblocage par l'utilisateur
+			// never save a User without an applicationKey and generate it only on server side.
+			if ( user.applicationKey == null ) {
+				user.applicationKey = UUID.randomUUID()
+			}
 		}
 
 

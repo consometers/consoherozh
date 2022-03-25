@@ -1,28 +1,13 @@
 package smarthome.automation
 
-import java.util.Date;
-import java.util.List;
-
-import grails.converters.JSON;
-import grails.plugin.cache.CachePut;
-import grails.plugin.cache.Cacheable;
-
-import org.apache.commons.lang.StringUtils;
-import grails.web.mapping.LinkGenerator;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Propagation;
-import grails.gorm.transactions.Transactional;
-
-import smarthome.core.AbstractService;
-import smarthome.core.AsynchronousMessage;
-import smarthome.core.ClassUtils;
-import smarthome.core.QueryUtils;
-import smarthome.automation.Chart;
-import smarthome.core.ExchangeType;
-import smarthome.core.SmartHomeException;
-import smarthome.core.chart.ChartTransformer;
-import smarthome.security.User;
-
+import grails.gorm.transactions.Transactional
+import org.apache.commons.lang.StringUtils
+import org.springframework.security.access.prepost.PreAuthorize
+import smarthome.automation.Chart
+import smarthome.core.AbstractService
+import smarthome.core.ClassUtils
+import smarthome.core.SmartHomeException
+import smarthome.core.chart.ChartTransformer
 
 class ChartService extends AbstractService {
 

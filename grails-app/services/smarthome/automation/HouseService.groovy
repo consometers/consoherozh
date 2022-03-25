@@ -127,8 +127,10 @@ group by chauffage.libelle
 			house.defaut = true
 			house.name = "Maison principale"
 		}
-		
-		return super.save(house)
+
+		house.save();
+		// grails 3, StackOverflow infinite recursion loop with super AbstractService
+		// return super.save(house)
 	}
 
 
