@@ -189,6 +189,8 @@ hibernate {
 		use_second_level_cache = true
 		use_query_cache = false
 		region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
+		// move to ehcache 3 jsr-107 api when possible
+		// region.factory_class=org.hibernate.cache.jcache.JCacheRegionFactory
 	}
 	singleSession = true // configure OSIV singleSession mode
 	// https://gorm.grails.org/6.1.x/hibernate/manual/#upgradeNotes
@@ -202,9 +204,7 @@ environments {
 		dataSource {
 			driverClassName = "org.postgresql.Driver"
 			dialect = org.hibernate.dialect.PostgreSQL82Dialect
-			// for migration plugin
-			dbCreate = none
-			//dbCreate = "update"
+			dbCreate = "update"
 			//dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
 			// ex : jdbc:postgresql://localhost:5432/smarthome
 			url = "${System.properties['smarthome.datasource.url']}"

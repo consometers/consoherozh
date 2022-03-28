@@ -40,6 +40,11 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     logger('org.springframework.security.web.authentication.rememberme',TRACE)
     logger('org.springframework.security.web.authentication',TRACE)
 
+
+    logger 'org.springframework.security', DEBUG
+    logger 'grails.plugin.springsecurity', DEBUG
+
+
     logger('org.hibernate',DEBUG)
 
     logger('net.sf.ehcache.hibernate',INFO)
