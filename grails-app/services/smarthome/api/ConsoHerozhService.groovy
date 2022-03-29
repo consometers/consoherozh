@@ -30,7 +30,7 @@ class ConsoHerozhService extends AbstractService {
                     mac: 'main',
                     label: type,
                     deviceType: DeviceType.findByImplClass(ManualCounter.name))
-            device.save()
+            device.save(flush:true)
         }
 
         return device
