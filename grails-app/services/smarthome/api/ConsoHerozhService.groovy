@@ -11,17 +11,32 @@ import smarthome.security.User
 
 class ConsoHerozhService extends AbstractService {
 
-    def serviceMethod() {
+    Device findMainDevice(User user, String type) {
 
+        List<Device> devices = Device.createCriteria().list {
+            eq 'user', user
+            eq 'label', type
+        }
+
+        Device device = null
+        if (! devices.isEmpty())
+        {
+            device = devices.last()
+            if ( devices.size() > 1 )
+            {
+                // multiple devices with same type created for a same user.
+                // this is acceptable for database model and can have distinct mac
+                // but this indicates a problem in consoherozh usage
+                log.warn "multiple devices ( ${devices.size()} ) with same name ${type} for ${user.username}"
+            }
+        }
+        return device
     }
 
     @Transactional(readOnly = false)
     Device findOrCreateMainDevice(User user, String type) {
 
-        Device device = Device.createCriteria().get {
-            eq 'user', user
-            eq 'label', type
-        }
+        Device device = findMainDevice(user, type)
 
         if (!device) {
             device = new Device(
@@ -37,10 +52,7 @@ class ConsoHerozhService extends AbstractService {
     }
 
     def getIndices(User user, String type) {
-        Device device = Device.createCriteria().get {
-            eq 'user', user
-            eq 'label', type
-        }
+        Device device = findMainDevice(user, type);
         if (!device) {
             return []
         }
@@ -65,11 +77,10 @@ class ConsoHerozhService extends AbstractService {
 
     @Transactional(readOnly = false)
     def removeIndex(User user, String type, String isoDate) {
-        Device device = findOrCreateMainDevice(user, type);
+        Device device = findMainDevice(user, type);
         if (!device) {
             return false
         }
-
         def values = DeviceValueDay.createCriteria().list {
             eq 'device', device
             eq 'dateValue', DateUtils.parseDateIso(isoDate)
