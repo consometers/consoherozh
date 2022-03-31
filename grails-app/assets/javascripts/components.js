@@ -567,52 +567,50 @@ class CounterManualEntriesTable extends HTMLElement {
 
     constructor() {
         super();
-
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(this.template.content.cloneNode(true));
-        let item = this.shadowRoot.getElementById('myChart');
-
-        this.chart = new Chart(item, {
+        var ctx = this.shadowRoot.getElementById('myChart').getContext('2d');
+        this.chart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: [],
                 datasets: [{
                     label: 'Moyenne journalière',
                     data: [],
-                    backgroundColor: ['rgba(54, 162, 235, 0.2)'],
-                    borderColor: ['rgba(54, 162, 235, 1)'],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: (tooltipItem) => {
-                                let v = formatValue(tooltipItem.parsed.y, {
-                                    unit: this.entries.humanUnit,
-                                    minimumFractionDigits: 0,
-                                    maximumFractionDigits: 2});
-                                return `Moyenne: ${v}/jour`;
-                            }
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: (tooltipItem) => {
+                            let value = formatValue(tooltipItem.yLabel, {
+                                unit: this.entries.humanUnit,
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2});
+                            return `Moyenne: ${value}/jour`;
                         }
                     }
                 },
                 scales: {
-                    x: {
+                    xAxes: [{
                         offset: true,
-                        grid: {
-                            offset: false
+                        gridLines: {
+                            offsetGridLines: false
                         }
-                    },
-                    y: {
-                        beginAtZero: true,                        
-                    }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }]
                 }
             }
         });
@@ -630,11 +628,9 @@ class CounterManualEntriesTable extends HTMLElement {
     }
 
     _render() {
-
         this.shadowRoot.getElementById('index-unit').innerText = this.entries.indexUnit;
-        const tbody = this.shadowRoot.querySelector('tbody');
 
-        // const tbody = this.template.content.querySelector('tbody');
+        const tbody = this.shadowRoot.querySelector('tbody');
         tbody.innerHTML = '';
 
         for (let entry of this.entries.aslist().reverse()) {
@@ -682,7 +678,6 @@ class CounterManualEntriesTable extends HTMLElement {
         }
 
         const chartContainer = this.shadowRoot.getElementById('chart-container');
-        // const chartContainer = this.template.content.getElementById('chart-container');
 
         if (this.entries.length > 2) {
             chartContainer.style.display = 'block';
@@ -697,8 +692,7 @@ class CounterManualEntriesTable extends HTMLElement {
                     this.chart.data.datasets[0].data.push(entry.meanConsumption);
                 }
             }
-            // this.chart.update();
-            this.chart.update('open')
+            this.chart.update();
         } else {
             chartContainer.style.display = 'none';
         }
