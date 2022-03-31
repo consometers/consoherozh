@@ -15,6 +15,7 @@
       connected
       view-entries-url="${createLink(controller: "device", action: "deviceChart", params:['device.id': linky.device.id])}"
       <g:if test="${!linky.isConnected()}">expired</g:if>
+      standby-power-usage-url="${createLink(controller: "device", action: "standbyPowerUsage", params:['device.id': linky.device.id])}"
   </g:if>>
     <ion-icon slot="icon" name="flash-outline"></ion-icon>
     <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>

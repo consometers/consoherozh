@@ -504,4 +504,25 @@ class DeviceController extends AbstractController {
 		render (template: 'deviceActivite', model: [lastDevices: lastDevices,
 			countOpenAlert: countOpenAlert])
 	}
+
+	/**
+	 * minimal power consumption over a period
+	 * intends to compute power wasted by devices in standby mode
+	 *
+	 * parameters :
+	 * 'device.id' mandatory id of device
+	 * 'start' mandatory string formatted dd/MM/yyyy HH:mm
+	 * 'period' reference period in seconds, default to 1 day ( 24*36000 s)
+	 * 'end' optional string formatted dd/MM/yyyy HH:mm
+	 *       if not set default to start + period as days
+	 */
+	def standbyPowerUsage() {
+		Date start = Date.parse(DateUtils.FORMAT_DATETIME_USER, params.start)
+		long period = params.period? Long.parseLong(params.period) : 24*3600
+		Date end = params.end? Date.parse(DateUtils.FORMAT_DATETIME_USER, params.end) :
+				(use(TimeCategory){start + Math.max( 1, (int) ( period / (24*3600))).days})
+		Device device = Device.read(params.device.id)
+		long minPower = device? deviceValueService.standbyPowerUsageFromValue(device, start, end, period) : 0
+		render( model:[minPower: minPower])
+	}
 }

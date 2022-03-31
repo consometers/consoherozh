@@ -441,7 +441,7 @@ class DeviceValueService extends AbstractService {
 		}
 
 
-		// TODO : changer imlémentation en fonction utilisateur
+		// TODO : changer implémentation en fonction utilisateur
 		// provisoire le temps de créer d'autres impls
 		DeviceValueExport deviceValueExport = new DulceExcelDeviceValueExport()
 		ApplicationUtils.autowireBean(deviceValueExport)
@@ -499,4 +499,67 @@ class DeviceValueService extends AbstractService {
 
 		return ids
 	}
+
+	/**
+	 * return minimal power usage over a period
+	 * intends to compute power wasted by devices in standby mode
+     * data period is inferred by checking next value date.
+	 * ( this works if period is not variable ).
+	 *
+ 	 * parameters :
+	 * 'device' mandatory device
+	 * 'start' mandatory start Date of values gathering
+	 * 'end' mandatory start Date of values gathering
+	 * 'period' reference period in seconds
+	 * 'valueName' default to 'baseinst' (wh)
+	 *
+	 * return Wh 'wasted' for period
+	 */
+	@Transactional(readOnly = true, rollbackFor = [SmartHomeException])
+	double standbyPowerUsageFromValue(Device device, Date start, Date end, long period, String valueName = 'baseinst') throws SmartHomeException {
+		def metanames = [valueName]
+		List minValues = DeviceValue.executeQuery("""SELECT min(deviceValue.value)
+				FROM DeviceValue deviceValue 
+				WHERE deviceValue.dateValue BETWEEN :startDate AND :endDate
+				AND deviceValue.device = :device				
+				AND deviceValue.name in (:metanames)""",
+				[device: device, startDate: start, endDate: end, metanames: metanames])
+		log.info( "min values :" + minValues)
+		Double minPower = minValues.isEmpty() ? null : minValues.last();
+		if ( minPower != null ) {
+			List datesPeriodStart = DeviceValue.executeQuery(""" SELECT deviceValue.dateValue
+				FROM DeviceValue deviceValue
+				WHERE deviceValue.value = :minValue
+				AND deviceValue.dateValue BETWEEN :startDate AND :endDate
+				AND deviceValue.device = :device
+				AND deviceValue.name in (:metanames)""",
+				[device: device, startDate: start, endDate: end, minValue: minPower, metanames: metanames])
+			log.info("date period start" + datesPeriodStart)
+
+			Date datePeriodStart = datesPeriodStart.first()
+			List datesPeriodEnd = DeviceValue.executeQuery(""" SELECT min(deviceValue.dateValue)
+				FROM DeviceValue deviceValue
+				WHERE deviceValue.dateValue > :dateSelected
+				AND deviceValue.device = :device					
+				AND deviceValue.name in (:metanames)""",
+				[device: device, dateSelected: datePeriodStart,metanames: metanames])
+			if ( ! datesPeriodEnd.isEmpty() )
+			{
+				Date datePeriodEnd = datesPeriodEnd.first()
+				if ( datePeriodEnd != null ) {
+					log.info("date period end" + datePeriodEnd)
+					long periodLengthSeconds = (datePeriodEnd.getTime() - datePeriodStart.getTime()) / 1000
+					if (periodLengthSeconds > 0) {
+						minPower = (minPower * period) / periodLengthSeconds
+					}
+				}
+			}
+		}
+		else {
+			minPower = -1.0
+			log.debug("no DeviceValue found to compute min power for device " + device.id + " for this period " + start + " " + end )
+		}
+		return minPower? minPower.doubleValue() : 0.0
+	}
+
 }
