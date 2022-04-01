@@ -38,7 +38,7 @@
 
 <script type="text/javascript">
     {
-        let entries = new CounterEntries("kWh", "L", <%= electricityIndices %>);
+        let entries = new CounterEntries("kWh", "kWh", <%= electricityIndices %>);
         entries.recordUrl = "<%= createLink(controller: "consoHerozh", action: "recordIndex", params:['type': 'Électricité']) %>";
         entries.removeUrl = "<%= createLink(controller: "consoHerozh", action: "removeIndex", params:['type': 'Électricité']) %>";
         querySelectorLast(document, 'counter-manual').entries = entries;
