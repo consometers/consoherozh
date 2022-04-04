@@ -118,6 +118,17 @@ class Linky extends AbstractDeviceType {
 					return null
 				}
 			})
+
+			// temporary for testing
+			chart.colonnes << new GoogleDataTableCol(label: 'idle', type: "number", value: { deviceValue, index, currentChart ->
+				def value = deviceValue.value.find{ it.name == "idle" }?.value
+				if (value != null) {
+					return (value / 1000d).round(1)
+				} else {
+					return null
+				}
+			})
+
 		}
 
 		return chart

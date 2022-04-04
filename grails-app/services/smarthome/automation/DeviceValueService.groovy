@@ -501,7 +501,7 @@ class DeviceValueService extends AbstractService {
 	}
 
 	/**
-	 * return minimal power usage over a period
+	 * return minimal idle power usage over a period
 	 * intends to compute power wasted by devices in standby mode
      * data period is inferred by checking next value date.
 	 * ( this works if period is not variable ).
@@ -513,10 +513,10 @@ class DeviceValueService extends AbstractService {
 	 * 'period' reference period in seconds
 	 * 'valueName' default to 'baseinst' (wh)
 	 *
-	 * return Wh 'wasted' for period
+	 * return Wh idle 'wasted' for period. null if no data within start - end period.
 	 */
 	@Transactional(readOnly = true, rollbackFor = [SmartHomeException])
-	double standbyPowerUsageFromValue(Device device, Date start, Date end, long period, String valueName = 'baseinst') throws SmartHomeException {
+	Double idlePowerUsageFromValue(Device device, Date start, Date end, long period, String valueName = 'baseinst') throws SmartHomeException {
 		def metanames = [valueName]
 		List minValues = DeviceValue.executeQuery("""SELECT min(deviceValue.value)
 				FROM DeviceValue deviceValue 
@@ -525,15 +525,17 @@ class DeviceValueService extends AbstractService {
 				AND deviceValue.name in (:metanames)""",
 				[device: device, startDate: start, endDate: end, metanames: metanames])
 		log.info( "min values :" + minValues)
-		Double minPower = minValues.isEmpty() ? null : minValues.last();
-		if ( minPower != null ) {
+		Double idlePower = minValues.isEmpty() ? null : minValues.last();
+
+		// compute period corresponding to captured idlePower
+		if ( idlePower != null ) {
 			List datesPeriodStart = DeviceValue.executeQuery(""" SELECT deviceValue.dateValue
 				FROM DeviceValue deviceValue
 				WHERE deviceValue.value = :minValue
 				AND deviceValue.dateValue BETWEEN :startDate AND :endDate
 				AND deviceValue.device = :device
 				AND deviceValue.name in (:metanames)""",
-				[device: device, startDate: start, endDate: end, minValue: minPower, metanames: metanames])
+				[device: device, startDate: start, endDate: end, minValue: idlePower, metanames: metanames])
 			log.info("date period start" + datesPeriodStart)
 
 			Date datePeriodStart = datesPeriodStart.first()
@@ -548,18 +550,56 @@ class DeviceValueService extends AbstractService {
 				Date datePeriodEnd = datesPeriodEnd.first()
 				if ( datePeriodEnd != null ) {
 					log.info("date period end" + datePeriodEnd)
-					long periodLengthSeconds = (datePeriodEnd.getTime() - datePeriodStart.getTime()) / 1000
+					// should not be more than 30 minutes ( enedis gathering 10 or 30 minutes ).
+					long periodLengthSeconds = (long) Math.min( (double) 30*60, (double) (datePeriodEnd.getTime() - datePeriodStart.getTime()) / 1000)
 					if (periodLengthSeconds > 0) {
-						minPower = (minPower * period) / periodLengthSeconds
+						idlePower = (idlePower * period) / periodLengthSeconds
 					}
 				}
 			}
 		}
 		else {
-			minPower = -1.0
 			log.debug("no DeviceValue found to compute min power for device " + device.id + " for this period " + start + " " + end )
 		}
-		return minPower? minPower.doubleValue() : 0.0
+		return idlePower
 	}
+
+	/** will create a deviceValueDay 'idle' for this device **/
+	void buildIdlePowerForDay(Device device, Date day)
+	{
+		Date start = DateUtils.firstTimeInDay(day);
+		Date end = DateUtils.lastTimeInDay(day);
+		Double idlePowerForDay = idlePowerUsageFromValue(device, start, end, 24 * 3600, 'baseinst');
+		if (idlePowerForDay) {
+			addDeviceValueDay(device, start,'idle', idlePowerForDay)
+		}
+	}
+
+	/** will create a DeviceValueMonth 'idle' for this device
+	 *  based on DeviceValues ( ie not from DeviceValuesDays )
+	 *  trigger computation for days too.
+	 **/
+	Double buildIdlePowerForMonth(Device device, Date day)
+	{
+		Date start = DateUtils.firstDayInMonth(day);
+		Date end = DateUtils.lastDayInMonth(day);
+		int daysInMonth = 31;
+		for ( int dayOfMonth = 0 ; dayOfMonth < 32; dayOfMonth ++)
+		{
+			Date dayToAdd = use(groovy.time.TimeCategory){start +dayOfMonth.days}
+			if ( dayToAdd.before(end))
+			{
+				buildIdlePowerForDay(device,dayToAdd)
+				// lazzy way to get number of days in this month
+				daysInMonth = dayOfMonth
+			}
+		}
+		Double idlePowerForMonth = idlePowerUsageFromValue(device, start, end, daysInMonth * 24 * 3600, 'baseinst');
+		if (idlePowerForMonth) {
+			addDeviceValueMonth(device, start,'idle', idlePowerForMonth)
+		}
+		return idlePowerForMonth
+	}
+
 
 }

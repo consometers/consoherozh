@@ -3,14 +3,10 @@ package smarthome.consoherozh
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import smarthome.api.ConsoHerozhService
-import smarthome.automation.Device
 import smarthome.automation.DeviceValueDay
-import smarthome.automation.NotificationAccount
-import smarthome.automation.NotificationAccountSender
 import smarthome.automation.deviceType.Linky
 import smarthome.core.AbstractController
 import smarthome.datachallenge.DataChallengeService
-import smarthome.security.User
 
 import java.text.SimpleDateFormat
 
@@ -56,6 +52,7 @@ class ConsoHerozhController extends AbstractController {
                 date: isoDateFormat.format(it.dateValue),
                 value: it.value
         ] }
+
         render(view: 'dashboard', model: [
                 linkyDays: linkyDays as JSON,
                 electricityIndices: electricityIndices as JSON,

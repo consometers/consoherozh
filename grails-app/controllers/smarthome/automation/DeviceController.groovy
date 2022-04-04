@@ -4,17 +4,13 @@ import groovy.time.TimeCategory
 import org.springframework.security.access.annotation.Secured
 
 import smarthome.core.AbstractController
-import smarthome.core.ChartUtils
 import smarthome.core.DateUtils
 import smarthome.core.ExceptionNavigationHandler
-import smarthome.core.QueryUtils
-import smarthome.core.SmartHomeException
 import smarthome.core.chart.GoogleChart
 import smarthome.plugin.NavigableAction
 import smarthome.plugin.NavigationEnum
 import smarthome.security.User
 import smarthome.security.UserFriendService
-import smarthome.security.UserService
 
 import java.sql.Timestamp
 
@@ -506,8 +502,8 @@ class DeviceController extends AbstractController {
 	}
 
 	/**
-	 * minimal power consumption over a period
-	 * intends to compute power wasted by devices in standby mode
+	 * idle power consumption over a period
+	 * intends to compute power wasted by devices in idle mode
 	 *
 	 * parameters :
 	 * 'device.id' mandatory id of device
@@ -516,13 +512,25 @@ class DeviceController extends AbstractController {
 	 * 'end' optional string formatted dd/MM/yyyy HH:mm
 	 *       if not set default to start + period as days
 	 */
-	def standbyPowerUsage() {
+	def idlePowerUsage() {
 		Date start = Date.parse(DateUtils.FORMAT_DATETIME_USER, params.start)
 		long period = params.period? Long.parseLong(params.period) : 24*3600
 		Date end = params.end? Date.parse(DateUtils.FORMAT_DATETIME_USER, params.end) :
-				(use(TimeCategory){start + Math.max( 1, (int) ( period / (24*3600))).days})
+				(use(TimeCategory){Math.max( 1, (int) ( period / (24*3600))).days})
 		Device device = Device.read(params.device.id)
-		long minPower = device? deviceValueService.standbyPowerUsageFromValue(device, start, end, period) : 0
-		render( model:[minPower: minPower])
+		Double idlePower = device? deviceValueService.idlePowerUsageFromValue(device, start, end, period) : null
+		render(model:[idlePower: idlePower? idlePower.toLong() : 0 ])
+	}
+
+	/**
+	 * Force computation of 'idle' counter for a month
+	 * will trigger build for days too.
+	 */
+	def buildIdlePowerUsageForMonth()
+	{
+		Date start = Date.parse(DateUtils.FORMAT_DATETIME_USER, params.start)
+		Device device = Device.read(params.device.id)
+		Double idlePower = deviceValueService.buildIdlePowerForMonth(device, start)
+		render(model:[idlePower: idlePower? idlePower.toLong() : 0 ])
 	}
 }

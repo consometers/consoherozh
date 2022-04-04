@@ -302,7 +302,7 @@ class DataConnectService extends AbstractService {
 
 		if (notificationAccount.jsonConfig.last_daily_consumption) {
 			// si un appel a déjà été fait, il correspond au jour concerné
-			// donc on doit récupéré les données du jour suivant
+			// donc on doit récupérer les données du jour suivant
 			start = new Date(notificationAccount.jsonConfig.last_daily_consumption as Long).clearTime()
 			use(TimeCategory) {
 				start = start + 1.day
