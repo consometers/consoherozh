@@ -584,14 +584,14 @@ class DeviceValueService extends AbstractService {
 		Date start = DateUtils.firstDayInMonth(day);
 		Date end = DateUtils.lastDayInMonth(day);
 		int daysInMonth = 31;
-		for ( int dayOfMonth = 0 ; dayOfMonth < 32; dayOfMonth ++)
+		for ( int dayOffset = 0 ; dayOffset < 32; dayOffset ++)
 		{
-			Date dayToAdd = use(groovy.time.TimeCategory){start +dayOfMonth.days}
+			Date dayToAdd = use(groovy.time.TimeCategory){start + dayOffset.days}
 			if ( dayToAdd.before(end))
 			{
 				buildIdlePowerForDay(device,dayToAdd)
 				// lazzy way to get number of days in this month
-				daysInMonth = dayOfMonth
+				daysInMonth = dayOffset + 1
 			}
 		}
 		Double idlePowerForMonth = idlePowerUsageFromValue(device, start, end, daysInMonth * 24 * 3600, 'baseinst');
