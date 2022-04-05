@@ -1,6 +1,7 @@
 <html>
 <head>
-<meta name='layout' content='authenticated-chart' />
+	<!-- <meta name='layout' content='authenticated-chart' /> -->
+	<meta name='layout' content='consoherozh-app' />
 </head>
 
 <body onload="onLoadDeviceChart();">

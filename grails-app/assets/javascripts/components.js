@@ -803,3 +803,48 @@ class CounterConnected extends HTMLElement {
 }
 
 window.customElements.define('counter-connected', CounterConnected);
+
+// extracted from  user/chart.js user/device.js for chart support deviceChart.gsp
+// works without jQuery
+function onLoadChart() {
+
+    const navigationCharForm = document.getElementById('navigation-chart-form')
+    // bind navigation-chart-XXX-buttons to viewNode and navigation form values
+    if ( navigationCharForm ) {
+        /*
+        on("#navigation-chart-form', 'change',  '#dateChart", function () {
+            navigationCharForm.submit()
+        })
+        */
+        const viewMode = document.getElementById('viewMode');
+        if (viewMode) {
+            const periods = [ 'day', 'month', 'year']
+            periods.forEach( function(period)
+                {
+                    const button = document.getElementById('navigation-chart-' + period + '-button')
+                    if ( button )
+                    {
+                        button.onclick = function () {
+                            viewMode.value = period;
+                        };
+                    }
+                })
+        }
+        const navigation = document.getElementById('navigation');
+        if (navigation) {
+            const ways = [ 'prev','next']
+            ways.forEach( function(way) {
+                const button = document.getElementById('navigation-chart-' + way + '-button')
+                if (button) {
+                    button.onclick = function () {
+                        navigation.value = way;
+                    };
+                }
+            })
+        }
+    }
+}
+
+function onLoadDeviceChart() {
+	onLoadChart()
+}

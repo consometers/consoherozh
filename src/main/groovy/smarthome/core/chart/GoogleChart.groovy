@@ -1,14 +1,10 @@
 package smarthome.core.chart
 
 import grails.converters.JSON
-import grails.web.JSONBuilder
+import groovy.json.JsonBuilder
 import groovy.time.TimeCategory
-
-import java.util.List
-
 import smarthome.automation.ChartViewEnum
 import smarthome.core.DateUtils
-
 
 class GoogleChart {
 	String title
@@ -21,6 +17,61 @@ class GoogleChart {
 	GoogleChart joinChart
 
 
+	JSON toChartjsCurve() {
+		JsonBuilder builder = new JsonBuilder();
+
+		def loadCurve = []
+
+		values.eachWithIndex { deviceValue, index ->
+			def values = []
+			def row = ["x" : "d"];
+
+			for (GoogleDataTableCol col : colonnes) {
+				def value = null
+
+				if (col.staticValue) {
+					value = col.staticValue
+				} else if (col.value) {
+					value = col.value(deviceValue, index, this)
+				} else if (col.property) {
+					value = deviceValue[(col.property)]
+				} else if (col.metaName && metaValues.size() == values.size()) {
+					value = metaValues[index][(col.metaName)]
+				}
+
+				// cas spécial pour les dates qui doivent être formattées avec le mot clé "Date"
+				// @see https://developers.google.com/chart/interactive/docs/datesandtimes
+				if (value instanceof Date) {
+					if (col.type == "timeofday") {
+						value = [value[Calendar.HOUR_OF_DAY], value[Calendar.MINUTE], value[Calendar.SECOND]]
+					} else {
+						String format = "yyyy-MM-dd'T'hh:mm:ssXXX"
+						row["x"] = value.format(format)
+					}
+				}
+				else
+				{
+					row["y"] = value
+				}
+
+				// TODO(cyril) Fixes null values breaking diff google chart
+				if (value == null) {
+					value = 0
+				}
+
+				values << [v: value]
+			}
+
+			if (deviceValue?.hasProperty('id')) {
+				row["p"] = [deviceValueId: deviceValue.id]
+			}
+
+			loadCurve << row
+		}
+
+		return builder.build( "loadCurve": loadCurve)
+	}
+
 
 	/**
 	 * Transformation des données en JSON
@@ -29,7 +80,7 @@ class GoogleChart {
 	 * @return
 	 */
 	JSON toJsonDataTable() {
-		JSONBuilder builder = new JSONBuilder()
+		JsonBuilder builder = new JsonBuilder()
 
 		def dataTableRows = []
 

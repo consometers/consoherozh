@@ -49,7 +49,8 @@ class Linky extends AbstractDeviceType {
 	 */
 	@Override
 	String viewChart() {
-		'/deviceType/linky/linkyChart'
+		// '/deviceType/linky/linkyChart'
+		'/consoHerozh/linkyDashboardChart'
 	}
 
 
