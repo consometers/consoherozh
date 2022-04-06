@@ -569,48 +569,51 @@ class CounterManualEntriesTable extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(this.template.content.cloneNode(true));
-        var ctx = this.shadowRoot.getElementById('myChart').getContext('2d');
-        this.chart = new Chart(ctx, {
+        const item = this.shadowRoot.getElementById('myChart');
+        this.chart = new Chart(item, {
             type: 'bar',
             data: {
                 labels: [],
                 datasets: [{
                     label: 'Moyenne journalière',
                     data: [],
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
+                    backgroundColor: ['rgba(54, 162, 235, 0.2)'],
+                    borderColor: ['rgba(54, 162, 235, 1)'],
+                    borderWidth: 1,
+                    categoryPercentage: 1.0,
+                    barPercentage: 1.0
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    callbacks: {
-                        label: (tooltipItem) => {
-                            let value = formatValue(tooltipItem.yLabel, {
-                                unit: this.entries.humanUnit,
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 2});
-                            return `Moyenne: ${value}/jour`;
+                plugin: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (tooltipItem) => {
+                                let value = formatValue(tooltipItem.parsed.y, {
+                                    unit: this.entries.humanUnit,
+                                    minimumFractionDigits: 0,
+                                    maximumFractionDigits: 2
+                                });
+                                return `Moyenne: ${value}/jour`;
+                            }
                         }
                     }
                 },
                 scales: {
-                    xAxes: [{
+                    x: {
                         offset: true,
-                        gridLines: {
-                            offsetGridLines: false
+                        grid: {
+                            offset: false
                         }
-                    }],
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        }
-                    }]
+                    },
+                    y: {
+                        beginAtZero: true,
+                    }
                 }
             }
         });

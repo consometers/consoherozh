@@ -103,7 +103,7 @@ function formatValue(value, options={}) {
 
 function querySelectorLast(element, selector) {
     let elements = element.querySelectorAll(selector);
-    return elements[elements.length - 1];
+    return elements.length === 0 ? null : elements[elements.length - 1];
 }
 
 class CachedTemplates {
