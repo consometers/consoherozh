@@ -34,7 +34,6 @@
     <ion-icon slot="icon" name="flash-outline"></ion-icon>
     <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>
 </counter-manual>
-</g:if>
 
 <script type="text/javascript">
     {
@@ -44,6 +43,7 @@
         querySelectorLast(document, 'counter-manual').entries = entries;
     }
 </script>
+</g:if>
 
 <counter-manual class="draggable" title="Eau">
     <ion-icon slot="icon" name="water-outline"></ion-icon>
