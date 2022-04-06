@@ -1,5 +1,6 @@
 package smarthome.automation
 
+import grails.converters.JSON
 import groovy.time.TimeCategory
 import org.springframework.security.access.annotation.Secured
 
@@ -200,16 +201,12 @@ class DeviceController extends AbstractController {
 	}
 
 
-	/**
-	 * Graphique des values du device
-	 * 
-	 * @return
-	 */
-	def deviceChart(DeviceChartCommand command) {
+	def internalDeviceChart(DeviceChartCommand command)
+	{
 		def user = authenticatedUser
 		deviceService.assertSharedAccess(command.device, user)
 
-        // FIXME cyril overrides compare with previous year for simpler UX
+		// FIXME cyril overrides compare with previous year for simpler UX
 		command.comparePreviousYear = (command.viewMode == ChartViewEnum.year)
 
 		GoogleChart chart = deviceValueService.createChart(command)
@@ -243,8 +240,43 @@ class DeviceController extends AbstractController {
 			}
 		}
 
-		render(view: 'deviceChart', model: [command: command, chart: chart, secUser: user,
-			compareChart: compareChart])
+		return [ command: command, chart: chart, secUser: user,  compareChart: compareChart ];
+
+	}
+
+	/**
+	 * Graphique des values du device
+	 * 
+	 * @return
+	 */
+	def deviceChart(DeviceChartCommand command) {
+
+		LinkedHashMap<String,Object> result = internalDeviceChart(command)
+
+        withFormat {
+            html { render(view: 'deviceChart', model: result)}
+			json { render( model:[chart:result.chart]) }
+        }
+
+	}
+
+	/**
+	 * Graphique des values du device en Json
+	 *
+	 * @return
+	 */
+	def deviceChartJson(DeviceChartCommand command) {
+
+		LinkedHashMap<String,Object> result = internalDeviceChart(command)
+		def thisChart = result.get('chart')
+		if (thisChart instanceof GoogleChart)
+		{
+			render ( [loadCurve: ((GoogleChart) thisChart).buildLoadCurve()] as JSON)
+		}
+		else
+		{
+			render( model:[chart:result.chart])
+		}
 	}
 
 

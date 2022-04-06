@@ -16,9 +16,7 @@ class GoogleChart {
 	List<Map> vAxis = []
 	GoogleChart joinChart
 
-
-	JSON toChartjsCurve() {
-		JsonBuilder builder = new JsonBuilder();
+    def buildLoadCurve() {
 
 		def loadCurve = []
 
@@ -68,8 +66,13 @@ class GoogleChart {
 
 			loadCurve << row
 		}
+		return loadCurve
+	}
 
-		return builder.build( "loadCurve": loadCurve)
+	JSON toChartjsCurve() {
+		JsonBuilder builder = new JsonBuilder();
+
+		return builder.build( "loadCurve": buildLoadCurve())
 	}
 
 

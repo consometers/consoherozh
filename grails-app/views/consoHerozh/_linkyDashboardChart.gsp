@@ -9,13 +9,14 @@
 
     <script>
 
-        // TODO use Ajax XHTMLRequest
+        const linkyChart = new LinkyChart();
+        // TODO use Ajax XMLHttpRequest
         // injected data from controller model.
         var builtcurve = ${ raw(chart.toChartjsCurve().toString(false))};
         // build is added by JsonBuilder while using loadcurve was a quick way to return a hashlist
         var curves = builtcurve.build;
         // in javascript asset consoherozh/linky.js
-        linkyChart(curves)
+        linkyChart.fillLinkyChart(curves)
 
     </script>
 
