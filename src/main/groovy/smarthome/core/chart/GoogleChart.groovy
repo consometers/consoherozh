@@ -16,15 +16,15 @@ class GoogleChart {
 	List<Map> vAxis = []
 	GoogleChart joinChart
 
-    def buildLoadCurve() {
+	def buildCurve( String colSelector) {
 
 		def loadCurve = []
-
+		List<GoogleDataTableCol> selectedCols = colonnes.findAll({it.label.equals ('Date') || it.label.contains(colSelector)  })
 		values.eachWithIndex { deviceValue, index ->
 			def values = []
 			def row = ["x" : "d"];
 
-			for (GoogleDataTableCol col : colonnes) {
+			for (GoogleDataTableCol col : selectedCols) {
 				def value = null
 
 				if (col.staticValue) {
@@ -67,6 +67,16 @@ class GoogleChart {
 			loadCurve << row
 		}
 		return loadCurve
+	}
+
+	def buildLoadCurve() {
+		// see Linky.groovy hack through.
+		return buildCurve( "Consommation")
+	}
+
+	def buildIdleCurve() {
+		// see Linky.groovy hack through.
+		return buildCurve( "idle")
 	}
 
 	JSON toChartjsCurve() {

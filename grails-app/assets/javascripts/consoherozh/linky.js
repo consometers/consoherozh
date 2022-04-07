@@ -107,7 +107,7 @@ class LinkyChart {
         return this.linkyChart;
     }
 
-    setLoadCurve(loadcurve)
+    setLoadCurve(loadcurve, idlecurve = null)
     {
         if (Array.isArray(loadcurve) && loadcurve.length > 0) {
 
@@ -115,8 +115,7 @@ class LinkyChart {
 
             // update chart datas
             thisChart.data.datasets[0].data = loadcurve;
-            // todo check if idle data provided by server
-            thisChart.data.datasets[1].data = computeIdleData(loadcurve);
+            thisChart.data.datasets[1].data = idlecurve ? idlecurve : computeIdleData(loadcurve);
             thisChart.update();
         }
     }
@@ -153,7 +152,7 @@ class LinkyChart {
                     if ( req.responseText.startsWith('{"loadCurve"') )
                     {
                         var json = JSON.parse(req.responseText);
-                        thisNested.setLoadCurve(json.loadCurve);
+                        thisNested.setLoadCurve(json.loadCurve, json.idleCurve );
 
                         if ( json.command ) {
                             // update date on navigation action.

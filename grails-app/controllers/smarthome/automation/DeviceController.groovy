@@ -271,7 +271,12 @@ class DeviceController extends AbstractController {
 		def thisChart = result.get('chart')
 		if (thisChart instanceof GoogleChart)
 		{
-			render ( [loadCurve: ((GoogleChart) thisChart).buildLoadCurve(), command:command] as JSON)
+			def idleCurve = null
+			if ( command.viewMode.isMonthOrYear() )
+			{
+				idleCurve = ((GoogleChart) thisChart).buildIdleCurve()
+			}
+			render ( [loadCurve: ((GoogleChart) thisChart).buildLoadCurve(), idleCurve: idleCurve, command:command] as JSON)
 		}
 		else
 		{
