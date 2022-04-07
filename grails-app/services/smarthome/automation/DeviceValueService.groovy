@@ -205,11 +205,12 @@ class DeviceValueService extends AbstractService {
 	/**
 	 * Création d'un chart
 	 * 
-	 * @param command
+	 * @param command : will be updated
 	 * @return
 	 * @throws SmartHomeException
 	 */
 	GoogleChart createChart(DeviceChartCommand command) throws SmartHomeException {
+		// side effect update command.dateChart
 		command.navigation()
 		command.deviceImpl = command.device.newDeviceImpl()
 		def datas = []

@@ -2,27 +2,30 @@
 function computeIdleData(loadcurve) {
     moment.locale('fr')
 
-    var loadcurve_step_ms = moment(loadcurve[1].x) - moment(loadcurve[0].x);
-    var idle_consumption = null;
+    if ( loadcurve.length > 1 ) {
+        var loadcurve_step_ms = moment(loadcurve[1].x) - moment(loadcurve[0].x);
+        var idle_consumption = null;
 
-    for (point of loadcurve) {
-        // computes min(point.y)
-        if (idle_consumption == null || point.y < idle_consumption) {
-            idle_consumption = point.y;
+        for (point of loadcurve) {
+            // computes min(point.y)
+            if (idle_consumption == null || point.y < idle_consumption) {
+                idle_consumption = point.y;
+            }
+            point.label = point.y + " Wh";
+            var time = moment(point.x)
+            point.title = 'de ' + time.format('HH:mm') + ' à ' + time.add(loadcurve_step_ms, 'milliseconds').format('HH:mm');
+            // TODO(cyril) did not manage to display bars after the associated x value
+            // (currently centered on the x value)
+            point.x = time.subtract(loadcurve_step_ms / 2, 'milliseconds');
         }
-        point.label = point.y + " Wh";
-        var time = moment(point.x)
-        point.title = 'de ' + time.format('HH:mm') + ' à ' + time.add(loadcurve_step_ms, 'milliseconds').format('HH:mm');
-        // TODO(cyril) did not manage to display bars after the associated x value
-        // (currently centered on the x value)
-        point.x = time.subtract(loadcurve_step_ms / 2, 'milliseconds');
+
+        //var suspend = people.map(({ point }) => {...point, ...{y: suspend_consumption}});
+        //var suspend = loadcurve.map(point => Object.assign(point, {y: suspend_consumption}));
+        var idle = loadcurve.map(point => Object.assign(Object.assign({}, point), {y: idle_consumption}));
+
+        return idle;
     }
-
-    //var suspend = people.map(({ point }) => {...point, ...{y: suspend_consumption}});
-    //var suspend = loadcurve.map(point => Object.assign(point, {y: suspend_consumption}));
-    var idle = loadcurve.map(point => Object.assign(Object.assign({}, point), {y: idle_consumption}));
-
-    return idle;
+    return [];
 }
 
 class LinkyChart {
@@ -77,7 +80,8 @@ class LinkyChart {
                                 offset: false
                             },
                             time: {
-                                unit: 'hour',
+                                // let jchart magic occur here, work automatically for hours, days, month
+                                // unit: 'hour',
                                 unitStepSize: 1,
                                 displayFormats: {
                                     'hour': 'HH:mm',
@@ -136,7 +140,6 @@ class LinkyChart {
 
     requestChartUpdate(formData) {
         if (this.chartDataUrl) {
-            // let url = `${this.getChartDataUrl}&date=${formatIsoDate(entry.date)}&index=${entry.value}`;
             let url = this.chartDataUrl
             let req = new XMLHttpRequest();
             let thisNested = this;
@@ -151,6 +154,22 @@ class LinkyChart {
                     {
                         var json = JSON.parse(req.responseText);
                         thisNested.setLoadCurve(json.loadCurve);
+
+                        if ( json.command ) {
+                            // update date on navigation action.
+                            // command ~ form
+                            const dateChart = document.getElementById('dateChart');
+                            const formattedDate = moment(json.command.dateChart).format('yyyy-MM-DD');
+                            console.log('dateChart ' + json.command.dateChart + ' was ' + dateChart.value + ' formatted=' + formattedDate);
+                            dateChart.value = formattedDate;
+                            // reset navigation
+                            const navigation = document.getElementById('navigation');
+                            navigation.value = '';
+                        }
+                    }
+                    else
+                    {
+                        thisNested.setLoadCurve([]);
                     }
                 }
             };
@@ -165,10 +184,11 @@ class LinkyChart {
     prepare() {
         const navigationCharForm = document.getElementById('navigation-chart-form');
         const thisLinkyChart = this;
+        // relative Url
+        thisLinkyChart.chartDataUrl='/device/deviceChartJson?';
         navigationCharForm.addEventListener( "submit", function ( event ) {
             event.preventDefault();
             let formData = new FormData(navigationCharForm);
-            thisLinkyChart.chartDataUrl='http://localhost:8080/device/deviceChartJson?';
             thisLinkyChart.requestChartUpdate(formData);
         } );
     }

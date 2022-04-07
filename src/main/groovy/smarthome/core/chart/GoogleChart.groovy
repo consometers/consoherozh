@@ -43,7 +43,7 @@ class GoogleChart {
 					if (col.type == "timeofday") {
 						value = [value[Calendar.HOUR_OF_DAY], value[Calendar.MINUTE], value[Calendar.SECOND]]
 					} else {
-						String format = "yyyy-MM-dd'T'hh:mm:ssXXX"
+						String format = "yyyy-MM-dd'T'HH:mm:ssXXX"
 						row["x"] = value.format(format)
 					}
 				}

@@ -271,7 +271,7 @@ class DeviceController extends AbstractController {
 		def thisChart = result.get('chart')
 		if (thisChart instanceof GoogleChart)
 		{
-			render ( [loadCurve: ((GoogleChart) thisChart).buildLoadCurve()] as JSON)
+			render ( [loadCurve: ((GoogleChart) thisChart).buildLoadCurve(), command:command] as JSON)
 		}
 		else
 		{
