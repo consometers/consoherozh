@@ -340,10 +340,9 @@ class LinkyChart {
                             const buildIdleCheckBox = document.getElementById( 'navigation-chart-build-idle-checkbox');
                             const buildIdle = document.getElementById('buildIdle');
                             if ( buildIdleCheckBox && buildIdle ) {
-                                // nope checked is reset, rely on value
-                                // buildIdleCheckBox.checked = buildIdle.checked;
-                                buildIdleCheckBox.checked = ( buildIdle.value === "true" )
-                                buildIdleCheckBox.value = buildIdle.value
+                                // buildIdle sent as value, received as checked.
+                                buildIdleCheckBox.checked = buildIdle.checked;
+                                buildIdle.value = buildIdle.checked ? "true" : "false"
                             }
                         }
                     }
@@ -427,8 +426,8 @@ function onLoadChart() {
         if (buildIdleCheckBox) {
             buildIdleCheckBox.checked = false;
             buildIdleCheckBox.onchange = function () {
-               buildIdle.value = this.value;
-               buildIdle.checked = this.checked;
+                // this is the way
+                buildIdle.value = this.checked ? "true" : "false"
             };
         }
     }
