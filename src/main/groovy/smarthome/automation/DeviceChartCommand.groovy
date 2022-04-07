@@ -1,7 +1,7 @@
 package smarthome.automation
 
-import smarthome.automation.deviceType.AbstractDeviceType;
-import grails.validation.Validateable;
+import smarthome.automation.deviceType.AbstractDeviceType
+import grails.validation.Validateable
 
 
 class DeviceChartCommand extends AbstractChartCommand<DeviceChartCommand>
@@ -11,7 +11,8 @@ implements Validateable {
 	List<Device> compareDevices = []
 	List<List> compareValues = []
 	String metaName
-	
+	// request to rebuild idle values in database for period
+	Boolean buildIdle = false
 	
 	static constraints = {
 		deviceImpl nullable: true
@@ -34,7 +35,7 @@ implements Validateable {
 
 	@Override
 	DeviceChartCommand cloneForLastYear() {
-		DeviceChartCommand command = super.cloneForLastYear()
+		DeviceChartCommand command = (DeviceChartCommand)  super.cloneForLastYear()
 		command.deviceImpl = deviceImpl
 		command.device = device
 		return command
@@ -43,7 +44,7 @@ implements Validateable {
 	
 	@Override
 	DeviceChartCommand clone() {
-		DeviceChartCommand command = super.clone()
+		DeviceChartCommand command = (DeviceChartCommand) super.clone()
 		command.deviceImpl = deviceImpl
 		command.device = device
 		return command

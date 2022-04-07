@@ -267,6 +267,24 @@ class DeviceController extends AbstractController {
 	 */
 	def deviceChartJson(DeviceChartCommand command) {
 
+		if ( command.buildIdle )
+		{
+			switch (command.viewMode)
+			{
+				case ChartViewEnum.day:
+					deviceValueService.buildIdlePowerForDay(command.device,command.dateChart);
+					break;
+				case ChartViewEnum.month:
+					deviceValueService.buildIdlePowerForMonth(command.device,command.dateChart);
+					break;
+				case ChartViewEnum.year:
+					// TODO
+					// deviceValueService.buildIdlePowerForYear(command.device,command.dateChart);
+					break;
+			}
+			// do it once, disable it for next requests.
+			command.buildIdle = false;
+		}
 		LinkedHashMap<String,Object> result = internalDeviceChart(command)
 		def thisChart = result.get('chart')
 		if (thisChart instanceof GoogleChart)

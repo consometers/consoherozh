@@ -565,12 +565,51 @@ class DeviceValueService extends AbstractService {
 		return idlePower
 	}
 
+	/**
+	 * return minimal idle power usage over a period
+	 * intends to compute power wasted by devices in standby mode
+	 * assuming value with name null is power ( then for 1 hour )
+	 *
+	 * parameters :
+	 * 'device' mandatory device
+	 * 'start' mandatory start Date of values gathering
+	 * 'end' mandatory start Date of values gathering
+	 * 'period' reference period in seconds
+	 *
+	 * return Wh idle 'wasted' for period. null if no data within start - end period.
+	 */
+	@Transactional(readOnly = true, rollbackFor = [SmartHomeException])
+	Double idlePowerUsageFromDefaultValue(Device device, Date start, Date end, long period) throws SmartHomeException {
+		List minValues = DeviceValue.executeQuery("""SELECT min(deviceValue.value)
+				FROM DeviceValue deviceValue
+				WHERE deviceValue.dateValue BETWEEN :startDate AND :endDate
+				AND deviceValue.device = :device
+				AND deviceValue.name is null""",
+				[device: device, startDate: start, endDate: end])
+		log.info( "min values :" + minValues)
+		Double idlePower = minValues.isEmpty() ? null : minValues.last();
+
+		// compute period corresponding to captured idlePower
+		if ( idlePower != null ) {
+			// for name === null, assuming this was power , then reference period is one hour.
+			long periodLengthSeconds = 3600;
+			if (periodLengthSeconds > 0) {
+				idlePower = (idlePower * period) / periodLengthSeconds
+			}
+		}
+		else {
+			log.debug("no DeviceValue found to compute min power for device " + device.id + " for this period " + start + " " + end )
+		}
+		return idlePower
+	}
+
 	/** will create a deviceValueDay 'idle' for this device **/
 	void buildIdlePowerForDay(Device device, Date day)
 	{
 		Date start = DateUtils.firstTimeInDay(day);
 		Date end = DateUtils.lastTimeInDay(day);
-		Double idlePowerForDay = idlePowerUsageFromValue(device, start, end, 24 * 3600, 'baseinst');
+		// Double idlePowerForDay = idlePowerUsageFromValue(device, start, end, 24 * 3600, 'baseinst');
+		Double idlePowerForDay = idlePowerUsageFromDefaultValue(device, start, end, 24 * 3600);
 		if (idlePowerForDay) {
 			addDeviceValueDay(device, start,'idle', idlePowerForDay)
 		}
@@ -595,7 +634,8 @@ class DeviceValueService extends AbstractService {
 				daysInMonth = dayOffset + 1
 			}
 		}
-		Double idlePowerForMonth = idlePowerUsageFromValue(device, start, end, daysInMonth * 24 * 3600, 'baseinst');
+		// Double idlePowerForMonth = idlePowerUsageFromValue(device, start, end, daysInMonth * 24 * 3600, 'baseinst');
+		Double idlePowerForMonth = idlePowerUsageFromDefaultValue(device, start, end, daysInMonth * 24 * 3600);
 		if (idlePowerForMonth) {
 			addDeviceValueMonth(device, start,'idle', idlePowerForMonth)
 		}

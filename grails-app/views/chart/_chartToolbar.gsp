@@ -2,6 +2,7 @@
 
 <g:hiddenField name="viewMode" value="${ command.viewMode }"/>
 <g:hiddenField name="navigation" value=""/>
+<g:hiddenField name="buildIdle" value="false"/>
 <g:if test="${ command.hasProperty('compareDevices') }">
 	<g:each var="compareDevice" in="${ command.compareDevices }" status="status">
 		<g:hiddenField name="compareDevices[${status}].id" value="${ compareDevice.id }"/>
@@ -25,6 +26,7 @@
         		<button id="navigation-chart-month-button" class="aui-button ${ command.viewMode == ChartViewEnum.month ? '' : 'aui-button-primary' }">mois</button>
         		<button id="navigation-chart-year-button" class="aui-button ${ command.viewMode == ChartViewEnum.year ? '' : 'aui-button-primary' }">année</button>
             </div>
+			<input type="checkbox" id="navigation-chart-build-idle-checkbox" checked="${ command.buildIdle }"/>
         </div>
     </div><!-- .aui-toolbar-inner -->
 </div>

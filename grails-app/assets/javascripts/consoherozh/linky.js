@@ -336,6 +336,15 @@ class LinkyChart {
                             // reset navigation
                             const navigation = document.getElementById('navigation');
                             navigation.value = '';
+                            // rebind buildIdle checkbox.
+                            const buildIdleCheckBox = document.getElementById( 'navigation-chart-build-idle-checkbox');
+                            const buildIdle = document.getElementById('buildIdle');
+                            if ( buildIdleCheckBox && buildIdle ) {
+                                // nope checked is reset, rely on value
+                                // buildIdleCheckBox.checked = buildIdle.checked;
+                                buildIdleCheckBox.checked = ( buildIdle.value === "true" )
+                                buildIdleCheckBox.value = buildIdle.value
+                            }
                         }
                     }
                     else
@@ -407,6 +416,20 @@ function onLoadChart() {
                     };
                 }
             })
+        }
+        // frontend bindings between checkbox and buildIdle hidden field for DeviceChartCommand
+        const buildIdle = document.getElementById('buildIdle');
+        if (buildIdle)
+        {
+            buildIdle.value = false;
+        }
+        const buildIdleCheckBox =  document.getElementById( 'navigation-chart-build-idle-checkbox')
+        if (buildIdleCheckBox) {
+            buildIdleCheckBox.checked = false;
+            buildIdleCheckBox.onchange = function () {
+               buildIdle.value = this.value;
+               buildIdle.checked = this.checked;
+            };
         }
     }
 }
