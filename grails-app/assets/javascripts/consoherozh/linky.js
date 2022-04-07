@@ -276,15 +276,19 @@ class LinkyChart {
 
     setLoadCurve(viewMode, loadcurve, idlecurve = null)
     {
+        const thisChart = this.getLinkyChart(viewMode);
         if (Array.isArray(loadcurve) && loadcurve.length > 0) {
-            const thisChart = this.getLinkyChart(viewMode);
-            // force month view
-            thisChart.options.scales.time.unit = ( viewMode === 'month' ) ? 'month' : undefined;
             // update chart datas
             thisChart.data.datasets[0].data = loadcurve;
             thisChart.data.datasets[1].data = idlecurve ? idlecurve : computeIdleData(loadcurve);
-            thisChart.update();
         }
+        else
+        {
+            // resets data ( and no date ).
+            thisChart.data.datasets[0].data = [];
+            thisChart.data.datasets[1].data = [];
+        }
+        thisChart.update();
     }
 
     /**
