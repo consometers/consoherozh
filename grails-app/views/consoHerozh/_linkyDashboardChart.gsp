@@ -4,7 +4,15 @@
     <h1>Dashboard</h1>
 
     <div sytle="height: 400px;">
-        <canvas id="chart_loadcurve_suspend" width="400" height="400"></canvas>
+        <canvas id="chart_loadcurve_day" width="400" height="400"></canvas>
+    </div>
+
+    <div sytle="height: 400px;">
+        <canvas id="chart_loadcurve_month" width="400" height="400"></canvas>
+    </div>
+
+    <div sytle="height: 400px;">
+        <canvas id="chart_loadcurve_year" width="400" height="400"></canvas>
     </div>
 
     <script>

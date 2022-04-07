@@ -30,10 +30,10 @@ function computeIdleData(loadcurve) {
 
 class LinkyChart {
 
-    getLinkyChart() {
-        if (typeof this.linkyChart === 'undefined') {
-            var item = document.getElementById('chart_loadcurve_suspend');
-            this.linkyChart = new Chart(item, {
+    getDailyChart() {
+        if (typeof this.dailyChart === 'undefined') {
+            var item = document.getElementById('chart_loadcurve_day');
+            this.dailyChart = new Chart(item, {
                 type: 'bar',
                 data: {
                     //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -104,15 +104,182 @@ class LinkyChart {
                 }
             });
         }
-        return this.linkyChart;
+        return this.dailyChart;
     }
 
-    setLoadCurve(loadcurve, idlecurve = null)
+    getMonthlyChart() {
+        if (typeof this.monthlyChart === 'undefined') {
+            var item = document.getElementById('chart_loadcurve_month');
+            this.monthlyChart = new Chart(item, {
+                type: 'bar',
+                data: {
+                    //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: [],
+                    datasets: [{
+                        label: "Consommation Mensuelle",
+                        // data: loadcurve,
+                        borderWidth: 1,
+                        categoryPercentage: 1.0,
+                        barPercentage: 1.0,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        //stepped: true,
+                        //fill: true
+                    }, {
+                        label: "Veille",
+                        // data: idle,
+                        borderWidth: 1,
+                        categoryPercentage: 1.0,
+                        barPercentage: 1.0,
+                        // backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        //stepped: true,
+                        //fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                // Include a dollar sign in the ticks
+                                callback: function (value, index, values) {
+                                    return value + ' Wh';
+                                }
+                            }
+                        },
+                        x: {
+                            type: 'time',
+                            stacked: true,
+                            grid: {
+                                offset: false
+                            },
+                            time: {
+                                unit: 'day',
+                                unitStepSize: 1,
+                                displayFormats: {
+                                    'hour': 'HH:mm',
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function (tooltipItems, data) {
+                                    return tooltipItems[0].raw.title;
+                                },
+                                label: function (context) {
+                                    return context.dataset.label + ' : ' + context.raw.label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        return this.monthlyChart;
+    }
+
+    getYearlyChart() {
+        if (typeof this.yearlyChart === 'undefined') {
+            var item = document.getElementById('chart_loadcurve_year');
+            this.yearlyChart = new Chart(item, {
+                type: 'bar',
+                data: {
+                    //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: [],
+                    datasets: [{
+                        label: "Consommation Annuelle",
+                        // data: loadcurve,
+                        borderWidth: 1,
+                        categoryPercentage: 1.0,
+                        barPercentage: 1.0,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        //stepped: true,
+                        //fill: true
+                    }, {
+                        label: "Veille",
+                        // data: idle,
+                        borderWidth: 1,
+                        categoryPercentage: 1.0,
+                        barPercentage: 1.0,
+                        // backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        //stepped: true,
+                        //fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                // Include a dollar sign in the ticks
+                                callback: function (value, index, values) {
+                                    return value + ' Wh';
+                                }
+                            }
+                        },
+                        x: {
+                            type: 'time',
+                            stacked: true,
+                            grid: {
+                                offset: false
+                            },
+                            time: {
+                                unit: 'month',
+                                unitStepSize: 1,
+                                displayFormats: {
+                                    'hour': 'HH:mm',
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function (tooltipItems, data) {
+                                    return tooltipItems[0].raw.title;
+                                },
+                                label: function (context) {
+                                    return context.dataset.label + ' : ' + context.raw.label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        return this.yearlyChart;
+    }
+
+    // get chart for 'day' 'month' or year
+    getLinkyChart(viewMode) {
+        switch (viewMode.name) {
+            case 'month' :
+                return this.getMonthlyChart();
+                break;
+            case 'year' :
+                return this.getYearlyChart();
+                break;
+            default: // day
+                return this.getDailyChart();
+                break;
+        }
+    }
+
+    setLoadCurve(viewMode, loadcurve, idlecurve = null)
     {
         if (Array.isArray(loadcurve) && loadcurve.length > 0) {
-
-            const thisChart = this.getLinkyChart();
-
+            const thisChart = this.getLinkyChart(viewMode);
+            // force month view
+            thisChart.options.scales.time.unit = ( viewMode === 'month' ) ? 'month' : undefined;
             // update chart datas
             thisChart.data.datasets[0].data = loadcurve;
             thisChart.data.datasets[1].data = idlecurve ? idlecurve : computeIdleData(loadcurve);
@@ -152,7 +319,7 @@ class LinkyChart {
                     if ( req.responseText.startsWith('{"loadCurve"') )
                     {
                         var json = JSON.parse(req.responseText);
-                        thisNested.setLoadCurve(json.loadCurve, json.idleCurve );
+                        thisNested.setLoadCurve(json.command.viewMode, json.loadCurve, json.idleCurve );
 
                         if ( json.command ) {
                             // update date on navigation action.
@@ -160,6 +327,7 @@ class LinkyChart {
                             const dateChart = document.getElementById('dateChart');
                             const formattedDate = moment(json.command.dateChart).format('yyyy-MM-DD');
                             console.log('dateChart ' + json.command.dateChart + ' was ' + dateChart.value + ' formatted=' + formattedDate);
+
                             dateChart.value = formattedDate;
                             // reset navigation
                             const navigation = document.getElementById('navigation');
@@ -191,4 +359,54 @@ class LinkyChart {
             thisLinkyChart.requestChartUpdate(formData);
         } );
     }
+}
+
+// extracted from  user/chart.js user/device.js for chart support deviceChart.gsp
+// works without jQuery
+function onLoadChart() {
+
+    const navigationCharForm = document.getElementById('navigation-chart-form')
+    // bind navigation-chart-XXX-buttons to viewNode and navigation form values
+    // select right chart for period to display
+    if ( navigationCharForm ) {
+        const viewMode = document.getElementById('viewMode');
+        if (viewMode) {
+            const periods = [ 'day', 'month', 'year']
+            periods.forEach( function(period)
+            {
+                const chart = document.getElementById( 'chart_loadcurve_' + period);
+                chart.hidden = true;
+                const button = document.getElementById('navigation-chart-' + period + '-button')
+                if ( button )
+                {
+                    button.onclick = function () {
+                        viewMode.value = period;
+                        periods.forEach( function (p) {
+                            const chart = document.getElementById( 'chart_loadcurve_' + p);
+                            if ( chart ) {
+                                chart.hidden = ! (p === period);
+                            }
+                        }
+                        );
+                    };
+                }
+            })
+        }
+        const navigation = document.getElementById('navigation');
+        if (navigation) {
+            const ways = [ 'prev','next']
+            ways.forEach( function(way) {
+                const button = document.getElementById('navigation-chart-' + way + '-button')
+                if (button) {
+                    button.onclick = function () {
+                        navigation.value = way;
+                    };
+                }
+            })
+        }
+    }
+}
+
+function onLoadDeviceChart() {
+    onLoadChart()
 }
