@@ -627,7 +627,7 @@ class DeviceValueService extends AbstractService {
 		for ( int dayOffset = 0 ; dayOffset < 32; dayOffset ++)
 		{
 			Date dayToAdd = use(groovy.time.TimeCategory){start + dayOffset.days}
-			if ( dayToAdd.before(end))
+			if ( dayToAdd.compareTo(end) <= 0 )
 			{
 				buildIdlePowerForDay(device,dayToAdd)
 				// lazzy way to get number of days in this month
