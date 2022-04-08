@@ -200,6 +200,17 @@ class LinkyChart {
                         borderColor: 'rgba(54, 162, 235, 1)',
                         //stepped: true,
                         //fill: true
+                    }, {
+                        type: 'line',
+                        label: "Puissance Max",
+                        // data: idle,
+                        borderWidth: 1,
+                        categoryPercentage: 1.0,
+                        barPercentage: 1.0,
+                        // backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        //stepped: true,
+                        //fill: true
                     }]
                 },
                 options: {
@@ -342,7 +353,7 @@ class LinkyChart {
         }
     }
 
-    setLoadCurve(viewMode, loadcurve, idlecurve = null)
+    setLoadCurve(viewMode, loadcurve, idlecurve = null, maxcurve = null)
     {
         const thisChart = this.getLinkyChart(viewMode);
         if (Array.isArray(loadcurve) && loadcurve.length > 0) {
@@ -351,6 +362,10 @@ class LinkyChart {
             // update chart datas
             thisChart.data.datasets[0].data = loadcurve;
             thisChart.data.datasets[1].data = idlecurve ? fillTitleLabel(idlecurve, align) : computeIdleData(loadcurve, align);
+            if ((maxcurve) && ( thisChart.data.datasets.length > 2))
+            {
+                thisChart.data.datasets[2].data = fillTitleLabel(maxcurve,false);
+            }
         }
         else
         {
@@ -397,7 +412,7 @@ class LinkyChart {
                     if ( req.responseText.startsWith('{"loadCurve"') )
                     {
                         var json = JSON.parse(req.responseText);
-                        thisNested.setLoadCurve(json.command.viewMode, json.loadCurve, json.idleCurve );
+                        thisNested.setLoadCurve(json.command.viewMode, json.loadCurve, json.idleCurve, json.maxCurve );
 
                         if ( json.command ) {
                             // update date on navigation action.

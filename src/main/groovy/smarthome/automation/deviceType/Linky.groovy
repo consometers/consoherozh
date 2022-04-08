@@ -120,10 +120,19 @@ class Linky extends AbstractDeviceType {
 				}
 			})
 
-			// temporary for testing
 			chart.colonnes << new GoogleDataTableCol(label: 'idle', type: "number", value: { deviceValue, index, currentChart ->
 				def value = deviceValue.value.find{ it.name == "idle" }?.value
 				if (value != null) {
+					return (value / 1000d).round(1)
+				} else {
+					return null
+				}
+			})
+
+			chart.colonnes << new GoogleDataTableCol(label: 'max', type: "number", value: { deviceValue, index, currentChart ->
+				def value = deviceValue.value.find{ it.name == "max" }?.value
+				if (value != null) {
+					// this is a power ...
 					return (value / 1000d).round(1)
 				} else {
 					return null

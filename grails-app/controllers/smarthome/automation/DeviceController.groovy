@@ -294,7 +294,12 @@ class DeviceController extends AbstractController {
 			{
 				idleCurve = ((GoogleChart) thisChart).buildIdleCurve()
 			}
-			render ( [loadCurve: ((GoogleChart) thisChart).buildLoadCurve(), idleCurve: idleCurve, command:command] as JSON)
+            def maxCurve = null
+            if ( command.viewMode == ChartViewEnum.month )
+            {
+                maxCurve = ((GoogleChart) thisChart).buildMaxCurve()
+            }
+			render ( [loadCurve: ((GoogleChart) thisChart).buildLoadCurve(), idleCurve: idleCurve, maxCurve: maxCurve, command:command] as JSON)
 		}
 		else
 		{

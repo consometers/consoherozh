@@ -79,6 +79,12 @@ class GoogleChart {
 		return buildCurve( "idle")
 	}
 
+	def buildMaxCurve() {
+		// see Linky.groovy hack through.
+		return buildCurve( "max")
+	}
+
+
 	JSON toChartjsCurve() {
 		JsonBuilder builder = new JsonBuilder();
 
