@@ -218,13 +218,13 @@ class LinkyChart {
                             type: 'time',
                             stacked: true,
                             grid: {
-                                offset: false
+                                offset: true
                             },
                             time: {
                                 unit: 'day',
                                 unitStepSize: 1,
                                 displayFormats: {
-                                    'hour': 'HH:mm',
+                                    'day': 'ddd D MMM',
                                 }
                             }
                         }
@@ -295,7 +295,7 @@ class LinkyChart {
                             type: 'time',
                             stacked: true,
                             grid: {
-                                offset: false
+                                offset: true
                             },
                             time: {
                                 unit: 'month',
@@ -346,10 +346,11 @@ class LinkyChart {
     {
         const thisChart = this.getLinkyChart(viewMode);
         if (Array.isArray(loadcurve) && loadcurve.length > 0) {
-            fillTitleLabel(loadcurve);
+            const align = getViewModeString(viewMode) === 'day';
+            fillTitleLabel(loadcurve, align);
             // update chart datas
             thisChart.data.datasets[0].data = loadcurve;
-            thisChart.data.datasets[1].data = idlecurve ? fillTitleLabel(idlecurve) : computeIdleData(loadcurve);
+            thisChart.data.datasets[1].data = idlecurve ? fillTitleLabel(idlecurve, align) : computeIdleData(loadcurve, align);
         }
         else
         {
