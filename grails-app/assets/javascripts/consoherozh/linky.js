@@ -3,7 +3,6 @@ function computeIdleData(loadcurve) {
     moment.locale('fr')
 
     if ( loadcurve.length > 1 ) {
-        var loadcurve_step_ms = moment(loadcurve[1].x) - moment(loadcurve[0].x);
         var idle_consumption = null;
 
         for (point of loadcurve) {
@@ -11,21 +10,38 @@ function computeIdleData(loadcurve) {
             if (idle_consumption == null || point.y < idle_consumption) {
                 idle_consumption = point.y;
             }
-            point.label = point.y + " Wh";
-            var time = moment(point.x)
-            point.title = 'de ' + time.format('HH:mm') + ' à ' + time.add(loadcurve_step_ms, 'milliseconds').format('HH:mm');
-            // TODO(cyril) did not manage to display bars after the associated x value
-            // (currently centered on the x value)
-            point.x = time.subtract(loadcurve_step_ms / 2, 'milliseconds');
         }
-
-        //var suspend = people.map(({ point }) => {...point, ...{y: suspend_consumption}});
-        //var suspend = loadcurve.map(point => Object.assign(point, {y: suspend_consumption}));
         var idle = loadcurve.map(point => Object.assign(Object.assign({}, point), {y: idle_consumption}));
-
-        return idle;
+        return fillTitleLabel(idle,false);
     }
     return [];
+}
+
+function fillTitleLabel(curve,align=true) {
+    moment.locale('fr')
+
+    const days_in_ms = (24 * 3600 * 1000);
+    if ( curve.length > 1 ) {
+        var loadcurve_step_ms = moment(curve[1].x) - moment(curve[0].x);
+        for (point of curve) {
+            point.label = point.y + " Wh";
+            var time = moment(point.x)
+            if ( loadcurve_step_ms <  days_in_ms ) {
+                point.title = time.format('dddd DD MMM') + ' de ' + time.format('HH:mm') + ' à ' + time.add(loadcurve_step_ms, 'milliseconds').format('HH:mm');
+            }
+            else
+            {
+                point.title = 'du ' + time.format('dddd DD MMM') + ' au ' + time.add(loadcurve_step_ms, 'milliseconds').format('dddd DD MMM');
+            }
+            // TODO(cyril) did not manage to display bars after the associated x value
+            // TODO(philippe) didn't find out either
+            // (currently centered on the x value)
+            if (align) {
+                point.x = time.subtract(loadcurve_step_ms / 2, 'milliseconds');
+            }
+        }
+    }
+    return curve
 }
 
 class LinkyChart {
@@ -80,7 +96,7 @@ class LinkyChart {
                                 offset: false
                             },
                             time: {
-                                // let jchart magic occur here, work automatically for hours, days, month
+                                // let jchart magic occur here
                                 // unit: 'hour',
                                 unitStepSize: 1,
                                 displayFormats: {
@@ -154,7 +170,7 @@ class LinkyChart {
                             type: 'time',
                             stacked: true,
                             grid: {
-                                offset: false
+                                offset: true
                             },
                             time: {
                                 unit: 'day',
@@ -230,7 +246,7 @@ class LinkyChart {
                             type: 'time',
                             stacked: true,
                             grid: {
-                                offset: false
+                                offset: true
                             },
                             time: {
                                 unit: 'month',
@@ -278,9 +294,10 @@ class LinkyChart {
     {
         const thisChart = this.getLinkyChart(viewMode);
         if (Array.isArray(loadcurve) && loadcurve.length > 0) {
+            fillTitleLabel(loadcurve);
             // update chart datas
             thisChart.data.datasets[0].data = loadcurve;
-            thisChart.data.datasets[1].data = idlecurve ? idlecurve : computeIdleData(loadcurve);
+            thisChart.data.datasets[1].data = idlecurve ? fillTitleLabel(idlecurve) : computeIdleData(loadcurve);
         }
         else
         {
