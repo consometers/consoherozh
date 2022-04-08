@@ -604,7 +604,7 @@ class DeviceValueService extends AbstractService {
 	}
 
 	/** will create a deviceValueDay 'idle' for this device **/
-	void buildIdlePowerForDay(Device device, Date day)
+	Double buildIdlePowerForDay(Device device, Date day)
 	{
 		Date start = DateUtils.firstTimeInDay(day);
 		Date end = DateUtils.lastTimeInDay(day);
@@ -613,31 +613,61 @@ class DeviceValueService extends AbstractService {
 		if (idlePowerForDay) {
 			addDeviceValueDay(device, start,'idle', idlePowerForDay)
 		}
+		return idlePowerForDay;
 	}
 
 	/** will create a DeviceValueMonth 'idle' for this device
-	 *  based on DeviceValues ( ie not from DeviceValuesDays )
-	 *  trigger computation for days too.
+	 *  by sum of DeviceValuesDays
+	 *  trigger computation for days first.
+	 *  handle case where some days are missing :
+	 *  sum over known days and expand to expected days of month.
 	 **/
 	Double buildIdlePowerForMonth(Device device, Date day)
 	{
 		Date start = DateUtils.firstDayInMonth(day);
 		Date end = DateUtils.lastDayInMonth(day);
 		int daysInMonth = 31;
+		int collectedDays = 0;
+		Double idlePowerForMonth = 0;
 		for ( int dayOffset = 0 ; dayOffset < 32; dayOffset ++)
 		{
 			Date dayToAdd = use(groovy.time.TimeCategory){start + dayOffset.days}
 			if ( dayToAdd.compareTo(end) <= 0 )
 			{
-				buildIdlePowerForDay(device,dayToAdd)
-				// lazzy way to get number of days in this month
-				daysInMonth = dayOffset + 1
+				Double idlePowerForDay = buildIdlePowerForDay(device,dayToAdd);
+				if ( ( idlePowerForDay != null ) && ( idlePowerForDay > 0 )) {
+					collectedDays ++;
+					idlePowerForMonth += idlePowerForDay;
+				}
+				daysInMonth = dayOffset + 1;
 			}
 		}
-		// Double idlePowerForMonth = idlePowerUsageFromValue(device, start, end, daysInMonth * 24 * 3600, 'baseinst');
-		Double idlePowerForMonth = idlePowerUsageFromDefaultValue(device, start, end, daysInMonth * 24 * 3600);
-		if (idlePowerForMonth) {
-			addDeviceValueMonth(device, start,'idle', idlePowerForMonth)
+		if ( collectedDays == daysInMonth ) {
+			// get it from database
+			String name = 'idle';
+			sumValueMonthFromValueDay(device, name, start, end)
+			DeviceValueMonth monthValue = DeviceValueMonth.findByDeviceAndDateValueAndName(device, start, name)
+			if (monthValue) {
+				Double idleValue = monthValue.value
+				if ( idleValue != idlePowerForMonth ) {
+					// weird , could be a database session/transaction problem.
+					log.warn "Build idle for month ${device} discrepency : ${idleValue} != ${idlePowerForMonth}"
+				}
+			}
+		}
+		else
+		{
+			// partial result, not a value for all days
+			if ( (idlePowerForMonth > 0) && (collectedDays > 0) )
+			{
+				log.warn "Build idle for month ${device} missing days : ${collectedDays} != ${daysInMonth}  ${idlePowerForMonth}"
+				idlePowerForMonth = idlePowerForMonth * daysInMonth / collectedDays;
+				addDeviceValueMonth(device, start,'idle', idlePowerForMonth)
+			}
+		}
+		if ( idlePowerForMonth == 0 )
+		{
+			idlePowerForMonth = null;
 		}
 		return idlePowerForMonth
 	}
