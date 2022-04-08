@@ -132,7 +132,7 @@ class LinkyChart {
                     //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                     labels: [],
                     datasets: [{
-                        label: "Consommation Mensuelle",
+                        label: "Consommation journalière",
                         // data: loadcurve,
                         borderWidth: 1,
                         categoryPercentage: 1.0,
@@ -170,7 +170,7 @@ class LinkyChart {
                             type: 'time',
                             stacked: true,
                             grid: {
-                                offset: true
+                                offset: false
                             },
                             time: {
                                 unit: 'day',
@@ -208,7 +208,7 @@ class LinkyChart {
                     //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                     labels: [],
                     datasets: [{
-                        label: "Consommation Annuelle",
+                        label: "Consommation mensuelle",
                         // data: loadcurve,
                         borderWidth: 1,
                         categoryPercentage: 1.0,
@@ -246,7 +246,7 @@ class LinkyChart {
                             type: 'time',
                             stacked: true,
                             grid: {
-                                offset: true
+                                offset: false
                             },
                             time: {
                                 unit: 'month',
