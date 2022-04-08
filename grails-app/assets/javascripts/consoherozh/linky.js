@@ -24,13 +24,15 @@ function fillTitleLabel(curve,align=true) {
     if ( curve.length > 1 ) {
         var loadcurve_step_ms = moment(curve[1].x) - moment(curve[0].x);
         for (point of curve) {
-            point.label = point.y + " Wh";
+
             var time = moment(point.x)
             if ( loadcurve_step_ms <  days_in_ms ) {
+                point.label = point.y + " Wh";
                 point.title = time.format('dddd DD MMM') + ' de ' + time.format('HH:mm') + ' à ' + time.add(loadcurve_step_ms, 'milliseconds').format('HH:mm');
             }
             else
             {
+                point.label = point.y + " kWh";
                 point.title = 'du ' + time.format('dddd DD MMM') + ' au ' + time.add(loadcurve_step_ms, 'milliseconds').format('dddd DD MMM');
             }
             // TODO(cyril) did not manage to display bars after the associated x value
@@ -160,9 +162,8 @@ class LinkyChart {
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                // Include a dollar sign in the ticks
                                 callback: function (value, index, values) {
-                                    return value + ' Wh';
+                                    return value + ' kWh';
                                 }
                             }
                         },
@@ -238,7 +239,7 @@ class LinkyChart {
                             ticks: {
                                 // Include a dollar sign in the ticks
                                 callback: function (value, index, values) {
-                                    return value + ' Wh';
+                                    return value + ' kWh';
                                 }
                             }
                         },
