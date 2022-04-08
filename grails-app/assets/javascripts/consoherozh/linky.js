@@ -46,6 +46,53 @@ function fillTitleLabel(curve,align=true) {
     return curve
 }
 
+function getViewModeString(viewMode) {
+    const mode = ( typeof viewMode === 'string' ) ? viewMode : viewMode.name;
+    return mode;
+}
+
+function addDrillDown(thisChart) {
+    thisChart.options.onClick = ((e) => {
+        const canvasPosition = Chart.helpers.getRelativePosition(e, thisChart);
+        const dataX = thisChart.scales.x.getValueForPixel(canvasPosition.x);
+        // const dataY = thisChart.scales.y.getValueForPixel(canvasPosition.y);
+
+        if (dataX) {
+            const navigationCharForm = document.getElementById('navigation-chart-form');
+            const dateChart = document.getElementById('dateChart');
+            const formattedDate = moment(dataX).format('yyyy-MM-DD');
+            dateChart.value = formattedDate;
+            const viewMode = document.getElementById('viewMode');
+            switch (viewMode.value) {
+                case 'year':
+                    viewMode.value = 'month';
+                    break;
+                case 'month':
+                    viewMode.value = 'day';
+                    break;
+            }
+            console.log('click on ' + dataX + ' drill-down');
+            // emulate submit by clicking button
+            // navigationCharForm.submit();
+            const button = document.getElementById('navigation-chart-' + viewMode.value + '-button');
+            if (button) {
+                button.click();
+            }
+        }
+    });
+}
+
+function activateGraphForPeriod(period)
+{
+    const periods = [ 'day', 'month', 'year'];
+    periods.forEach( function (p) {
+        const chart = document.getElementById( 'chart_loadcurve_' + p);
+        if ( chart ) {
+            chart.hidden = ! (p === period);
+        }
+    });
+}
+
 class LinkyChart {
 
     getDailyChart() {
@@ -196,6 +243,7 @@ class LinkyChart {
                     }
                 }
             });
+            addDrillDown(this.monthlyChart);
         }
         return this.monthlyChart;
     }
@@ -272,13 +320,16 @@ class LinkyChart {
                     }
                 }
             });
+            addDrillDown(this.yearlyChart);
         }
         return this.yearlyChart;
     }
 
     // get chart for 'day' 'month' or year
     getLinkyChart(viewMode) {
-        switch (viewMode.name) {
+        // ugly to fix parameter type ( can be command , htmlitem , string )
+        const mode = getViewModeString(viewMode)
+        switch (mode) {
             case 'month' :
                 return this.getMonthlyChart();
                 break;
@@ -321,9 +372,13 @@ class LinkyChart {
      *
      */
     fillLinkyChart(builtcurve) {
-        this.setLoadCurve(builtcurve.loadCurve);
         // next updates will be aynchronous
         this.prepare();
+        const viewMode = document.getElementById('viewMode');
+        this.setLoadCurve(viewMode.value, builtcurve.loadCurve);
+        if (viewMode) {
+            activateGraphForPeriod(viewMode.value);
+        }
     }
 
     requestChartUpdate(formData) {
@@ -395,29 +450,23 @@ class LinkyChart {
 // works without jQuery
 function onLoadChart() {
 
-    const navigationCharForm = document.getElementById('navigation-chart-form')
+    const navigationCharForm = document.getElementById('navigation-chart-form');
     // bind navigation-chart-XXX-buttons to viewNode and navigation form values
     // select right chart for period to display
     if ( navigationCharForm ) {
         const viewMode = document.getElementById('viewMode');
         if (viewMode) {
-            const periods = [ 'day', 'month', 'year']
+            const periods = [ 'day', 'month', 'year'];
             periods.forEach( function(period)
             {
                 const chart = document.getElementById( 'chart_loadcurve_' + period);
-                chart.hidden = true;
+                // chart.hidden = true;
                 const button = document.getElementById('navigation-chart-' + period + '-button')
                 if ( button )
                 {
                     button.onclick = function () {
                         viewMode.value = period;
-                        periods.forEach( function (p) {
-                            const chart = document.getElementById( 'chart_loadcurve_' + p);
-                            if ( chart ) {
-                                chart.hidden = ! (p === period);
-                            }
-                        }
-                        );
+                        activateGraphForPeriod(period);
                     };
                 }
             })
