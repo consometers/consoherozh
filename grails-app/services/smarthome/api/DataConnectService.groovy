@@ -144,7 +144,10 @@ class DataConnectService extends AbstractService {
 			if (e.message.contains("HTTP request error [401]")) {
 				notificationAccount.jsonConfig.expired = true
 			}
-			throw e
+			// actualy throwing it and not catching it
+			// causes a rollback on exception on this transaction, so save won't persist...
+			// throw e
+			return null
 		} finally {
 			notificationAccount.configFromJson()
 			notificationAccountService.save(notificationAccount)

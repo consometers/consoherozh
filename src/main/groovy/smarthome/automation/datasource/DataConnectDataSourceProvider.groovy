@@ -33,9 +33,17 @@ class DataConnectDataSourceProvider extends AbstractDataSourceProvider {
 		// une erreur sur le refersh_token est bloquant car les autres appels
 		// vont forcément échouer si les tokens ne sont pas à jour
 		try {
-			dataConnectService.refresh_token(notificationAccount)
+			if ( dataConnectService.refresh_token(notificationAccount) == null )
+			{
+				log.error("Dataconnect.refresh_token FAILED")
+				return
+			}
 		} catch (SmartHomeException ex) {
-			throw new SmartHomeException("Dataconnect.refresh_token : ${ex.message}")
+			// transaction will fail and database will rollback ...
+			// throw new SmartHomeException("Dataconnect.refresh_token : ${ex.message}")
+			log.error("Dataconnect.refresh_token : ${ex.message}")
+			// do nothing more but don't fail in exception.
+			return;
 		}
 
 		// les autres appels sont indépendants. on peut tous les lancer même si un plante

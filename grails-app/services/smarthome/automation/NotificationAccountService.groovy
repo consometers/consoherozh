@@ -35,6 +35,9 @@ class NotificationAccountService extends AbstractService {
 		// vérif du rôle sur sender
 		notificationAccount.assertAutorisation()
 
+		// force save bug #9 after migration
+		notificationAccount.markDirty("config");
+
 		// force flush bug #9 after migration
 		if (!notificationAccount.save(flush:true)) {
 			throw new SmartHomeException("Erreur enregistrement notificationAccount", notificationAccount)
