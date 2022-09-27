@@ -6,7 +6,7 @@ package smarthome.security
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.codehaus.groovy.grails.commons.GrailsApplication;
+import grails.core.GrailsApplication;
 
 import grails.plugin.springsecurity.SpringSecurityUtils
 

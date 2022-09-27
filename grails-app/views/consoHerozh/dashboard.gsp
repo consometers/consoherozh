@@ -15,6 +15,7 @@
       connected
       view-entries-url="${createLink(controller: "device", action: "deviceChart", params:['device.id': linky.device.id])}"
       <g:if test="${!linky.isConnected()}">expired</g:if>
+      idle-power-usage-url="${createLink(controller: "device", action: "idlePowerUsage", params:['device.id': linky.device.id])}"
   </g:if>>
     <ion-icon slot="icon" name="flash-outline"></ion-icon>
     <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>
@@ -33,16 +34,16 @@
     <ion-icon slot="icon" name="flash-outline"></ion-icon>
     <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>
 </counter-manual>
-</g:if>
 
 <script type="text/javascript">
     {
-        let entries = new CounterEntries("kWh", "L", <%= electricityIndices %>);
+        let entries = new CounterEntries("kWh", "kWh", <%= electricityIndices %>);
         entries.recordUrl = "<%= createLink(controller: "consoHerozh", action: "recordIndex", params:['type': 'Électricité']) %>";
         entries.removeUrl = "<%= createLink(controller: "consoHerozh", action: "removeIndex", params:['type': 'Électricité']) %>";
         querySelectorLast(document, 'counter-manual').entries = entries;
     }
 </script>
+</g:if>
 
 <counter-manual class="draggable" title="Eau">
     <ion-icon slot="icon" name="water-outline"></ion-icon>

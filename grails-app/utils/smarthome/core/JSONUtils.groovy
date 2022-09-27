@@ -4,7 +4,7 @@ import grails.util.GrailsWebUtil;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.groovy.grails.web.mime.MimeType;
+import grails.web.mime.MimeType;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;

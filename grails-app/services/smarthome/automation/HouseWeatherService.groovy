@@ -3,8 +3,8 @@ package smarthome.automation
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.groovy.grails.commons.GrailsApplication;
-import org.springframework.transaction.annotation.Transactional;
+import grails.core.GrailsApplication;
+import grails.gorm.transactions.Transactional;
 
 import smarthome.automation.weather.WeatherDayForecast;
 import smarthome.automation.weather.WeatherHourForecast;

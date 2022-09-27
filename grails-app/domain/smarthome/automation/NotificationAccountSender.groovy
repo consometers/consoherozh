@@ -1,10 +1,7 @@
 package smarthome.automation
 
-import java.io.Serializable
-
 import smarthome.core.ApplicationUtils
 import smarthome.core.SmartHomeCoreConstantes
-import grails.validation.Validateable
 
 /**
  * Déclaration des implémentations NotificationSender
@@ -12,7 +9,6 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
 class NotificationAccountSender implements Serializable {
 	String libelle
 	String implClass

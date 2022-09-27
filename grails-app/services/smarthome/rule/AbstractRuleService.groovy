@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import smarthome.core.SmartHomeException;
-import grails.transaction.Transactional
+import grails.gorm.transactions.Transactional
 
 
 /**

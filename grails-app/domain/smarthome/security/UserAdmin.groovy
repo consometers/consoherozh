@@ -1,11 +1,6 @@
 package smarthome.security
 
-import java.io.Serializable;
-import java.util.Set;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable
-
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Un administrateur de plusieurs utilisateurs
@@ -13,7 +8,6 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
 class UserAdmin implements Serializable {
 
 	User user

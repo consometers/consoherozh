@@ -1,7 +1,6 @@
 package smarthome.core
 
-import smarthome.security.User;
-import grails.validation.Validateable;
+import smarthome.security.User
 
 /**
  * Association widget-user
@@ -10,7 +9,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class WidgetUser extends JsonDataDomain {
 	User user
 	Widget widget

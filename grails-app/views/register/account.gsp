@@ -31,7 +31,7 @@
 	     </fieldset>
 		<fieldset class="group">
 			<div class="checkbox">
-				<input type="checkbox" name="privacy" value='false' required="required"> En créant votre compte, vous nous autorisez à utiliser vos données pour les finalités décrite sur la <g:link controller="public" action="privacy">page relative aux données personnelles</g:link>.
+				<input type="checkbox" name="privacy" value='false' required="required"> En créant votre compte, vous nous autorisez à utiliser vos données pour les finalités décrites sur la <g:link controller="public" action="privacy">page relative aux données personnelles</g:link>.
 			</div>
 		</fieldset>
 		%{-- FIXME cyril do not ask for real name and data sharing at signup --}%

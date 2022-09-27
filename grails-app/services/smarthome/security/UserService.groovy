@@ -1,14 +1,12 @@
 package smarthome.security
 
-import org.springframework.transaction.annotation.Transactional;
-
+import grails.gorm.transactions.Transactional
 import smarthome.core.AbstractService
-import smarthome.core.AsynchronousMessage;
-import smarthome.core.QueryUtils;
+import smarthome.core.AsynchronousMessage
+import smarthome.core.QueryUtils
 import smarthome.core.SmartHomeException
-import smarthome.security.ChangePasswordCommand;
-import smarthome.security.User;
-
+import smarthome.security.ChangePasswordCommand
+import smarthome.security.User
 
 /**
  * 
@@ -104,21 +102,46 @@ class UserService extends AbstractService {
 			user.lastActivation = new Date()
 			user.passwordExpired = true
 			user.password = UUID.randomUUID() // création d'un password fictif en attente du déblocage par l'utilisateur
+			// never save a User without an applicationKey and generate it only on server side.
+			if ( user.applicationKey == null ) {
+				user.applicationKey = UUID.randomUUID()
+			}
 		}
-
 
 		if (!user.save()) {
 			throw new SmartHomeException("Erreur enregistrement utilisateur", user)
 		}
+
+		if ( ! user.id )
+		{
+			log.error "User without user.id ${user.username}"
+		}
 		
-		// enregistrement des groupes : on efface tout et on remet les nouveaux
+		// recording roles, computes added and removed UserRoles
 		if (saveRole) {
-			UserRole.removeAll(user)
-			
-			if (user.roles) {
-				user.roles.each {
-					UserRole.create(user, Role.read(it.toLong()))
-				}
+			Set<String> existingRoles = user.getAuthorities().collect { role -> role.id.toString() }
+			Set<String> newRoles
+			if (user.roles instanceof String) {
+				// if there is only one role user.roles is a single String with role id.
+				// is it a specific behavior of picklist ?
+				newRoles = new HashSet<>()
+				newRoles.add(user.roles)
+			} else {
+				// user.roles is a Set<String> with each string being id of role.
+				newRoles = user.roles
+			}
+			Set<String> common = existingRoles.intersect(newRoles)
+			// newRoles now contains added Roles
+			newRoles.removeAll(common)
+			newRoles.each {
+				Long roleid = it.toLong()
+				UserRole.create(user, Role.read(roleid))
+			}
+			// existingRoles now contains removed Roles
+			existingRoles.removeAll(common)
+			existingRoles.each {
+				Long roleid = it.toLong()
+				UserRole.remove(user, Role.read(roleid))
 			}
 		}
 		
@@ -137,7 +160,7 @@ class UserService extends AbstractService {
 	@AsynchronousMessage(routingKey = 'smarthome.security.resetUserPassword')
 	def changePassword(ChangePasswordCommand command) throws SmartHomeException {
 		log.info "Changement mot de passe user ${command.username}"
-		
+
 		def user = User.findByUsername(command.username)
 
 		if (!user) {

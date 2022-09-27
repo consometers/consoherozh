@@ -2,7 +2,7 @@ package smarthome.automation
 
 import org.hibernate.sql.JoinType
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.transaction.annotation.Transactional
+import grails.gorm.transactions.Transactional
 
 import smarthome.core.AbstractService
 import smarthome.core.AsynchronousMessage

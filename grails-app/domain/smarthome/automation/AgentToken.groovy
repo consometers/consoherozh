@@ -1,11 +1,7 @@
 package smarthome.automation
 
-import java.io.Serializable;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
-import groovy.time.TimeCategory;
+import groovy.time.TimeCategory
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Token de connexion pour un agent
@@ -13,7 +9,6 @@ import groovy.time.TimeCategory;
  * @author gregory
  *
  */
-@Validateable
 class AgentToken implements Serializable {
 	static belongsTo = [agent: Agent]
 	static transients = ['websocketUrl']

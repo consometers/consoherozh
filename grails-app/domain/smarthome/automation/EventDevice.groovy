@@ -1,7 +1,6 @@
 package smarthome.automation
 
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Devices associés à l'event
@@ -9,7 +8,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class EventDevice implements Serializable  {
 	static belongsTo = [event: Event, device: Device]
 	

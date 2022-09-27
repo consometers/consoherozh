@@ -1,13 +1,8 @@
 package smarthome.automation
 
-import java.io.Serializable;
-import java.util.Date;
-
-import smarthome.core.DateUtils;
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
-import groovy.time.TimeCategory;
+import groovy.time.TimeCategory
+import smarthome.core.DateUtils
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Toutes les valeurs historisées d'un device
@@ -15,7 +10,6 @@ import groovy.time.TimeCategory;
  * @author gregory
  *
  */
-@Validateable
 class DeviceValue implements Serializable {
 	Device device
 	Double value

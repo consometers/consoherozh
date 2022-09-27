@@ -10,7 +10,7 @@ import grails.plugin.cache.CachePut
 import grails.plugin.cache.Cacheable
 
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.transaction.annotation.Transactional
+import grails.gorm.transactions.Transactional
 
 import smarthome.automation.deviceType.AbstractDeviceType
 import smarthome.automation.export.DeviceValueExport
@@ -205,11 +205,12 @@ class DeviceValueService extends AbstractService {
 	/**
 	 * Création d'un chart
 	 * 
-	 * @param command
+	 * @param command : will be updated
 	 * @return
 	 * @throws SmartHomeException
 	 */
 	GoogleChart createChart(DeviceChartCommand command) throws SmartHomeException {
+		// side effect update command.dateChart
 		command.navigation()
 		command.deviceImpl = command.device.newDeviceImpl()
 		def datas = []
@@ -441,7 +442,7 @@ class DeviceValueService extends AbstractService {
 		}
 
 
-		// TODO : changer imlémentation en fonction utilisateur
+		// TODO : changer implémentation en fonction utilisateur
 		// provisoire le temps de créer d'autres impls
 		DeviceValueExport deviceValueExport = new DulceExcelDeviceValueExport()
 		ApplicationUtils.autowireBean(deviceValueExport)
@@ -499,4 +500,177 @@ class DeviceValueService extends AbstractService {
 
 		return ids
 	}
+
+	/**
+	 * return minimal idle power usage over a period
+	 * intends to compute power wasted by devices in standby mode
+     * data period is inferred by checking next value date.
+	 * ( this works if period is not variable ).
+	 *
+ 	 * parameters :
+	 * 'device' mandatory device
+	 * 'start' mandatory start Date of values gathering
+	 * 'end' mandatory start Date of values gathering
+	 * 'period' reference period in seconds
+	 * 'valueName' default to 'baseinst' (wh)
+	 *
+	 * return Wh idle 'wasted' for period. null if no data within start - end period.
+	 */
+	@Transactional(readOnly = true, rollbackFor = [SmartHomeException])
+	Double idlePowerUsageFromValue(Device device, Date start, Date end, long period, String valueName = 'baseinst') throws SmartHomeException {
+		def metanames = [valueName]
+		List minValues = DeviceValue.executeQuery("""SELECT min(deviceValue.value)
+				FROM DeviceValue deviceValue 
+				WHERE deviceValue.dateValue BETWEEN :startDate AND :endDate
+				AND deviceValue.device = :device				
+				AND deviceValue.name in (:metanames)""",
+				[device: device, startDate: start, endDate: end, metanames: metanames])
+		log.info( "min values :" + minValues)
+		Double idlePower = minValues.isEmpty() ? null : minValues.last();
+
+		// compute period corresponding to captured idlePower
+		if ( idlePower != null ) {
+			List datesPeriodStart = DeviceValue.executeQuery(""" SELECT deviceValue.dateValue
+				FROM DeviceValue deviceValue
+				WHERE deviceValue.value = :minValue
+				AND deviceValue.dateValue BETWEEN :startDate AND :endDate
+				AND deviceValue.device = :device
+				AND deviceValue.name in (:metanames)""",
+				[device: device, startDate: start, endDate: end, minValue: idlePower, metanames: metanames])
+			log.info("date period start" + datesPeriodStart)
+
+			Date datePeriodStart = datesPeriodStart.first()
+			List datesPeriodEnd = DeviceValue.executeQuery(""" SELECT min(deviceValue.dateValue)
+				FROM DeviceValue deviceValue
+				WHERE deviceValue.dateValue > :dateSelected
+				AND deviceValue.device = :device					
+				AND deviceValue.name in (:metanames)""",
+				[device: device, dateSelected: datePeriodStart,metanames: metanames])
+			if ( ! datesPeriodEnd.isEmpty() )
+			{
+				Date datePeriodEnd = datesPeriodEnd.first()
+				if ( datePeriodEnd != null ) {
+					log.info("date period end" + datePeriodEnd)
+					// should not be more than 30 minutes ( enedis gathering 10 or 30 minutes ).
+					long periodLengthSeconds = (long) Math.min( (double) 30*60, (double) (datePeriodEnd.getTime() - datePeriodStart.getTime()) / 1000)
+					if (periodLengthSeconds > 0) {
+						idlePower = (idlePower * period) / periodLengthSeconds
+					}
+				}
+			}
+		}
+		else {
+			log.debug("no DeviceValue found to compute min power for device " + device.id + " for this period " + start + " " + end )
+		}
+		return idlePower
+	}
+
+	/**
+	 * return minimal idle power usage over a period
+	 * intends to compute power wasted by devices in standby mode
+	 * assuming value with name null is power ( then for 1 hour )
+	 *
+	 * parameters :
+	 * 'device' mandatory device
+	 * 'start' mandatory start Date of values gathering
+	 * 'end' mandatory start Date of values gathering
+	 * 'period' reference period in seconds
+	 *
+	 * return Wh idle 'wasted' for period. null if no data within start - end period.
+	 */
+	@Transactional(readOnly = true, rollbackFor = [SmartHomeException])
+	Double idlePowerUsageFromDefaultValue(Device device, Date start, Date end, long period) throws SmartHomeException {
+		List minValues = DeviceValue.executeQuery("""SELECT min(deviceValue.value)
+				FROM DeviceValue deviceValue
+				WHERE deviceValue.dateValue BETWEEN :startDate AND :endDate
+				AND deviceValue.device = :device
+				AND deviceValue.name is null""",
+				[device: device, startDate: start, endDate: end])
+		log.info( "min values :" + minValues)
+		Double idlePower = minValues.isEmpty() ? null : minValues.last();
+
+		// compute period corresponding to captured idlePower
+		if ( idlePower != null ) {
+			// for name === null, assuming this was power , then reference period is one hour.
+			long periodLengthSeconds = 3600;
+			if (periodLengthSeconds > 0) {
+				idlePower = (idlePower * period) / periodLengthSeconds
+			}
+		}
+		else {
+			log.debug("no DeviceValue found to compute min power for device " + device.id + " for this period " + start + " " + end )
+		}
+		return idlePower
+	}
+
+	/** will create a deviceValueDay 'idle' for this device **/
+	Double buildIdlePowerForDay(Device device, Date day)
+	{
+		Date start = DateUtils.firstTimeInDay(day);
+		Date end = DateUtils.lastTimeInDay(day);
+		// Double idlePowerForDay = idlePowerUsageFromValue(device, start, end, 24 * 3600, 'baseinst');
+		Double idlePowerForDay = idlePowerUsageFromDefaultValue(device, start, end, 24 * 3600);
+		if (idlePowerForDay) {
+			addDeviceValueDay(device, start,'idle', idlePowerForDay)
+		}
+		return idlePowerForDay;
+	}
+
+	/** will create a DeviceValueMonth 'idle' for this device
+	 *  by sum of DeviceValuesDays
+	 *  trigger computation for days first.
+	 *  handle case where some days are missing :
+	 *  sum over known days and expand to expected days of month.
+	 **/
+	Double buildIdlePowerForMonth(Device device, Date day)
+	{
+		Date start = DateUtils.firstDayInMonth(day);
+		Date end = DateUtils.lastDayInMonth(day);
+		int daysInMonth = 31;
+		int collectedDays = 0;
+		Double idlePowerForMonth = 0;
+		for ( int dayOffset = 0 ; dayOffset < 32; dayOffset ++)
+		{
+			Date dayToAdd = use(groovy.time.TimeCategory){start + dayOffset.days}
+			if ( dayToAdd.compareTo(end) <= 0 )
+			{
+				Double idlePowerForDay = buildIdlePowerForDay(device,dayToAdd);
+				if ( ( idlePowerForDay != null ) && ( idlePowerForDay > 0 )) {
+					collectedDays ++;
+					idlePowerForMonth += idlePowerForDay;
+				}
+				daysInMonth = dayOffset + 1;
+			}
+		}
+		if ( collectedDays == daysInMonth ) {
+			// get it from database
+			String name = 'idle';
+			sumValueMonthFromValueDay(device, name, start, end)
+			DeviceValueMonth monthValue = DeviceValueMonth.findByDeviceAndDateValueAndName(device, start, name)
+			if (monthValue) {
+				Double idleValue = monthValue.value
+				if ( idleValue != idlePowerForMonth ) {
+					// weird , could be a database session/transaction problem.
+					log.warn "Build idle for month ${device} discrepency : ${idleValue} != ${idlePowerForMonth}"
+				}
+			}
+		}
+		else
+		{
+			// partial result, not a value for all days
+			if ( (idlePowerForMonth > 0) && (collectedDays > 0) )
+			{
+				log.warn "Build idle for month ${device} missing days : ${collectedDays} != ${daysInMonth}  ${idlePowerForMonth}"
+				idlePowerForMonth = idlePowerForMonth * daysInMonth / collectedDays;
+				addDeviceValueMonth(device, start,'idle', idlePowerForMonth)
+			}
+		}
+		if ( idlePowerForMonth == 0 )
+		{
+			idlePowerForMonth = null;
+		}
+		return idlePowerForMonth
+	}
+
+
 }

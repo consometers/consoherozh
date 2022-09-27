@@ -2,7 +2,7 @@ package smarthome.core
 
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 
 import smarthome.core.AbstractService;
 import smarthome.core.SmartHomeException;

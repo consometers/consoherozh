@@ -1,10 +1,6 @@
 package smarthome.automation
 
-import java.io.Serializable;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Les valeurs spécifiques à un type device
@@ -12,7 +8,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class DeviceMetavalue implements Serializable {
 	static belongsTo = [device: Device]
 	

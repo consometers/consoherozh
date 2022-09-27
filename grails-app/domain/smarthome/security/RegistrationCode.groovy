@@ -1,10 +1,6 @@
 package smarthome.security
 
-import java.util.Date;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.SmartHomeSecurityConstantes;
-
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Token pour la validation création d'un compte

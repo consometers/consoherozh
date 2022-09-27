@@ -2,7 +2,7 @@ package smarthome.security
 
 import smarthome.security.RoleService;
 import grails.plugin.springsecurity.annotation.Secured;
-import grails.transaction.Transactional;
+import grails.gorm.transactions.Transactional;
 import smarthome.core.AbstractController
 import smarthome.core.ExceptionNavigationHandler;
 import smarthome.core.QueryUtils;

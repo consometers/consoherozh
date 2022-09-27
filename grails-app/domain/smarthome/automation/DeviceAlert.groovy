@@ -1,9 +1,6 @@
 package smarthome.automation
 
-import java.io.Serializable;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Alertes au niveau des devices 
@@ -11,8 +8,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-
-@Validateable
 class DeviceAlert implements Serializable {
 	static belongsTo = [device: Device]
 	

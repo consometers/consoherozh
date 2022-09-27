@@ -1,6 +1,6 @@
 package smarthome.security
 
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator;
+import grails.web.mapping.LinkGenerator;
 
 import grails.plugin.springsecurity.SpringSecurityUtils;
 import grails.plugin.springsecurity.annotation.Secured;

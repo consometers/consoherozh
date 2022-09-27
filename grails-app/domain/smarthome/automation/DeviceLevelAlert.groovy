@@ -1,12 +1,8 @@
 package smarthome.automation
 
-import java.io.Serializable;
-import java.util.Date;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable;
-import groovy.time.TimeCategory;
-import groovy.time.TimeDuration;
+import groovy.time.TimeCategory
+import groovy.time.TimeDuration
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Configuration des niveaux d'alerte sur un device
@@ -14,7 +10,6 @@ import groovy.time.TimeDuration;
  * @author gregory
  *
  */
-@Validateable
 class DeviceLevelAlert implements Serializable {
 	static belongsTo = [device: Device]
 	

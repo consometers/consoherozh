@@ -4,7 +4,7 @@ import groovyx.gpars.GParsPool;
 
 import java.util.Date;
 
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 
 import smarthome.core.AbstractService;
 import smarthome.core.DateUtils;

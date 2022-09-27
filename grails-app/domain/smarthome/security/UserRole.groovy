@@ -1,8 +1,7 @@
 package smarthome.security
 
 import org.apache.commons.lang.builder.HashCodeBuilder
-
-import smarthome.core.SmartHomeCoreConstantes;
+import smarthome.core.SmartHomeCoreConstantes
 
 class UserRole implements Serializable {
 

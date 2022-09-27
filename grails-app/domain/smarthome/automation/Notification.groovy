@@ -1,13 +1,8 @@
 package smarthome.automation
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.converters.JSON;
-import grails.validation.Validateable;
+import grails.converters.JSON
+import smarthome.core.SmartHomeCoreConstantes
+import smarthome.security.User
 
 /**
  * Notification personnalisée pouvant être utilisée directement sur les événements
@@ -15,7 +10,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class Notification implements Serializable, EventTriggerPreparable {
 	static belongsTo = [user: User]
 	User user
@@ -41,7 +35,8 @@ class Notification implements Serializable, EventTriggerPreparable {
 		user index: "Notification_User_Idx"
 		message type: 'text'
 		parameters type: 'text'
-	}
+	}
+
 
 	void parametersToJson() {
 		jsonParameters = parameters ? JSON.parse(parameters) : [:]

@@ -7,10 +7,13 @@
 		<label>Ville</label>
 		<g:textField name="house.location" value="${house?.location}" class="text long-field" />
 		<div class="description">Utilisé pour les prévisions météo sous la forme "ville et/ou code postal, pays". Ex : Lorient, France. Calculé tous les jours à minuit.
+			<g:if test="${ house?.id }">
 			<sec:ifAllGranted roles="ROLE_ADMIN">
 				<g:remoteLink action="calculWeather" controller="houseWeather" id="${ house.id }" onSuccess="alert('Calcul terminé')" onFailure="alert('Erreur calcul')">Calcul manuel</g:remoteLink>
 			</sec:ifAllGranted>
+			</g:if>
 		</div>
+
 	</div>
 	<div class="field-group">
 		<label>Surface (en m²)</label>

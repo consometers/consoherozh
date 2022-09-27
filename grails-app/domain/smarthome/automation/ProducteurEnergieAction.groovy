@@ -1,9 +1,7 @@
 package smarthome.automation
 
-import java.io.Serializable
 import smarthome.core.SmartHomeCoreConstantes
 import smarthome.security.User
-import grails.validation.Validateable
 
 /**
  * Actions Producteurs d'énergie
@@ -11,7 +9,6 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
 class ProducteurEnergieAction implements Serializable {
 	User user
 	ProducteurEnergie producteur

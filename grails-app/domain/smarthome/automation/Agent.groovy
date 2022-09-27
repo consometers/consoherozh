@@ -1,10 +1,7 @@
 package smarthome.automation
 
-import java.io.Serializable;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
+import smarthome.security.User
 
 /**
  * Un agent connecté à l'appli (Raspberry, Box domotique, Arduino, etc...)
@@ -12,7 +9,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class Agent implements Serializable {
 	static belongsTo = [user: User]
 	static hasMany = [devices: Device, tokens: AgentToken, configs: AgentConfig]

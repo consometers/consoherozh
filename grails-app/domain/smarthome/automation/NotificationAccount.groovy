@@ -1,13 +1,9 @@
 package smarthome.automation
 
-import java.io.Serializable
-
-import smarthome.automation.notification.NotificationSender
+import grails.converters.JSON
 import smarthome.core.SmartHomeCoreConstantes
 import smarthome.core.SmartHomeException
 import smarthome.security.User
-import grails.converters.JSON
-import grails.validation.Validateable
 
 /**
  * Compte pour les notifications (SMS, email, ...)
@@ -15,7 +11,6 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
 class NotificationAccount implements Serializable {
 
 	NotificationAccountSender notificationAccountSender

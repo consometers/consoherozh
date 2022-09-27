@@ -8,6 +8,8 @@
 .settings/
 target/
 target-eclipse/
+build/
+.gradle/
 .classpath
 wrapper/
 /bin/

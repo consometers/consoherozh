@@ -4,11 +4,11 @@ import java.io.Serializable
 import java.util.List
 import java.util.Map
 import grails.converters.JSON
-import org.codehaus.groovy.grails.web.mapping.LinkGenerator
+import grails.web.mapping.LinkGenerator
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.transaction.TransactionDefinition
 import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
+import grails.gorm.transactions.Transactional
 import smarthome.automation.notification.EmailNotificationSender
 import smarthome.automation.notification.NotificationSender
 import smarthome.core.AbstractService
@@ -35,7 +35,11 @@ class NotificationAccountService extends AbstractService {
 		// vérif du rôle sur sender
 		notificationAccount.assertAutorisation()
 
-		if (!notificationAccount.save()) {
+		// force save bug #9 after migration
+		notificationAccount.markDirty("config");
+
+		// force flush bug #9 after migration
+		if (!notificationAccount.save(flush:true)) {
 			throw new SmartHomeException("Erreur enregistrement notificationAccount", notificationAccount)
 		}
 

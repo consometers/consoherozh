@@ -1,20 +1,17 @@
 package smarthome.automation
 
+import grails.converters.JSON
 import groovy.time.TimeCategory
 import org.springframework.security.access.annotation.Secured
 
 import smarthome.core.AbstractController
-import smarthome.core.ChartUtils
 import smarthome.core.DateUtils
 import smarthome.core.ExceptionNavigationHandler
-import smarthome.core.QueryUtils
-import smarthome.core.SmartHomeException
 import smarthome.core.chart.GoogleChart
 import smarthome.plugin.NavigableAction
 import smarthome.plugin.NavigationEnum
 import smarthome.security.User
 import smarthome.security.UserFriendService
-import smarthome.security.UserService
 
 import java.sql.Timestamp
 
@@ -204,16 +201,12 @@ class DeviceController extends AbstractController {
 	}
 
 
-	/**
-	 * Graphique des values du device
-	 * 
-	 * @return
-	 */
-	def deviceChart(DeviceChartCommand command) {
+	def internalDeviceChart(DeviceChartCommand command)
+	{
 		def user = authenticatedUser
 		deviceService.assertSharedAccess(command.device, user)
 
-        // FIXME cyril overrides compare with previous year for simpler UX
+		// FIXME cyril overrides compare with previous year for simpler UX
 		command.comparePreviousYear = (command.viewMode == ChartViewEnum.year)
 
 		GoogleChart chart = deviceValueService.createChart(command)
@@ -247,8 +240,71 @@ class DeviceController extends AbstractController {
 			}
 		}
 
-		render(view: 'deviceChart', model: [command: command, chart: chart, secUser: user,
-			compareChart: compareChart])
+		return [ command: command, chart: chart, secUser: user,  compareChart: compareChart ];
+
+	}
+
+	/**
+	 * Graphique des values du device
+	 * 
+	 * @return
+	 */
+	def deviceChart(DeviceChartCommand command) {
+
+		LinkedHashMap<String,Object> result = internalDeviceChart(command)
+
+        withFormat {
+            html { render(view: 'deviceChart', model: result)}
+			json { render( model:[chart:result.chart]) }
+        }
+
+	}
+
+	/**
+	 * Graphique des values du device en Json
+	 *
+	 * @return
+	 */
+	def deviceChartJson(DeviceChartCommand command) {
+
+		if ( command.buildIdle )
+		{
+			switch (command.viewMode)
+			{
+				case ChartViewEnum.day:
+					deviceValueService.buildIdlePowerForDay(command.device,command.dateChart);
+					break;
+				case ChartViewEnum.month:
+					deviceValueService.buildIdlePowerForMonth(command.device,command.dateChart);
+					break;
+				case ChartViewEnum.year:
+					// TODO
+					// deviceValueService.buildIdlePowerForYear(command.device,command.dateChart);
+					break;
+			}
+			// do it once, disable it for next requests.
+			command.buildIdle = false;
+		}
+		LinkedHashMap<String,Object> result = internalDeviceChart(command)
+		def thisChart = result.get('chart')
+		if (thisChart instanceof GoogleChart)
+		{
+			def idleCurve = null
+			if ( command.viewMode.isMonthOrYear() )
+			{
+				idleCurve = ((GoogleChart) thisChart).buildIdleCurve()
+			}
+            def maxCurve = null
+            if ( command.viewMode == ChartViewEnum.month )
+            {
+                maxCurve = ((GoogleChart) thisChart).buildMaxCurve()
+            }
+			render ( [loadCurve: ((GoogleChart) thisChart).buildLoadCurve(), idleCurve: idleCurve, maxCurve: maxCurve, command:command] as JSON)
+		}
+		else
+		{
+			render( model:[chart:result.chart])
+		}
 	}
 
 
@@ -503,5 +559,38 @@ class DeviceController extends AbstractController {
 		def countOpenAlert = deviceAlertService.countOpenAlert(principal.id)
 		render (template: 'deviceActivite', model: [lastDevices: lastDevices,
 			countOpenAlert: countOpenAlert])
+	}
+
+	/**
+	 * idle power consumption over a period
+	 * intends to compute power wasted by devices in idle mode
+	 *
+	 * parameters :
+	 * 'device.id' mandatory id of device
+	 * 'start' mandatory string formatted dd/MM/yyyy HH:mm
+	 * 'period' reference period in seconds, default to 1 day ( 24*36000 s)
+	 * 'end' optional string formatted dd/MM/yyyy HH:mm
+	 *       if not set default to start + period as days
+	 */
+	def idlePowerUsage() {
+		Date start = Date.parse(DateUtils.FORMAT_DATETIME_USER, params.start)
+		long period = params.period? Long.parseLong(params.period) : 24*3600
+		Date end = params.end? Date.parse(DateUtils.FORMAT_DATETIME_USER, params.end) :
+				(use(TimeCategory){Math.max( 1, (int) ( period / (24*3600))).days})
+		Device device = Device.read(params.device.id)
+		Double idlePower = device? deviceValueService.idlePowerUsageFromValue(device, start, end, period) : null
+		render(model:[idlePower: idlePower? idlePower.toLong() : 0 ])
+	}
+
+	/**
+	 * Force computation of 'idle' counter for a month
+	 * will trigger build for days too.
+	 */
+	def buildIdlePowerUsageForMonth()
+	{
+		Date start = Date.parse(DateUtils.FORMAT_DATETIME_USER, params.start)
+		Device device = Device.read(params.device.id)
+		Double idlePower = deviceValueService.buildIdlePowerForMonth(device, start)
+		render(model:[idlePower: idlePower? idlePower.toLong() : 0 ])
 	}
 }

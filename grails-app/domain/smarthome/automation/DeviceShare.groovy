@@ -1,10 +1,7 @@
 package smarthome.automation
 
-import java.io.Serializable;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
+import smarthome.security.User
 
 /**
  * Partage de devices entre plusieurs utilisateurs avec notion de modification / execution / consultation
@@ -12,7 +9,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class DeviceShare implements Serializable {
 	Device device
 	User sharedUser

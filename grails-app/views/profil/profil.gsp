@@ -5,7 +5,7 @@
 
 <body>
 	<g:applyLayout name="applicationConfigure">
-	
+
 		<g:form name="profil-form" controller="profil" method="post" class="aui ${ mobileAgent ? 'top-label' : '' }">
 			<g:hiddenField name="user.id" value="${user.id}" />
 	
@@ -47,12 +47,11 @@
 
 			
 			<h4>Maison principale</h4>
-			<g:include action="templateEditByUser" controller="house" params="[user: user]"/>
-			
-			<div id="ajaxModes">
-				<g:include action="templateEditByUser" controller="mode" params="[user: user]"/> 
-			</div> 
+			<g:include action="templateEditByUser" controller="house" params="[userId: user.id]"/>
 
+			<div id="ajaxModes">
+				<g:include action="templateEditByUser" controller="mode" params="[userId: user.id]"/>
+			</div>
 			
 			<h4>Applications</h4>
 			
@@ -71,6 +70,7 @@
 			</div>
 			
 		</g:form>
+
 	</g:applyLayout>
 </body>
 </html>

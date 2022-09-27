@@ -1,10 +1,8 @@
 package smarthome.automation
 
-import org.apache.commons.lang.StringUtils;
 
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
+import smarthome.security.User
 
 /**
  * Les graphiques personnalisés
@@ -12,7 +10,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class Chart {
 	static belongsTo = [user: User]
 	static hasMany = [devices: ChartDevice]

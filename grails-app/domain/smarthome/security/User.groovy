@@ -1,10 +1,6 @@
 package smarthome.security
 
-import java.util.Set;
-
 import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable
-
 
 /**
  * @see resources.groovy pour la personnalisation des renderer json et xml
@@ -12,15 +8,12 @@ import grails.validation.Validateable
  * @author gregory
  *
  */
-@Validateable
 class User implements Serializable {
-
-	transient springSecurityService
 
 	static hasMany = [friends: UserFriend]
 	
 	String username	// sert aussi d'email qui sera la clé unique
-	String password
+	String password // see UserPasswordEncoderListener for encoding at insert and update.
 	String nom
 	String prenom
 	String applicationKey
@@ -58,12 +51,9 @@ class User implements Serializable {
 		sort 'nom'
 	}
 	
-	
+
 	static {
 		grails.converters.JSON.registerObjectMarshaller(User) {
-//			it.properties.findAll {k,v -> 
-//				!(k in ['password', 'friends'])
-//			}
 			[id: it.id, username: it.username, nom: it.nom, prenom: it.prenom]
 		}
 	}
@@ -76,7 +66,6 @@ class User implements Serializable {
 		}
 		
 		return roles.collect { it.role }
-		//UserRole.findAllByPersonne(this).collect { it.role }
 	}
 	
 	
@@ -85,22 +74,7 @@ class User implements Serializable {
 			it.authority == role
 		}
 	}
-	
 
-	def beforeInsert() {
-		encodePassword()
-	}
-
-	def beforeUpdate() {
-		if (isDirty('password')) {
-			encodePassword()
-		}
-	}
-
-	protected void encodePassword() {
-		password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
-	}
-	
 	String getPrenomNom() {
 		return "$prenom $nom"
 	}

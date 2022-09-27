@@ -1,7 +1,7 @@
 package smarthome.core
 
-import org.codehaus.groovy.grails.commons.GrailsApplication;
-import org.springframework.transaction.annotation.Transactional;
+import grails.core.GrailsApplication;
+import grails.gorm.transactions.Transactional;
 
 import smarthome.plugin.NavigableAction;
 import smarthome.plugin.NavigableActions;

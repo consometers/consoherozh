@@ -43,8 +43,9 @@ class ModeController extends AbstractController {
 	 * @return
 	 */
 	def templateEditByUser() {
-		def user = params.user
-		def modes = modeService.listModesByUser(user)
+		// def user = params.user
+		User user = User.findById Long.parseLong(params.userId)
+		List<Mode> modes = modeService.listModesByUser(user)
 		render(template: 'modes', model: [user: user, modes: modes])
 	}
 }

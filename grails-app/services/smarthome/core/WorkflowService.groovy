@@ -6,8 +6,8 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.codehaus.groovy.grails.commons.GrailsApplication;
-import org.springframework.transaction.annotation.Transactional;
+import grails.core.GrailsApplication;
+import grails.gorm.transactions.Transactional;
 
 
 
@@ -220,6 +220,7 @@ class WorkflowService extends AbstractService {
 	 * @param libelle
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	Workflow findByLibelle(String libelle) {
 		return Workflow.findByLibelle(libelle)
 	}

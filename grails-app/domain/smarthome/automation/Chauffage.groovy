@@ -1,9 +1,6 @@
 package smarthome.automation
 
-import java.io.Serializable;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Mode de chauffage
@@ -11,7 +8,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class Chauffage implements Serializable {
 	String libelle
 	

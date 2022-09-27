@@ -1,7 +1,6 @@
 package smarthome.automation
 
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Planning activés sur un device
@@ -9,7 +8,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class DevicePlanning implements Serializable  {
 	Device device
 	Planning planning

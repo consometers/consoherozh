@@ -37,7 +37,7 @@ class EnergieController extends AbstractController {
 		render(template: '/deviceType/teleInformation/widget', model: [house: house])
 	}
 
-	def meanConsumption(Device device, Date fromDay, Date toDay) {
+	private def meanConsumption(Device device, Date fromDay, Date toDay) {
 		def values = DeviceValueDay.values(device, fromDay,  toDay, "basesum")
 		if (values.size() == 0) {
 			return null

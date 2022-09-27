@@ -26,7 +26,7 @@ class ProfilController extends AbstractController {
 
 
 	/**
-	 * Affichage du profil simple (pour la modifcation du user par lui-même)
+	 * Affichage du profil simple (pour la modification du user par lui-même)
 	 * 
 	 * @return
 	 */

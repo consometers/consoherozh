@@ -2,8 +2,8 @@ package smarthome.core
 
 import javax.servlet.ServletContext;
 
-import org.codehaus.groovy.grails.commons.GrailsApplication;
-import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes;
+import grails.core.GrailsApplication;
+import org.grails.web.util.GrailsApplicationAttributes;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

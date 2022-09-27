@@ -2,10 +2,10 @@ package smarthome.api
 
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW
 
-import org.codehaus.groovy.grails.commons.GrailsApplication
-import org.codehaus.groovy.grails.web.json.JSONElement
+import grails.core.GrailsApplication
+import org.grails.web.json.JSONElement
 import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
+import grails.gorm.transactions.Transactional
 
 import groovy.time.TimeCategory
 import smarthome.automation.Device
@@ -144,7 +144,10 @@ class DataConnectService extends AbstractService {
 			if (e.message.contains("HTTP request error [401]")) {
 				notificationAccount.jsonConfig.expired = true
 			}
-			throw e
+			// actualy throwing it and not catching it
+			// causes a rollback on exception on this transaction, so save won't persist...
+			// throw e
+			return null
 		} finally {
 			notificationAccount.configFromJson()
 			notificationAccountService.save(notificationAccount)
@@ -302,7 +305,7 @@ class DataConnectService extends AbstractService {
 
 		if (notificationAccount.jsonConfig.last_daily_consumption) {
 			// si un appel a déjà été fait, il correspond au jour concerné
-			// donc on doit récupéré les données du jour suivant
+			// donc on doit récupérer les données du jour suivant
 			start = new Date(notificationAccount.jsonConfig.last_daily_consumption as Long).clearTime()
 			use(TimeCategory) {
 				start = start + 1.day

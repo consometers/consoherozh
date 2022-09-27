@@ -15,24 +15,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha256-t9UJPrESBeG2ojKTIcFLPGF7nHi2vEc7f5A2KpH/UBU=" crossorigin="anonymous"></script>
+    <asset:javascript src="consoherozh-deps/chart.js-3.4.1/dist/chart.min.js"/>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/locale/fr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://unpkg.com/packery@2/dist/packery.pkgd.min.js"></script>
     <script src="https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js"></script>
 
+    <asset:stylesheet src="consoherozh/consoherozh.css"/>
 
-    <asset:stylesheet src="consoherozh.css"/>
-
-    <asset:javascript src="consoherozh.js"/>
-    <asset:javascript src="utils.js"/>
-    <asset:javascript src="bootstrap-components.js"/>
-    <asset:javascript src="components.js"/>
-    <asset:javascript src="consoherozh.js"/>
+    <asset:javascript src="consoherozh-app.js"/>
     <g:layoutHead/>
 </head>
-<body class="d-flex flex-column h-100" style="background: #f4f5f7;">
+<body class="d-flex flex-column h-100" style="background: #f4f5f7;" onload="onLoadDeviceChart();">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">

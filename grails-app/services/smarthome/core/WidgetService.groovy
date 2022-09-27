@@ -1,7 +1,7 @@
 package smarthome.core
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import grails.gorm.transactions.Transactional;
 import smarthome.security.User;
 
 

@@ -1,9 +1,6 @@
 package smarthome.automation
 
-import java.io.Serializable;
-
-import smarthome.core.SmartHomeCoreConstantes;
-import grails.validation.Validateable;
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Grille tarif des fournisseurs énergie / eau
@@ -11,7 +8,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class DeviceTypeProviderPrix implements Serializable {
 	DeviceTypeProvider deviceTypeProvider
 	int annee

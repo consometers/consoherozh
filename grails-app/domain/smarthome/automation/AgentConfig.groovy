@@ -1,13 +1,7 @@
 package smarthome.automation
 
-import java.io.Serializable;
-import java.util.Map;
-
-import smarthome.core.JsonDataDomain;
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
-import groovy.time.TimeCategory;
+import smarthome.core.JsonDataDomain
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Configuration de l'agent
@@ -17,7 +11,6 @@ import groovy.time.TimeCategory;
  * @author gregory
  *
  */
-@Validateable
 class AgentConfig extends JsonDataDomain implements Serializable {
 	Agent agent
 	Date lastSync

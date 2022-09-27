@@ -1,11 +1,7 @@
 package smarthome.automation
 
-import java.io.Serializable;
-
-import smarthome.core.JsonDataDomain;
-import smarthome.core.SmartHomeCoreConstantes;
-import smarthome.security.User;
-import grails.validation.Validateable;
+import smarthome.core.JsonDataDomain
+import smarthome.core.SmartHomeCoreConstantes
 
 /**
  * Un type device
@@ -13,7 +9,6 @@ import grails.validation.Validateable;
  * @author gregory
  *
  */
-@Validateable
 class DeviceTypeConfig extends JsonDataDomain implements Serializable {
 	DeviceType deviceType
 	String data

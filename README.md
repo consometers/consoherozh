@@ -1,28 +1,26 @@
-# BeMyHomeSmart
+# ConsoHerozh
 
 ## 1. Présentation
 
-BeMyHomeSmart est une application libre et gratuite pour surveiller et contrôler
-votre maison connectée. Les fonctionnalités développées répondent aux besoins classiques
-de la domotisation d'une maison (pilotage volets roulants, prises, portails, etc)
-et d'analyses des consommations. Les fonctions automatiques sont aussi implémentées
-avec les scénarios ou déclenchements d'événements.  
+Consoherozh aide le particulier à suivre et à analyser ses consommations d'électricité de gaz et d'eau.
 
-Vous pouvez rapidement vous [créer un compte](https://www.jdevops.com/smarthome/register/account)
-depuis l'application web, ou même de part son caractère opensource et sa licence EUPL,
-l'installer sur votre propre serveur avec cette [procédure](https://github.com/gelleouet/smarthome-application/wiki/Installation-serveur). L'application Web n'est qu'un composant de
-la solution, car pour connecter les différents objets connectés, il faudra installer
-un ou plusieurs "agents". BeMyHomeSmart s'appuie sur des [Raspberry](https://www.raspberrypi.org/)
-sur lesquels il faut installer un [programme spécial](https://github.com/gelleouet/smarthome-raspberry).
-Celui-ci est aussi diffusé en opensource sous licence EUPL. Afin de faciliter son
-installation, des [images sous Raspbian](https://github.com/gelleouet/smarthome-raspberry/wiki/Installation-simple-depuis-image-pr%C3%A9-configur%C3%A9e)
-pré-configurée sont été créées.
+ConsoHerozh est une application libre et gratuite sous licence EUPL proposée par [Consometers](https://www.consometers.org/) et [le réseau breton des agences locales énergie climat](https://breizh-alec.bzh/) pour fournir les services du site https://www.consoherozh.fr/, elle estConsoHerozh est une application libre et gratuite proposée par [Consometers](https://www.consometers.org/) et [le réseau breton des agences locales énergie climat](https://breizh-alec.bzh/) pour fournir les services du site https://www.consoherozh.fr/, elle est dérivée du projet [BeMyHomeSarmt](https://github.com/gelleouet/smarthome-application).
+
+Consoherozh supporte la réception des données depuis engie pour Linky.
+
+Vous pouvez rapidement vous [créer un compte](https://www.consoherozh.fr/register/account)
+depuis l'application web.
+
+### 1.1 Documentation utilisateur
+
+une foire au question couvre en partie la documentation utilisateur [consoherozh faq](https://www.consoherozh.fr/public/faq).
+Vous trouverez une documentation utilisateur au format markdown (wiki) sous le répertoire documentation de ce projet avec des captures d'écran.
 
 ## 2. Architecture
 
 ### 2.1 Objectifs
 
-L'application Web est développée pour être scalable le plus simplement et le plus
+L'application Web est développée pour supporter une montée en charge le plus simplement et le plus
 efficacement. Plusieurs instances peuvent être déployées pour augmenter les capacités de traitement
 des requêtes. Les performances sont aussi un point très important sur les choix de
 développement. Un traitement particulier est appliqué dès lors qu'une tâche peut 
@@ -103,7 +101,7 @@ sont modélisés en processus métier. Ces process peuvent en plus être modifi�
 redéployés à "chaud". Ils sont créés dans des éditeurs _wysiwyg_ et peuvent être
 modélisés par des profils non développeurs.
 
-En terme de développement, c'est un excellement moyen de garder du code simple et
+En terme de développement, c'est un excellent moyen de garder du code simple et
 de ne pas être obligé d'écrire des "usines à gaz" pour répondre aux problématiques
 utilisateur.
 
@@ -171,7 +169,7 @@ exécuter la commande :
 Pour exécuter le projet, il faudra installer dans votre environnement :  
 
 - Service PostgreSQL. Le schéma peut être créé avec le script SQL fourni dans le projet
-[ddl.sql](https://github.com/gelleouet/smarthome-application/blob/master/grails-app/migrations/ddl.sql)
+[ddl.sql](https://github.com/consometers/consoherozh/blob/master/grails-app/migrations/ddl.sql)
 - Service RabbitMQ. Les exchanges et queues sont créés dynamiquement
 
 Démarrer le projet dans l'environnement de développement :  
@@ -182,7 +180,7 @@ Variables d'environnement :
 
 - _smarthome.cluster.serverId_ : nom unique d'une instance dans un cluster.
 Permet d'envoyer des messages entre instances  
-- _smarthome.datasource.password_ : mot de passe du PostgreSQL  
+- _smarthome.datasource.password_ : mot de passe du PostgreSQL pour l'utilisateur postgres
 - _smarthome.config.location_ : le fichier de config avec les credentials et
 paramètres de l'application
 
@@ -226,5 +224,17 @@ messages info, error, warning dans les request, retour par défaut des response
 de message asynchrones AMQP, et méthodes de base sur les domain
 - _smarthome.core.AbstractRuleService_ : service de base pour les règles métier
 
-### 3.3 Objets connectés et implémentations
+
+## 4. Implémentation
+
+### 4.1 Linky enedis DataConnect
+
+Les données des compteurs linky sont récupérées auprès d'enedis, l'application
+consoherozh ayant obtenu une autorisation de délégation.
+
+Ces données sont stockées dans la base consoherozh et consultées depuis cette
+source.
+
+[[documentation/fr/implemenation/smarthome.automation.deviceType.Linky]]
+
 
